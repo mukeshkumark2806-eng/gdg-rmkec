@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 80" width="460" height="80" fill="none">
+  <!-- GDG 4-Color Bracket Icon Mark -->
+  <g transform="translate(5, 10)">
+    <!-- Blue Left Bracket -->
+    <path d="M22 6L4 24L22 42L29 35L17 24L29 13L22 6Z" fill="#4285F4"/>
+    <!-- Red Top Bar -->
+    <path d="M33 6L57 6L45 17L21 17L33 6Z" fill="#EA4335"/>
+    <!-- Yellow Right Bracket -->
+    <path d="M45 42L63 24L45 6L52 6L70 24L52 42L45 42Z" fill="#FBBC05"/>
+    <!-- Green Bottom Bar -->
+    <path d="M25 42L49 42L37 31L13 31L25 42Z" fill="#34A853"/>
+  </g>
+  <!-- Chapter Text Branding -->
+  <text x="88" y="34" fill="#FFFFFF" font-family="'Outfit', 'Inter', system-ui, sans-serif" font-size="22" font-weight="800" letter-spacing="-0.3">Google Developer Group</text>
+  <text x="88" y="56" fill="#94A3B8" font-family="'Outfit', 'Inter', system-ui, sans-serif" font-size="14" font-weight="500" letter-spacing="0.2">R.M.K. Engineering College</text>
+</svg>
