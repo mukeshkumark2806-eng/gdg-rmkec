@@ -1,0 +1,148 @@
+import { GalleryItem } from '@/types';
+
+export const galleryData: GalleryItem[] = [
+  {
+    id: 'gallery-1',
+    title: '48-Hour Innovation Marathon Finals',
+    eventName: 'Google Solution Challenge 2026 Sprint',
+    description:
+      'Over 250 student developers hacking continuously for 48 hours in the Central Auditorium, building AI and IoT solutions addressing the UN 17 Sustainable Development Goals.',
+    date: 'February 2026',
+    category: 'Hackathons',
+    imageUrl: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80',
+    featured: true,
+    aspectRatio: 'wide',
+  },
+  {
+    id: 'gallery-2',
+    title: 'Multimodal AI Prompt Architecture',
+    eventName: 'GenAI & Gemini API Bootcamp',
+    description:
+      'Hands-on coding sprint where students deployed live RAG pipelines and custom chatbots using Google Gemini 1.5 Pro and LangChain.',
+    date: 'January 2026',
+    category: 'Workshops',
+    imageUrl: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1000&q=80',
+    featured: true,
+    aspectRatio: 'normal',
+  },
+  {
+    id: 'gallery-3',
+    title: 'Cloud Infrastructure & Kubernetes Jam',
+    eventName: 'Google Cloud Study Jam',
+    description:
+      'Participants completed over 150 Qwiklabs cloud quests, earning Google Cloud badges and mastering containerized microservices deployment.',
+    date: 'December 2025',
+    category: 'Study Jams',
+    imageUrl: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1000&q=80',
+    featured: false,
+    aspectRatio: 'tall',
+  },
+  {
+    id: 'gallery-4',
+    title: 'Keynote Address on Future of Tech',
+    eventName: 'GDG RMKEC Annual Tech Summit',
+    description:
+      'Our Chapter Lead and industry guest speakers inaugurating the annual tech festival with an inspiring keynote on AI ethics and software craftsmanship.',
+    date: 'November 2025',
+    category: 'Events',
+    imageUrl: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1200&q=80',
+    featured: true,
+    aspectRatio: 'wide',
+  },
+  {
+    id: 'gallery-5',
+    title: 'Core Organizing Team & Mentors',
+    eventName: 'GDG RMKEC Core Team Meetup',
+    description:
+      'The dedicated student leads, faculty advisors, and domain experts who collaborate tirelessly to organize impactful campus developer events.',
+    date: 'October 2025',
+    category: 'Team',
+    imageUrl: 'https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1000&q=80',
+    featured: false,
+    aspectRatio: 'normal',
+  },
+  {
+    id: 'gallery-6',
+    title: 'Jetpack Compose UI Hacking Session',
+    eventName: 'Android Campus DevFest',
+    description:
+      'Student developers designing fluid Material 3 native mobile interfaces during our intensive weekend mobile development bootcamp.',
+    date: 'September 2025',
+    category: 'Workshops',
+    imageUrl: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1000&q=80',
+    featured: false,
+    aspectRatio: 'tall',
+  },
+  {
+    id: 'gallery-7',
+    title: 'Open Source Code Review Workshop',
+    eventName: 'Hacktoberfest 2025 Celebrate',
+    description:
+      'Mentors conducting live code reviews and guiding first-time open-source contributors through Git workflows and pull request etiquette.',
+    date: 'October 2025',
+    category: 'Workshops',
+    imageUrl: 'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1000&q=80',
+    featured: false,
+    aspectRatio: 'normal',
+  },
+  {
+    id: 'gallery-8',
+    title: 'Late Night Debugging Sprint',
+    eventName: 'Solution Challenge Overnight Hack',
+    description:
+      'Fueled by coffee and passion, teams debugging neural network weights and backend APIs during the midnight hackathon hours.',
+    date: 'February 2026',
+    category: 'Hackathons',
+    imageUrl: 'https://images.unsplash.com/photo-1504384764586-bb4cdc1707b0?auto=format&fit=crop&w=1000&q=80',
+    featured: false,
+    aspectRatio: 'normal',
+  },
+  {
+    id: 'gallery-9',
+    title: 'Figma UI/UX Design Sprint',
+    eventName: 'Creative Lab Design Workshop',
+    description:
+      'Design track students prototyping interactive glassmorphism interfaces and design tokens for community applications.',
+    date: 'August 2025',
+    category: 'Study Jams',
+    imageUrl: 'https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?auto=format&fit=crop&w=1000&q=80',
+    featured: false,
+    aspectRatio: 'tall',
+  },
+  {
+    id: 'gallery-10',
+    title: 'Annual Alumni & Industry Connect',
+    eventName: 'RMKEC Tech Networking Gala',
+    description:
+      'Bridging academia and tech industry as distinguished GDG alumni share career growth strategies and mentorship with current students.',
+    date: 'July 2025',
+    category: 'Events',
+    imageUrl: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80',
+    featured: false,
+    aspectRatio: 'wide',
+  },
+  {
+    id: 'gallery-11',
+    title: 'Women Techmakers Panel Discussion',
+    eventName: 'WTM Celebration & Tech Talk',
+    description:
+      'Celebrating diversity in tech with panel discussions featuring leading female engineers and student innovators at RMKEC.',
+    date: 'March 2026',
+    category: 'Events',
+    imageUrl: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=1000&q=80',
+    featured: true,
+    aspectRatio: 'normal',
+  },
+  {
+    id: 'gallery-12',
+    title: 'Web Squad Next.js 16 Edge Build',
+    eventName: 'Modern Web Architecture Jam',
+    description:
+      'Exploring serverless edge computing, React Server Components, and Tailwind CSS during our high-octane web dev bootcamp.',
+    date: 'November 2025',
+    category: 'Study Jams',
+    imageUrl: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1000&q=80',
+    featured: false,
+    aspectRatio: 'normal',
+  },
+];

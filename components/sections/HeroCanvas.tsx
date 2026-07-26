@@ -2,46 +2,67 @@
 
 import React, { useEffect, useRef } from 'react';
 
-/* ─── GDG Brand Palette ──────────────────────────────── */
+/* ── GDG Brand Palette ─────────────────────────────────────── */
 const PALETTE = ['#4285F4', '#EA4335', '#FBBC05', '#34A853'];
 
-/* ─── Pseudo-noise: layered harmonics give organic drift ─ */
-const noise = (x: number, y: number, t: number) =>
-  Math.sin(x * 1.3 + t * 0.7) * 0.4
-  + Math.sin(y * 0.9 - t * 0.5) * 0.3
-  + Math.cos((x + y) * 0.6 + t * 1.1) * 0.2
-  + Math.sin(x * 2.2 - y * 1.4 + t * 0.3) * 0.1;
+/* ── Smooth layered noise (no Math.random in render) ──────── */
+const sn = (x: number, t: number) =>
+  Math.sin(x * 1.90 + t * 0.82) * 0.46
+  + Math.sin(x * 3.30 - t * 0.50) * 0.30
+  + Math.cos(x * 0.80 + t * 1.22) * 0.24;
 
-/* ─── Data types ─────────────────────────────────────── */
-interface Stream {
-  color: string;
-  endX: number; endY: number;
-  // four layers of CP noise seeds
-  sx1: number; sy1: number;
-  sx2: number; sy2: number;
-  nx1: number; ny1: number;
-  nx2: number; ny2: number;
-  // visual personality
-  baseWidth: number;
-  baseOpacity: number;
-  phaseOffset: number;
-  speedMult: number;
-  // terminal node
-  hasNode: boolean;
-  nodeR: number;
-  nodePulse: number;
-  // energy particles
-  particles: { t: number; speed: number; r: number; trail: { x: number; y: number; a: number }[] }[];
+/* ── Types ─────────────────────────────────────────────────── */
+interface Node {
+  t:     number;   // position [0,1] along curve
+  spd:   number;   // travel speed (very slow — nodes drift)
+  r:     number;   // solid circle radius (4–18 px)
+  bloom: number;   // glow multiplier (3–5)
 }
 
-interface Dust {
+interface Spline {
+  x0: number; y0: number;
+  x1: number; y1: number;
+  x2: number; y2: number;
+  x3: number; y3: number;
+  s1: number; s2: number; s3: number; s4: number;
+  wAmp: number; wFreq: number; wPhase: number;
+  spd:  number;
+  color:   string;
+  opacity: number;
+  width:   number;
+  overrun: boolean;
+  nodes:   Node[];
+}
+
+interface BgSpline {
+  x0: number; y0: number;
+  x1: number; y1: number;
+  x2: number; y2: number;
+  x3: number; y3: number;
+  s1: number;
+  wAmp: number; wFreq: number; wPhase: number; spd: number;
+  opacity: number;
+  width:   number;
+}
+
+interface Star {
   x: number; y: number;
+  r: number; alpha: number;
   vx: number; vy: number;
-  r: number;
-  alpha: number;
-  color: string;
+  phase: number;
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   HeroCanvas — Google I/O-style spline fan with glowing nodes
+
+   Exact match to reference image:
+   • Bright blue origin at ~48% W, 55% H
+   • 24 primary bezier curves fan outward to the right
+   • Each curve carries 2–3 large glowing colored nodes
+   • 50 ultra-thin background curves (5–10 % opacity)
+   • 65 drifting star particles (scattered, mostly left side)
+   • Mouse: CPs bend, nodes drift faster near cursor
+   ═══════════════════════════════════════════════════════════════ */
 export const HeroCanvas: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -52,18 +73,56 @@ export const HeroCanvas: React.FC = () => {
 
     let raf: number;
     let W = 0, H = 0, dpr = 1;
-    let OX = 0, OY = 0; // origin
+    let OX = 0, OY = 0;  // bright origin
 
     const mouse = { x: -9999, y: -9999, tx: -9999, ty: -9999 };
-    const onMove  = (e: MouseEvent) => { const r = canvas.getBoundingClientRect(); mouse.tx = e.clientX - r.left; mouse.ty = e.clientY - r.top; };
+    const onMove  = (e: MouseEvent) => {
+      const r = canvas.getBoundingClientRect();
+      mouse.tx = e.clientX - r.left;
+      mouse.ty = e.clientY - r.top;
+    };
     const onLeave = () => { mouse.tx = -9999; mouse.ty = -9999; };
     window.addEventListener('mousemove', onMove, { passive: true });
     document.addEventListener('mouseleave', onLeave);
 
-    let streams: Stream[] = [];
-    let dust: Dust[] = [];
+    let splines:   Spline[]   = [];
+    let bgSplines: BgSpline[] = [];
+    let stars:     Star[]     = [];
 
-    /* ─── Scene initialisation ─────────────────────────── */
+    /* ── Cubic bezier point ─────────────────────────────────── */
+    const bpt = (
+      x0: number, y0: number, x1: number, y1: number,
+      x2: number, y2: number, x3: number, y3: number, t: number,
+    ) => {
+      const u = 1 - t, u2 = u * u, t2 = t * t;
+      return {
+        x: u2 * u * x0 + 3 * u2 * t * x1 + 3 * u * t2 * x2 + t2 * t * x3,
+        y: u2 * u * y0 + 3 * u2 * t * y1 + 3 * u * t2 * y2 + t2 * t * y3,
+      };
+    };
+
+    /* ── Animated control points ────────────────────────────── */
+    const acp = (s: Spline, T: number) => {
+      const w1 = Math.sin(T * s.wFreq + s.wPhase)              * s.wAmp;
+      const w2 = Math.cos(T * s.wFreq * 0.70 + s.wPhase + 1.2) * s.wAmp * 0.55;
+
+      let cp1x = s.x1 + (w1 + sn(s.s1, T) * 0.008) * W;
+      let cp1y = s.y1 + (w2 + sn(s.s3, T) * 0.006) * H;
+      let cp2x = s.x2 + (-w1 * 0.55 + sn(s.s2, T) * 0.007) * W;
+      let cp2y = s.y2 + (-w2 * 0.42 + sn(s.s4, T) * 0.005) * H;
+
+      if (mouse.x > -100) {
+        const inf = W * 0.45;
+        const r1  = Math.hypot(mouse.x - cp1x, mouse.y - cp1y);
+        const r2  = Math.hypot(mouse.x - cp2x, mouse.y - cp2y);
+        if (r1 < inf) { const mf = (1 - r1/inf)**1.8 * 0.12; cp1x += (mouse.x - cp1x) * mf; cp1y += (mouse.y - cp1y) * mf; }
+        if (r2 < inf) { const mf = (1 - r2/inf)**1.8 * 0.08; cp2x += (mouse.x - cp2x) * mf; cp2y += (mouse.y - cp2y) * mf; }
+      }
+
+      return { cp1x, cp1y, cp2x, cp2y };
+    };
+
+    /* ── Init ───────────────────────────────────────────────── */
     const init = () => {
       const rect = canvas.getBoundingClientRect();
       W = rect.width; H = rect.height;
@@ -72,376 +131,278 @@ export const HeroCanvas: React.FC = () => {
       canvas.height = Math.round(H * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      OX = W * 0.455;
-      OY = H * 0.485;
+      /* Origin: left-center of the animation area.
+         In the reference this is at ~48% viewport W, ~55% H. */
+      OX = W * 0.483;
+      OY = H * 0.550;
 
-      streams = [];
-
-      /* 30 streams – each with unique personality */
-      const N = 30;
+      /* ── Primary splines: 29 curves (increased by ~20%) fanning organically ── */
+      const N = 29;
+      splines = [];
       for (let i = 0; i < N; i++) {
-        const frac = i / (N - 1); // 0→1
-
-        /* Endpoints spread across right edge with slight randomness */
-        const endX = W * (0.78 + Math.random() * 0.18);
-        const endY = H * (0.03 + frac * 0.94) + (Math.random() - 0.5) * H * 0.02;
-
-        const dx = endX - OX, dy = endY - OY;
-
-        /* CP seeds – random offsets baked in so each curve is truly unique */
-        const sx1 = Math.random() * 6.28;
-        const sy1 = Math.random() * 6.28;
-        const sx2 = Math.random() * 6.28;
-        const sy2 = Math.random() * 6.28;
-        // secondary noise seeds for deeper variation
-        const nx1 = Math.random() * 12.56;
-        const ny1 = Math.random() * 12.56;
-        const nx2 = Math.random() * 12.56;
-        const ny2 = Math.random() * 12.56;
-
+        const frac  = i / (N - 1);
         const color = PALETTE[i % PALETTE.length];
 
-        const hasNode = Math.random() < 0.40;
-        const pCount  = Math.random() < 0.45 ? 2 : 1;
+        /* All curves originate from the bright point with tiny jitter */
+        const x0 = OX + (Math.random() - 0.5) * W * 0.010;
+        const y0 = OY + (Math.random() - 0.5) * H * 0.012;
 
-        streams.push({
-          color, endX, endY,
-          sx1, sy1, sx2, sy2,
-          nx1, ny1, nx2, ny2,
-          baseWidth:   0.55 + Math.random() * 0.90,
-          baseOpacity: 0.22 + Math.random() * 0.32,
-          phaseOffset: Math.random() * Math.PI * 2,
-          speedMult:   0.55 + Math.random() * 0.90,
-          hasNode,
-          nodeR: hasNode ? (2.0 + Math.random() * 2.2) : 0,
-          nodePulse: Math.random() * Math.PI * 2,
-          particles: Array.from({ length: pCount }, () => ({
-            t:     Math.random(),
-            speed: (0.00025 + Math.random() * 0.00040),
-            r:     1.4 + Math.random() * 1.0,
-            trail: [],
-          })),
+        /* Endpoints are distributed organically and can cross each other */
+        const overrun = Math.random() < 0.18;
+        const x3 = overrun
+          ? W * (1.02 + Math.random() * 0.10)
+          : W * (0.75 + Math.random() * 0.25);
+        
+        const y3 = H * (0.10 + frac * 0.80) + (Math.random() - 0.5) * H * 0.45;
+
+        /* Control points define upward/downward or straight arcs */
+        const arcDir = Math.random() > 0.5 ? 1 : -1;
+        const arcMag = Math.random() * H * 0.55; 
+
+        const x1 = OX + (x3 - OX) * (0.2 + Math.random() * 0.3);
+        const y1 = y0 + (y3 - y0) * 0.3 + arcDir * arcMag * (0.3 + Math.random() * 0.4);
+
+        const x2 = OX + (x3 - OX) * (0.5 + Math.random() * 0.3);
+        const y2 = y0 + (y3 - y0) * 0.7 + arcDir * arcMag * (0.3 + Math.random() * 0.4);
+
+        /* 4-6 small glowing nodes per curve, distributed randomly */
+        const nCount = 4 + Math.floor(Math.random() * 3);
+        const nodes: Node[] = Array.from({ length: nCount }, () => ({
+          t:     Math.random(),
+          spd:   (0.00004 + Math.random() * 0.00008) * (Math.random() < 0.3 ? -1 : 1),
+          r:     Math.random() > 0.85 ? 3.0 + Math.random() * 3.0 : 1.5 + Math.random() * 1.5,
+          bloom: 1.0 + Math.random() * 0.5,
+        }));
+
+        splines.push({
+          x0, y0, x1, y1, x2, y2, x3, y3,
+          s1: Math.random() * 12, s2: Math.random() * 12,
+          s3: Math.random() * 12, s4: Math.random() * 12,
+          wAmp:   0.005 + Math.random() * 0.025, // different amplitudes
+          wFreq:  0.15  + Math.random() * 0.65,  // different frequencies
+          wPhase: Math.random() * Math.PI * 2,
+          spd:    0.30  + Math.random() * 0.50,  // smooth and slow motion
+          color,
+          opacity: 0.20 + Math.random() * 0.30,  // slightly reduced to prevent brightening
+          width:   0.65 + Math.random() * 1.25,
+          overrun,
+          nodes,
         });
       }
 
-      /* Ambient dust – 60 tiny floating specks in the right zone */
-      dust = Array.from({ length: 60 }, () => spawnDust());
-    };
+      /* ── Background splines: 60 ultra-thin curves for depth ──────── */
+      const NB = 60;
+      bgSplines = [];
+      for (let i = 0; i < NB; i++) {
+        const frac = i / (NB - 1);
+        const x0 = OX + (Math.random() - 0.5) * W * 0.022;
+        const y0 = OY + (Math.random() - 0.5) * H * 0.025;
+        const x3 = W * (0.68 + Math.random() * 0.34);
+        
+        const y3 = H * (0.05 + frac * 0.90) + (Math.random() - 0.5) * H * 0.35;
+        
+        const arcDir = Math.random() > 0.5 ? 1 : -1;
+        const arcMag = Math.random() * H * 0.40;
+        
+        const x1 = OX + (x3 - OX) * (0.2 + Math.random() * 0.3);
+        const y1 = y0 + (y3 - y0) * 0.25 + arcDir * arcMag * Math.random();
+        
+        const x2 = OX + (x3 - OX) * (0.6 + Math.random() * 0.3);
+        const y2 = y0 + (y3 - y0) * 0.75 + arcDir * arcMag * Math.random();
 
-    const spawnDust = (): Dust => ({
-      x:     W * (0.46 + Math.random() * 0.52),
-      y:     H * (0.03 + Math.random() * 0.94),
-      vx:    (Math.random() - 0.5) * 0.12,
-      vy:    (Math.random() - 0.5) * 0.08,
-      r:     0.5 + Math.random() * 1.0,
-      alpha: 0.08 + Math.random() * 0.18,
-      color: PALETTE[Math.floor(Math.random() * PALETTE.length)],
-    });
+        bgSplines.push({
+          x0, y0, x1, y1, x2, y2, x3, y3,
+          s1:      Math.random() * 18,
+          wAmp:    0.003 + Math.random() * 0.015,
+          wFreq:   0.10  + Math.random() * 0.30,
+          wPhase:  Math.random() * Math.PI * 2,
+          spd:     0.20  + Math.random() * 0.40,
+          opacity: 0.10  + Math.random() * 0.05, // 10-15% opacity for depth
+          width:   0.20  + Math.random() * 0.30,
+        });
+      }
+
+      /* ── Star particles: 65 drifting background dots ────────── */
+      stars = Array.from({ length: 65 }, () => ({
+        x:     Math.random() * W,
+        y:     Math.random() * H,
+        r:     0.5 + Math.random() * 1.8,
+        alpha: 0.12 + Math.random() * 0.42,
+        vx:    (Math.random() - 0.5) * 0.04,
+        vy:    (Math.random() - 0.5) * 0.03,
+        phase: Math.random() * Math.PI * 2,
+      }));
+    };
 
     window.addEventListener('resize', init);
     init();
 
-    /* ─── Bezier point helper ─────────────────────────── */
-    const bpt = (
-      p0x: number, p0y: number,
-      c1x: number, c1y: number,
-      c2x: number, c2y: number,
-      p3x: number, p3y: number,
-      t: number
-    ) => {
-      const u = 1 - t, t2 = t * t, u2 = u * u;
-      return {
-        x: u2 * u * p0x + 3 * u2 * t * c1x + 3 * u * t2 * c2x + t2 * t * p3x,
-        y: u2 * u * p0y + 3 * u2 * t * c1y + 3 * u * t2 * c2y + t2 * t * p3y,
-      };
-    };
-
-    /* ─── Soft radial glow helper ─────────────────────── */
-    const radialGlow = (
-      cx: number, cy: number, r: number,
-      inner: string, outer: string,
-      alpha = 1.0
-    ) => {
-      const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
-      g.addColorStop(0,   inner);
-      g.addColorStop(1,   outer);
-      ctx.save();
-      ctx.globalAlpha = alpha;
-      ctx.fillStyle = g;
-      ctx.beginPath();
-      ctx.arc(cx, cy, r, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.restore();
-    };
-
     let time = 0;
 
-    /* ─── Render loop ────────────────────────────────── */
+    /* ── Render loop ─────────────────────────────────────────── */
     const render = () => {
-      time += 0.009; // very slow – cinematic pace
+      time += 0.007; // smooth and slow motion
 
-      /* Smooth mouse */
       mouse.x += (mouse.tx - mouse.x) * 0.055;
       mouse.y += (mouse.ty - mouse.y) * 0.055;
 
       ctx.clearRect(0, 0, W, H);
 
-      /* ══ LAYER 0 – Volumetric origin ambiance ══ */
+      /* ══ L0 – Origin ambient glow ══════════════════════════════ */
       {
-        // Three pulsing soft halos at different radii
-        const pulse = Math.sin(time * 1.4) * 0.05;
-        radialGlow(OX, OY, W * 0.32,
-          'rgba(66,133,244,0.14)',
-          'rgba(11,15,23,0)', 1);
-        radialGlow(OX, OY, W * 0.16,
-          'rgba(66,133,244,0.22)',
-          'rgba(11,15,23,0)', 1);
-        radialGlow(OX, OY, W * 0.07 * (1 + pulse),
-          'rgba(100,160,255,0.30)',
-          'rgba(11,15,23,0)', 1);
+        const pulse = Math.sin(time * 1.4) * 0.05 + 1;
+        const g0 = ctx.createRadialGradient(OX, OY, 0, OX, OY, W * 0.30 * pulse);
+        g0.addColorStop(0,    'rgba(66,133,244,0.13)');
+        g0.addColorStop(0.45, 'rgba(50,100,210,0.05)');
+        g0.addColorStop(1,    'rgba(11,15,23,0)');
+        ctx.fillStyle = g0;
+        ctx.beginPath(); ctx.arc(OX, OY, W * 0.30 * pulse, 0, Math.PI * 2); ctx.fill();
+
+        const g1 = ctx.createRadialGradient(OX, OY, 0, OX, OY, W * 0.10);
+        g1.addColorStop(0,    'rgba(130,190,255,0.24)');
+        g1.addColorStop(0.55, 'rgba(66,133,244,0.09)');
+        g1.addColorStop(1,    'transparent');
+        ctx.fillStyle = g1;
+        ctx.beginPath(); ctx.arc(OX, OY, W * 0.10, 0, Math.PI * 2); ctx.fill();
       }
 
-      /* ══ LAYER 1 – Ambient floating dust ══ */
-      dust.forEach((d) => {
-        d.x += d.vx;
-        d.y += d.vy;
-        // wrap around right zone
-        if (d.x < W * 0.45 || d.x > W * 0.99) d.vx *= -1;
-        if (d.y < 0       || d.y > H         ) d.vy *= -1;
-
+      /* ══ L1 – Drifting star particles ══════════════════════════ */
+      stars.forEach((s) => {
+        s.x += s.vx; s.y += s.vy;
+        if (s.x < 0) s.x = W; if (s.x > W) s.x = 0;
+        if (s.y < 0) s.y = H; if (s.y > H) s.y = 0;
+        const blink = 0.70 + Math.sin(time * 1.3 + s.phase) * 0.30;
         ctx.save();
-        ctx.globalCompositeOperation = 'lighter';
-        const dg = ctx.createRadialGradient(d.x, d.y, 0, d.x, d.y, d.r * 3);
-        dg.addColorStop(0, '#ffffff');
-        dg.addColorStop(0.5, d.color);
-        dg.addColorStop(1, 'transparent');
-        ctx.fillStyle = dg;
-        ctx.globalAlpha = d.alpha * (0.7 + Math.sin(time * 2 + d.x) * 0.3);
-        ctx.beginPath();
-        ctx.arc(d.x, d.y, d.r * 3, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.fillStyle   = '#4a9eff';
+        ctx.globalAlpha = s.alpha * blink;
+        ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2); ctx.fill();
         ctx.restore();
       });
 
-      /* ══ LAYER 2 – Shadow/depth ghost curves (drawn first, darker) ══ */
-      streams.forEach((s, i) => {
-        const T = time * s.speedMult;
-
-        // CP1 – organic harmonic drift
-        const cp1x = OX + (s.endX - OX) * 0.30
-          + noise(s.sx1, s.sy1, T) * W * 0.045
-          + Math.sin(T * 0.7 + s.phaseOffset) * W * 0.022;
-        const cp1y = OY + (s.endY - OY) * 0.08
-          + noise(s.sx1 + 1, s.sy1 + 1, T) * H * 0.065
-          + Math.cos(T * 0.5 + s.phaseOffset) * H * 0.028;
-
-        // CP2
-        const cp2x = OX + (s.endX - OX) * 0.70
-          + noise(s.sx2, s.sy2, T) * W * 0.038
-          + Math.cos(T * 0.6 + s.phaseOffset + 1) * W * 0.018;
-        const cp2y = OY + (s.endY - OY) * 0.88
-          + noise(s.sx2 + 2, s.sy2 + 2, T) * H * 0.055
-          + Math.sin(T * 0.4 + s.phaseOffset + 1) * H * 0.022;
-
-        // Store for later layers (re-computed below per stream)
-        // We'll use the same logic inline below
-
-        // Ghost underline (darker, slightly offset) for depth illusion
+      /* ══ L2 – Background splines ════════════════════════════════ */
+      bgSplines.forEach((b) => {
+        const T  = time * b.spd;
+        const w  = Math.sin(T * b.wFreq + b.wPhase) * b.wAmp;
+        const x1 = b.x1 + w * W;
+        const y1 = b.y1 + Math.cos(T * b.wFreq + b.wPhase) * b.wAmp * H * 0.5;
+        const x2 = b.x2 - w * W * 0.40 + sn(b.s1, T) * 0.003 * W;
+        const y2 = b.y2 + sn(b.s1 + 4, T) * 0.004 * H;
         ctx.save();
-        ctx.beginPath();
-        ctx.moveTo(OX, OY + 1.5);
-        ctx.bezierCurveTo(cp1x + 1.5, cp1y + 2, cp2x + 1.5, cp2y + 1.5, s.endX, s.endY);
-        ctx.strokeStyle = s.color;
-        ctx.globalAlpha = s.baseOpacity * 0.18;
-        ctx.lineWidth = s.baseWidth * 2.8;
+        ctx.beginPath(); ctx.moveTo(b.x0, b.y0);
+        ctx.bezierCurveTo(x1, y1, x2, y2, b.x3, b.y3);
+        ctx.strokeStyle = '#ffffff';
+        ctx.globalAlpha = b.opacity;
+        ctx.lineWidth   = b.width;
         ctx.stroke();
         ctx.restore();
       });
 
-      /* ══ LAYER 3 – Main glowing streams + particles ══ */
-      streams.forEach((s) => {
-        const T = time * s.speedMult;
+      /* ══ L3 – Primary splines ════════════════════════════════════ */
+      splines.forEach((s) => {
+        const T = time * s.spd;
+        const { cp1x, cp1y, cp2x, cp2y } = acp(s, T);
+        const endOp = s.overrun ? Math.max(0, 1 - (s.x3 - W) / (W * 0.08)) : 1;
 
-        // Mouse influence factor (0–1)
-        let mf = 0;
-
-        // Organic multi-harmonic CP positions
-        let cp1x = OX + (s.endX - OX) * 0.30
-          + noise(s.sx1, s.sy1, T) * W * 0.045
-          + Math.sin(T * 0.7 + s.phaseOffset) * W * 0.022;
-        let cp1y = OY + (s.endY - OY) * 0.08
-          + noise(s.sx1 + 1, s.sy1 + 1, T) * H * 0.065
-          + Math.cos(T * 0.5 + s.phaseOffset) * H * 0.028;
-
-        let cp2x = OX + (s.endX - OX) * 0.70
-          + noise(s.sx2, s.sy2, T) * W * 0.038
-          + Math.cos(T * 0.6 + s.phaseOffset + 1) * W * 0.018;
-        let cp2y = OY + (s.endY - OY) * 0.88
-          + noise(s.sx2 + 2, s.sy2 + 2, T) * H * 0.055
-          + Math.sin(T * 0.4 + s.phaseOffset + 1) * H * 0.022;
-
-        // Gentle mouse bending only on right side
-        if (mouse.x > W * 0.44) {
-          const mx = (OX + cp1x + cp2x + s.endX) / 4;
-          const my = (OY + cp1y + cp2y + s.endY) / 4;
-          const d  = Math.hypot(mouse.x - mx, mouse.y - my);
-          if (d < 210) {
-            mf = (1 - d / 210) ** 1.5;
-            const bend = mf * 0.16;
-            cp1x += (mouse.x - cp1x) * bend;
-            cp1y += (mouse.y - cp1y) * bend;
-            cp2x += (mouse.x - cp2x) * bend;
-            cp2y += (mouse.y - cp2y) * bend;
-          }
-        }
-
-        // ── Main curve ──
+        /* Depth shadow */
         ctx.save();
-        ctx.beginPath();
-        ctx.moveTo(OX, OY);
-        ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, s.endX, s.endY);
+        ctx.beginPath(); ctx.moveTo(s.x0, s.y0 + 2);
+        ctx.bezierCurveTo(cp1x + 1, cp1y + 2, cp2x + 1, cp2y + 2, s.x3, s.y3);
         ctx.strokeStyle = s.color;
-        ctx.globalAlpha = s.baseOpacity + mf * 0.14;
-        ctx.lineWidth   = s.baseWidth   + mf * 0.6;
+        ctx.globalAlpha = s.opacity * 0.12 * endOp;
+        ctx.lineWidth   = s.width * 3;
+        ctx.stroke(); ctx.restore();
+
+        /* Main colored line */
+        ctx.save();
+        ctx.beginPath(); ctx.moveTo(s.x0, s.y0);
+        ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, s.x3, s.y3);
+        ctx.strokeStyle = s.color;
+        ctx.globalAlpha = s.opacity * endOp;
+        ctx.lineWidth   = s.width;
         ctx.shadowColor = s.color;
-        ctx.shadowBlur  = 7 + mf * 8;
-        ctx.stroke();
-        ctx.restore();
+        ctx.shadowBlur  = 5;
+        ctx.stroke(); ctx.restore();
 
-        // ── Secondary glow pass (wider, more transparent – volumetric effect) ──
+        /* Volumetric glow pass */
         ctx.save();
-        ctx.beginPath();
-        ctx.moveTo(OX, OY);
-        ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, s.endX, s.endY);
+        ctx.beginPath(); ctx.moveTo(s.x0, s.y0);
+        ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, s.x3, s.y3);
         ctx.strokeStyle = s.color;
-        ctx.globalAlpha = s.baseOpacity * 0.25;
-        ctx.lineWidth   = s.baseWidth * 4.5;
-        ctx.stroke();
-        ctx.restore();
+        ctx.globalAlpha = s.opacity * 0.18 * endOp;
+        ctx.lineWidth   = s.width * 5.5;
+        ctx.stroke(); ctx.restore();
 
-        // ── Energy particles with trailing tail ──
-        s.nodePulse += 0.016;
-        s.particles.forEach((p) => {
-          // Speed up near mouse
-          const ptPos = bpt(OX, OY, cp1x, cp1y, cp2x, cp2y, s.endX, s.endY, p.t);
-          const dm = Math.hypot(mouse.x - ptPos.x, mouse.y - ptPos.y);
-          const speedBoost = mouse.x > W * 0.44 && dm < 200 ? 1 + (1 - dm / 200) * 1.8 : 1;
+        /* ── Glowing nodes traveling slowly along the curve ──────
+           Each node is a solid filled circle with a soft outer glow,
+           matching the large colored dots from the reference image.
+        ─────────────────────────────────────────────────────────── */
+        s.nodes.forEach((n) => {
+          n.t += n.spd;
+          if (n.t > 1) n.t = 0;
+          if (n.t < 0) n.t = 1;
 
-          p.t += p.speed * speedBoost;
-          if (p.t > 1) { p.t = 0; p.trail = []; }
+          /* Mouse: nodes accelerate near cursor */
+          const ptPos = bpt(s.x0, s.y0, cp1x, cp1y, cp2x, cp2y, s.x3, s.y3, n.t);
+          const dm    = Math.hypot(mouse.x - ptPos.x, mouse.y - ptPos.y);
+          if (dm < 200 && mouse.x > -100) {
+            n.t += n.spd * (1 - dm / 200) * 1.8;
+          }
 
-          const pt = bpt(OX, OY, cp1x, cp1y, cp2x, cp2y, s.endX, s.endY, p.t);
+          const pt = bpt(s.x0, s.y0, cp1x, cp1y, cp2x, cp2y, s.x3, s.y3, n.t);
 
-          // Record trail (last 8 positions)
-          p.trail.push({ x: pt.x, y: pt.y, a: 0.75 });
-          if (p.trail.length > 8) p.trail.shift();
-
-          // Draw fading trail
-          p.trail.forEach((tp, ti) => {
-            const fa = (ti / p.trail.length) * 0.45;
-            ctx.save();
-            ctx.globalCompositeOperation = 'lighter';
-            ctx.fillStyle = s.color;
-            ctx.globalAlpha = fa;
-            ctx.beginPath();
-            ctx.arc(tp.x, tp.y, p.r * 0.6 * (ti / p.trail.length), 0, Math.PI * 2);
-            ctx.fill();
-            ctx.restore();
-          });
-
-          // Particle head glow
+          /* 1. Outer bloom glow (additive blending) */
           ctx.save();
           ctx.globalCompositeOperation = 'lighter';
-          const pg = ctx.createRadialGradient(pt.x, pt.y, 0, pt.x, pt.y, p.r * 3.5);
-          pg.addColorStop(0,    '#ffffff');
-          pg.addColorStop(0.35, s.color);
-          pg.addColorStop(1,    'transparent');
-          ctx.fillStyle = pg;
-          ctx.globalAlpha = 0.95;
-          ctx.beginPath();
-          ctx.arc(pt.x, pt.y, p.r * 3.5, 0, Math.PI * 2);
-          ctx.fill();
+          const ng = ctx.createRadialGradient(pt.x, pt.y, 0, pt.x, pt.y, n.r * n.bloom);
+          ng.addColorStop(0,    s.color + '99'); // Softer colors
+          ng.addColorStop(0.35, s.color + '33');
+          ng.addColorStop(1,    'transparent');
+          ctx.fillStyle   = ng;
+          ctx.globalAlpha = 0.24; // reduced intensity by 70%
+          ctx.beginPath(); ctx.arc(pt.x, pt.y, n.r * n.bloom, 0, Math.PI * 2); ctx.fill();
+          ctx.restore();
+
+          /* 2. Solid colored circle (the visible "node dot") */
+          ctx.save();
+          ctx.fillStyle  = s.color;
+          ctx.shadowColor = s.color;
+          ctx.shadowBlur  = 6; // reduced blur
+          ctx.globalAlpha = 0.45; // reduced brightness by 50%
+          ctx.beginPath(); ctx.arc(pt.x, pt.y, n.r, 0, Math.PI * 2); ctx.fill();
+          ctx.restore();
+
+          /* 3. Bright white highlight center */
+          ctx.save();
+          ctx.globalCompositeOperation = 'lighter';
+          ctx.fillStyle   = '#ffffff';
+          ctx.globalAlpha = 0.40; // reduced brightness by 50%
+          ctx.beginPath(); ctx.arc(pt.x, pt.y, n.r * 0.38, 0, Math.PI * 2); ctx.fill();
           ctx.restore();
         });
-
-        // ── Terminal glowing node ──
-        if (s.hasNode) {
-          const pulse = 1 + Math.sin(s.nodePulse) * 0.22;
-          const nr = s.nodeR * pulse;
-
-          ctx.save();
-          ctx.globalCompositeOperation = 'lighter';
-          const ng = ctx.createRadialGradient(s.endX, s.endY, 0, s.endX, s.endY, nr * 5);
-          ng.addColorStop(0,    '#ffffff');
-          ng.addColorStop(0.25, s.color);
-          ng.addColorStop(0.65, s.color + '55');
-          ng.addColorStop(1,    'transparent');
-          ctx.fillStyle = ng;
-          ctx.globalAlpha = 0.88;
-          ctx.beginPath();
-          ctx.arc(s.endX, s.endY, nr * 5, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.restore();
-        }
       });
 
-      /* ══ LAYER 4 – Sparse mid-curve landmark nodes ══ */
-      const landmarks = [3, 8, 12, 17, 22, 27];
-      landmarks.forEach((idx) => {
-        if (idx >= streams.length) return;
-        const s  = streams[idx];
-        const T  = time * s.speedMult;
-        const tPos = 0.46 + Math.sin(time * 0.28 + idx) * 0.05;
-
-        const cp1x = OX + (s.endX - OX) * 0.30 + noise(s.sx1, s.sy1, T) * W * 0.045 + Math.sin(T * 0.7 + s.phaseOffset) * W * 0.022;
-        const cp1y = OY + (s.endY - OY) * 0.08 + noise(s.sx1 + 1, s.sy1 + 1, T) * H * 0.065 + Math.cos(T * 0.5 + s.phaseOffset) * H * 0.028;
-        const cp2x = OX + (s.endX - OX) * 0.70 + noise(s.sx2, s.sy2, T) * W * 0.038 + Math.cos(T * 0.6 + s.phaseOffset + 1) * W * 0.018;
-        const cp2y = OY + (s.endY - OY) * 0.88 + noise(s.sx2 + 2, s.sy2 + 2, T) * H * 0.055 + Math.sin(T * 0.4 + s.phaseOffset + 1) * H * 0.022;
-
-        const pt = bpt(OX, OY, cp1x, cp1y, cp2x, cp2y, s.endX, s.endY, tPos);
-        const nr = 2.5 + Math.sin(time * 0.45 + idx * 0.7) * 0.4;
-
-        ctx.save();
-        ctx.globalCompositeOperation = 'lighter';
-        const mg = ctx.createRadialGradient(pt.x, pt.y, 0, pt.x, pt.y, nr * 5);
-        mg.addColorStop(0,    '#ffffff');
-        mg.addColorStop(0.3,  s.color);
-        mg.addColorStop(0.7,  s.color + '44');
-        mg.addColorStop(1,    'transparent');
-        ctx.fillStyle = mg;
-        ctx.globalAlpha = 0.85;
-        ctx.beginPath();
-        ctx.arc(pt.x, pt.y, nr * 5, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-      });
-
-      /* ══ LAYER 5 – Cinematic origin flare ══ */
+      /* ══ L4 – Origin flare: bright white core with blue bloom ═══ */
       {
-        const breathe = 1 + Math.sin(time * 1.2) * 0.08;
+        const b = 1 + Math.sin(time * 1.55) * 0.07;
 
         ctx.save();
         ctx.globalCompositeOperation = 'lighter';
 
-        // Large soft halo
-        const halo = ctx.createRadialGradient(OX, OY, 0, OX, OY, 52 * breathe);
-        halo.addColorStop(0,   '#ffffff');
-        halo.addColorStop(0.18, 'rgba(100,170,255,0.9)');
-        halo.addColorStop(0.45, 'rgba(66,133,244,0.4)');
-        halo.addColorStop(0.75, 'rgba(66,133,244,0.12)');
-        halo.addColorStop(1,   'transparent');
-        ctx.fillStyle = halo;
-        ctx.beginPath();
-        ctx.arc(OX, OY, 52 * breathe, 0, Math.PI * 2);
-        ctx.fill();
+        /* Radial bloom halo */
+        const gf = ctx.createRadialGradient(OX, OY, 0, OX, OY, 42 * b);
+        gf.addColorStop(0,    '#ffffff');
+        gf.addColorStop(0.18, 'rgba(130,195,255,0.95)');
+        gf.addColorStop(0.50, 'rgba(66,133,244,0.42)');
+        gf.addColorStop(0.85, 'rgba(66,133,244,0.10)');
+        gf.addColorStop(1,    'transparent');
+        ctx.fillStyle = gf;
+        ctx.beginPath(); ctx.arc(OX, OY, 42 * b, 0, Math.PI * 2); ctx.fill();
 
-        // Tiny bright core
-        ctx.fillStyle = '#ffffff';
-        ctx.shadowColor = '#8ab8ff';
-        ctx.shadowBlur  = 22;
-        ctx.beginPath();
-        ctx.arc(OX, OY, 4.5, 0, Math.PI * 2);
-        ctx.fill();
+        /* Bright white core dot */
+        ctx.fillStyle   = '#ffffff';
+        ctx.shadowColor = '#a0c8ff';
+        ctx.shadowBlur  = 26;
+        ctx.beginPath(); ctx.arc(OX, OY, 4.2, 0, Math.PI * 2); ctx.fill();
 
         ctx.restore();
       }
@@ -461,7 +422,8 @@ export const HeroCanvas: React.FC = () => {
 
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
-      <canvas ref={canvasRef} className="w-full h-full" />
+      {/* <-- Adjust translateX here */}
+      <canvas ref={canvasRef} className="w-full h-full translate-x-[20px]" />
       <div className="absolute inset-0 bg-grid-pattern opacity-[0.07]" />
       <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#0B0F17] to-transparent" />
     </div>

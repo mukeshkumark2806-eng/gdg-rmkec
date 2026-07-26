@@ -52,9 +52,19 @@
 }
 
 .text-gradient-google {
-  background: linear-gradient(135deg, #4285f4 0%, #ea4335 33%, #fbbc05 66%, #34a853 100%);
+  background: linear-gradient(
+    105deg,
+    #4285f4 0%,
+    #4285f4 18%,
+    #ea4335 36%,
+    #fbbc05 58%,
+    #34a853 80%,
+    #34a853 100%
+  );
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-size: 200% auto;
 }
 
 .text-gradient-blue {

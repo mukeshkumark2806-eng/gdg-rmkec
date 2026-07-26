@@ -96,3 +96,15 @@ export interface TrackDomain {
   leadRole: string;
   projectsCount: number;
 }
+
+export interface GalleryItem {
+  id: string;
+  title: string;
+  eventName: string;
+  description: string;
+  date: string;
+  category: 'Workshops' | 'Hackathons' | 'Study Jams' | 'Events' | 'Team';
+  imageUrl: string;
+  featured?: boolean;
+  aspectRatio?: 'normal' | 'wide' | 'tall';
+}

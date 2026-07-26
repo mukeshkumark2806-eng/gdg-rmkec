@@ -12,7 +12,7 @@ export default function Home() {
       {/* 1. Interactive Hero Experience */}
       <HeroSection />
 
-      {/* 2. Live Impact Stats */}
+      {/* 3. Live Impact Stats */}
       <StatsSection />
 
       {/* 3. Technology Tracks & Domains */}

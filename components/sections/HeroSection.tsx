@@ -12,67 +12,76 @@ export const HeroSection: React.FC = () => {
       {/* Background Interactive Real-Time Neural Network Visualization Canvas */}
       <HeroCanvas />
 
-      {/* Main Content Area */}
-      <div className="relative z-20 mx-auto max-w-[1400px] w-full px-6 sm:px-8 my-auto flex flex-col justify-center">
-        <div className="max-w-2xl text-left">
-          {/* Tag Pill Matching Mockup */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="inline-flex items-center gap-2 rounded-full bg-slate-950/80 px-4 py-1.5 border border-white/15 backdrop-blur-md mb-7 shadow-lg"
-          >
-            <span className="text-xs sm:text-sm font-mono text-slate-300 tracking-wide">
-              &lt; Developers <span className="text-slate-500">|</span> Innovators <span className="text-slate-500">|</span> Problem Solvers /&gt;
-            </span>
-          </motion.div>
+      {/* Main Content Area — 93 vw, generous desktop padding */}
+      <div className="relative z-20 w-[93vw] mx-auto px-12 xl:px-16 my-auto flex flex-col justify-center">
+        {/* Two-column grid: 55% text | 45% canvas breathing room */}
+        <div className="grid grid-cols-1 lg:grid-cols-[55%_45%] items-center">
 
-          {/* Main Headline Matching Mockup */}
-          <motion.h1
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.25, ease: [0.215, 0.61, 0.355, 1] as [number, number, number, number] }}
-            className="text-5xl sm:text-7xl lg:text-[84px] font-black tracking-tight text-white leading-[1.06] mb-6"
-          >
-            Build. Learn. <br />
-            Grow. <span className="text-gradient-google">Together.</span>
-          </motion.h1>
+          {/* ── Left Column: Hero Text ── */}
+          <div className="flex flex-col lg:pl-0">
 
-          {/* Subtitle Paragraph Matching Mockup */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.4 }}
-            className="text-base sm:text-lg text-slate-300 leading-relaxed font-normal mb-10 max-w-xl"
-          >
-            Google Developer Group RMKEC is a community of passionate developers building the future through learning, collaboration, and impactful solutions.
-          </motion.p>
+            {/* Developer Tag */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="inline-flex items-center gap-2 rounded-full bg-slate-950/80 px-4 py-1.5 border border-white/15 backdrop-blur-md mb-10 shadow-lg w-fit"
+            >
+              <span className="text-xs sm:text-sm font-mono text-slate-300 tracking-wide">
+                &lt; Developers <span className="text-slate-500">|</span> Innovators <span className="text-slate-500">| </span> Problem Solvers /&gt;
+              </span>
+            </motion.div>
 
-          {/* Action Buttons Matching Mockup */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.55 }}
-            className="flex flex-wrap items-center gap-4"
-          >
-            <Link href="/join">
-              <button className="group relative inline-flex items-center gap-3 rounded-2xl bg-gradient-to-r from-[#4285F4] via-[#EA4335] via-[#FBBC05] to-[#34A853] px-8 py-4 text-sm font-bold text-white shadow-[0_0_35px_rgba(66,133,244,0.45)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_45px_rgba(66,133,244,0.65)]">
-                <span>Join Community</span>
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </button>
-            </Link>
+            {/* Main Headline */}
+            <motion.h1
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.25, ease: [0.215, 0.61, 0.355, 1] as [number, number, number, number] }}
+              className="text-5xl sm:text-7xl lg:text-[84px] font-black tracking-tight text-white leading-[1.06] mb-8"
+            >
+              Build. Learn. <br />
+              <span className="whitespace-nowrap">Grow. <span className="text-gradient-google text-[1.08em]">Together.</span></span>
+            </motion.h1>
 
-            <Link href="/events">
-              <button className="group relative inline-flex items-center gap-3 rounded-2xl border border-white/20 bg-slate-900/60 px-8 py-4 text-sm font-semibold text-white backdrop-blur-md transition-all duration-300 hover:border-white/40 hover:bg-slate-800/80">
-                <span>Explore Events</span>
-                <Calendar className="h-4 w-4 text-slate-300" />
-              </button>
-            </Link>
-          </motion.div>
+            {/* Subtitle */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.4 }}
+              className="text-base sm:text-lg text-slate-300 leading-relaxed font-normal mb-12 max-w-lg"
+            >
+              Google Developer Group RMKEC is a community of passionate developers building the future through learning, collaboration, and impactful solutions.
+            </motion.p>
+
+            {/* Action Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.55 }}
+              className="flex flex-wrap items-center gap-5"
+            >
+              <Link href="/join">
+                <button className="group relative inline-flex items-center justify-center gap-3 rounded-[14px] bg-[linear-gradient(to_right,#4285F4,#EA4335,#FBBC05,#34A853)] px-8 py-4 text-sm font-bold text-white transition-all duration-300 ease-out hover:brightness-110 hover:scale-[1.025] active:scale-[0.98]">
+                  <span>Join Community</span>
+                  <ArrowRight className="h-4 w-4 text-white transition-transform duration-300 group-hover:translate-x-1.5" />
+                </button>
+              </Link>
+
+              <Link href="/events">
+                <button className="group relative inline-flex items-center gap-3 rounded-2xl border border-white/10 bg-slate-900/40 px-8 py-4 text-sm font-semibold text-white backdrop-blur-lg transition-all duration-300 ease-out hover:scale-[1.02] hover:border-white/30 hover:bg-slate-800/50 hover:shadow-[0_0_20px_rgba(66,133,244,0.15)] active:scale-[0.98]">
+                  <span>Explore Events</span>
+                  <Calendar className="h-4 w-4 text-slate-300 transition-all duration-300 ease-out group-hover:translate-x-[3px] group-hover:text-white" />
+                </button>
+              </Link>
+            </motion.div>
+          </div>
+
+          {/* ── Right Column: Empty — the canvas animation fills this zone via absolute positioning ── */}
+          <div className="hidden lg:block" aria-hidden="true" />
         </div>
       </div>
 
-      {/* Center Bottom Scroll Indicator Matching Mockup */}
+      {/* Scroll Indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

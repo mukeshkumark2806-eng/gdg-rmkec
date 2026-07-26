@@ -111,7 +111,7 @@ export const DomainsSection: React.FC = () => {
               </div>
 
               <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs font-semibold text-blue-400 group-hover:text-blue-300">
-                <Link href="/community" className="flex items-center gap-1.5">
+                <Link href="/projects" className="flex items-center gap-1.5">
                   <span>Explore Track</span>
                   <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
                 </Link>

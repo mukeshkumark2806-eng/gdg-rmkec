@@ -46,7 +46,7 @@ export const Footer: React.FC = () => {
                 <Github className="h-4 w-4" />
               </a>
               <a
-                href={siteConfig.socials.linkedin}
+                href="https://www.linkedin.com/company/google-developer-group-r-m-k-engineering-college/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="rounded-xl bg-slate-900 p-2.5 text-slate-400 hover:bg-blue-600/20 hover:text-blue-400 hover:border-blue-500/40 border border-white/10 transition-colors"
@@ -55,7 +55,7 @@ export const Footer: React.FC = () => {
                 <Linkedin className="h-4 w-4" />
               </a>
               <a
-                href={siteConfig.socials.instagram}
+                href="https://www.instagram.com/gdgoc_rmk?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
                 target="_blank"
                 rel="noopener noreferrer"
                 className="rounded-xl bg-slate-900 p-2.5 text-slate-400 hover:bg-pink-600/20 hover:text-pink-400 hover:border-pink-500/40 border border-white/10 transition-colors"
@@ -91,7 +91,7 @@ export const Footer: React.FC = () => {
 
           {/* Quick Links Column 2 */}
           <div className="flex flex-col gap-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-white">Community</h4>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white">Gallery & Community</h4>
             <ul className="flex flex-col gap-2.5 text-xs text-slate-400">
               {footerNav.community.map((link) => (
                 <li key={link.href}>

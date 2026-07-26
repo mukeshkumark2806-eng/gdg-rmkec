@@ -6,7 +6,7 @@ export const mainNav: NavItem[] = [
   { label: 'Journey', href: '/journey' },
   { label: 'Events', href: '/events' },
   { label: 'Projects', href: '/projects' },
-  { label: 'Community', href: '/community' },
+  { label: 'Gallery', href: '/gallery' },
   { label: 'Family', href: '/family' },
   { label: 'Join Us', href: '/join' },
   { label: 'Contact', href: '/contact' },
@@ -20,7 +20,7 @@ export const footerNav = {
     { label: 'Student Projects', href: '/projects' },
   ],
   community: [
-    { label: 'Domain Tracks', href: '/community' },
+    { label: 'Gallery & Moments', href: '/gallery' },
     { label: 'Core Team & Alumni', href: '/family' },
     { label: 'Join GDG RMKEC', href: '/join' },
     { label: 'Contact Us', href: '/contact' },

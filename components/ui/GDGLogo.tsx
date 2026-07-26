@@ -6,26 +6,42 @@ interface GDGLogoProps {
   showText?: boolean;
 }
 
-export const GDGLogo: React.FC<GDGLogoProps> = ({ className = '', size = 36, showText = true }) => {
+export const GDGLogo: React.FC<GDGLogoProps> = ({ className = '', size = 48, showText = true }) => {
+  // Original SVG viewBox: 2.586 66.379 250.828 124.639
+  // Aspect ratio: 250.828 / 124.639 ≈ 2.013
+  const width = size * 2;
+  const height = size;
+
   return (
     <div className={`flex items-center gap-3 select-none ${className}`}>
-      {/* Official 4-Color Google Developer Group Logo Mark */}
+      {/* Official GDG Logo */}
       <svg
-        width={size}
-        height={Math.round((size * 48) / 74)}
-        viewBox="0 0 74 48"
+        width={width}
+        height={height}
+        viewBox="2.586 66.379 250.828 124.639"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         className="shrink-0 transition-transform duration-300 hover:scale-105"
+        aria-label="Google Developer Groups Logo"
       >
-        {/* Blue Left Bracket */}
-        <path d="M22 6L4 24L22 42L29 35L17 24L29 13L22 6Z" fill="#4285F4" />
-        {/* Red Top Bar */}
-        <path d="M33 6L57 6L45 17L21 17L33 6Z" fill="#EA4335" />
-        {/* Yellow Right Bracket */}
-        <path d="M45 42L63 24L45 6L52 6L70 24L52 42L45 42Z" fill="#FBBC05" />
-        {/* Green Bottom Bar */}
-        <path d="M25 42L49 42L37 31L13 31L25 42Z" fill="#34A853" />
+        <g fill="none" fillRule="evenodd">
+          <path
+            d="m102.907 106.981-66.897 40.034c-9.6 5.83-22.009 2.773-27.716-6.83-5.708-9.601-2.552-22.112 7.048-27.942l66.897-40.034c9.6-5.83 22.009-2.773 27.716 6.83s2.552 22.112-7.048 27.942z"
+            fill="#ea4335"
+          />
+          <path
+            d="m82.153 185.617-66.182-38.053c-9.742-5.4-13.214-17.764-7.754-27.614s17.784-13.457 27.527-8.057l66.182 38.054c9.743 5.4 13.214 17.763 7.754 27.613s-17.784 13.458-27.527 8.057z"
+            fill="#4285f4"
+          />
+          <path
+            d="m173.847 185.617 66.182-38.053c9.742-5.4 13.214-17.764 7.754-27.614s-17.784-13.457-27.527-8.057l-66.182 38.054c-9.743 5.4-13.214 17.763-7.754 27.613s17.784 13.458 27.527 8.057z"
+            fill="#fbbc04"
+          />
+          <path
+            d="m153.093 106.981 66.897 40.034c9.6 5.83 22.009 2.773 27.716-6.83 5.708-9.601 2.552-22.112-7.048-27.942l-66.897-40.034c-9.6-5.83-22.009-2.773-27.716 6.83s-2.552 22.112 7.048 27.942z"
+            fill="#0f9d58"
+          />
+        </g>
       </svg>
 
       {showText && (
@@ -41,4 +57,5 @@ export const GDGLogo: React.FC<GDGLogoProps> = ({ className = '', size = 36, sho
     </div>
   );
 };
+
 
