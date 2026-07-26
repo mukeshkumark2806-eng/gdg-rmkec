@@ -124,28 +124,28 @@ export const HeroSection: React.FC = () => {
       </FloatShape>
 
       {/* Dotted cluster — bottom right area */}
-      {[0,1,2,3,4,5].map(i => (
-        <FloatShape key={i} yRange={[0, (i%2===0?-8:8), 0]} xRange={[0, (i%3===0?5:-5), 0]} dur={4+i*0.4} del={i*0.3}
+      {[0, 1, 2, 3, 4, 5].map(i => (
+        <FloatShape key={i} yRange={[0, (i % 2 === 0 ? -8 : 8), 0]} xRange={[0, (i % 3 === 0 ? 5 : -5), 0]} dur={4 + i * 0.4} del={i * 0.3}
           style={{
-            bottom: `${12 + (i%3)*5}%`,
-            right: `${14 + (i%4)*3}%`,
+            bottom: `${12 + (i % 3) * 5}%`,
+            right: `${14 + (i % 4) * 3}%`,
             width: 5, height: 5,
             borderRadius: '50%',
-            background: ['#4285F4','#EA4335','#FBBC05','#34A853','#4285F4','#34A853'][i],
+            background: ['#4285F4', '#EA4335', '#FBBC05', '#34A853', '#4285F4', '#34A853'][i],
             opacity: 0.35,
           }}
         />
       ))}
 
       {/* Dotted cluster — top left area */}
-      {[0,1,2,3].map(i => (
-        <FloatShape key={`tl${i}`} yRange={[0, (i%2===0?-6:6), 0]} xRange={[0, (i%2===0?4:-4), 0]} dur={3.5+i*0.5} del={i*0.4}
+      {[0, 1, 2, 3].map(i => (
+        <FloatShape key={`tl${i}`} yRange={[0, (i % 2 === 0 ? -6 : 6), 0]} xRange={[0, (i % 2 === 0 ? 4 : -4), 0]} dur={3.5 + i * 0.5} del={i * 0.4}
           style={{
-            top: `${6 + (i%3)*4}%`,
-            left: `${8 + (i%3)*4}%`,
+            top: `${6 + (i % 3) * 4}%`,
+            left: `${8 + (i % 3) * 4}%`,
             width: 4, height: 4,
             borderRadius: '50%',
-            background: ['#34A853','#FBBC05','#4285F4','#EA4335'][i],
+            background: ['#34A853', '#FBBC05', '#4285F4', '#EA4335'][i],
             opacity: 0.4,
           }}
         />

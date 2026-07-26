@@ -55,7 +55,7 @@ export const HeroCanvas: React.FC = () => {
     let OX = 0, OY = 0; // origin
 
     const mouse = { x: -9999, y: -9999, tx: -9999, ty: -9999 };
-    const onMove  = (e: MouseEvent) => { const r = canvas.getBoundingClientRect(); mouse.tx = e.clientX - r.left; mouse.ty = e.clientY - r.top; };
+    const onMove = (e: MouseEvent) => { const r = canvas.getBoundingClientRect(); mouse.tx = e.clientX - r.left; mouse.ty = e.clientY - r.top; };
     const onLeave = () => { mouse.tx = -9999; mouse.ty = -9999; };
     window.addEventListener('mousemove', onMove, { passive: true });
     document.addEventListener('mouseleave', onLeave);
@@ -68,7 +68,7 @@ export const HeroCanvas: React.FC = () => {
       const rect = canvas.getBoundingClientRect();
       W = rect.width; H = rect.height;
       dpr = Math.min(window.devicePixelRatio ?? 1, 2);
-      canvas.width  = Math.round(W * dpr);
+      canvas.width = Math.round(W * dpr);
       canvas.height = Math.round(H * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
@@ -102,23 +102,23 @@ export const HeroCanvas: React.FC = () => {
         const color = PALETTE[i % PALETTE.length];
 
         const hasNode = Math.random() < 0.40;
-        const pCount  = Math.random() < 0.45 ? 2 : 1;
+        const pCount = Math.random() < 0.45 ? 2 : 1;
 
         streams.push({
           color, endX, endY,
           sx1, sy1, sx2, sy2,
           nx1, ny1, nx2, ny2,
-          baseWidth:   0.55 + Math.random() * 0.90,
+          baseWidth: 0.55 + Math.random() * 0.90,
           baseOpacity: 0.22 + Math.random() * 0.32,
           phaseOffset: Math.random() * Math.PI * 2,
-          speedMult:   0.55 + Math.random() * 0.90,
+          speedMult: 0.55 + Math.random() * 0.90,
           hasNode,
           nodeR: hasNode ? (2.0 + Math.random() * 2.2) : 0,
           nodePulse: Math.random() * Math.PI * 2,
           particles: Array.from({ length: pCount }, () => ({
-            t:     Math.random(),
+            t: Math.random(),
             speed: (0.00025 + Math.random() * 0.00040),
-            r:     1.4 + Math.random() * 1.0,
+            r: 1.4 + Math.random() * 1.0,
             trail: [],
           })),
         });
@@ -129,11 +129,11 @@ export const HeroCanvas: React.FC = () => {
     };
 
     const spawnDust = (): Dust => ({
-      x:     W * (0.46 + Math.random() * 0.52),
-      y:     H * (0.03 + Math.random() * 0.94),
-      vx:    (Math.random() - 0.5) * 0.12,
-      vy:    (Math.random() - 0.5) * 0.08,
-      r:     0.5 + Math.random() * 1.0,
+      x: W * (0.46 + Math.random() * 0.52),
+      y: H * (0.03 + Math.random() * 0.94),
+      vx: (Math.random() - 0.5) * 0.12,
+      vy: (Math.random() - 0.5) * 0.08,
+      r: 0.5 + Math.random() * 1.0,
       alpha: 0.08 + Math.random() * 0.18,
       color: PALETTE[Math.floor(Math.random() * PALETTE.length)],
     });
@@ -163,8 +163,8 @@ export const HeroCanvas: React.FC = () => {
       alpha = 1.0
     ) => {
       const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
-      g.addColorStop(0,   inner);
-      g.addColorStop(1,   outer);
+      g.addColorStop(0, inner);
+      g.addColorStop(1, outer);
       ctx.save();
       ctx.globalAlpha = alpha;
       ctx.fillStyle = g;
@@ -207,7 +207,7 @@ export const HeroCanvas: React.FC = () => {
         d.y += d.vy;
         // wrap around right zone
         if (d.x < W * 0.45 || d.x > W * 0.99) d.vx *= -1;
-        if (d.y < 0       || d.y > H         ) d.vy *= -1;
+        if (d.y < 0 || d.y > H) d.vy *= -1;
 
         ctx.save();
         ctx.globalCompositeOperation = 'lighter';
@@ -284,7 +284,7 @@ export const HeroCanvas: React.FC = () => {
         if (mouse.x > W * 0.44) {
           const mx = (OX + cp1x + cp2x + s.endX) / 4;
           const my = (OY + cp1y + cp2y + s.endY) / 4;
-          const d  = Math.hypot(mouse.x - mx, mouse.y - my);
+          const d = Math.hypot(mouse.x - mx, mouse.y - my);
           if (d < 210) {
             mf = (1 - d / 210) ** 1.5;
             const bend = mf * 0.16;
@@ -302,9 +302,9 @@ export const HeroCanvas: React.FC = () => {
         ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, s.endX, s.endY);
         ctx.strokeStyle = s.color;
         ctx.globalAlpha = s.baseOpacity + mf * 0.14;
-        ctx.lineWidth   = s.baseWidth   + mf * 0.6;
+        ctx.lineWidth = s.baseWidth + mf * 0.6;
         ctx.shadowColor = s.color;
-        ctx.shadowBlur  = 7 + mf * 8;
+        ctx.shadowBlur = 7 + mf * 8;
         ctx.stroke();
         ctx.restore();
 
@@ -315,7 +315,7 @@ export const HeroCanvas: React.FC = () => {
         ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, s.endX, s.endY);
         ctx.strokeStyle = s.color;
         ctx.globalAlpha = s.baseOpacity * 0.25;
-        ctx.lineWidth   = s.baseWidth * 4.5;
+        ctx.lineWidth = s.baseWidth * 4.5;
         ctx.stroke();
         ctx.restore();
 
@@ -353,9 +353,9 @@ export const HeroCanvas: React.FC = () => {
           ctx.save();
           ctx.globalCompositeOperation = 'lighter';
           const pg = ctx.createRadialGradient(pt.x, pt.y, 0, pt.x, pt.y, p.r * 3.5);
-          pg.addColorStop(0,    '#ffffff');
+          pg.addColorStop(0, '#ffffff');
           pg.addColorStop(0.35, s.color);
-          pg.addColorStop(1,    'transparent');
+          pg.addColorStop(1, 'transparent');
           ctx.fillStyle = pg;
           ctx.globalAlpha = 0.95;
           ctx.beginPath();
@@ -372,10 +372,10 @@ export const HeroCanvas: React.FC = () => {
           ctx.save();
           ctx.globalCompositeOperation = 'lighter';
           const ng = ctx.createRadialGradient(s.endX, s.endY, 0, s.endX, s.endY, nr * 5);
-          ng.addColorStop(0,    '#ffffff');
+          ng.addColorStop(0, '#ffffff');
           ng.addColorStop(0.25, s.color);
           ng.addColorStop(0.65, s.color + '55');
-          ng.addColorStop(1,    'transparent');
+          ng.addColorStop(1, 'transparent');
           ctx.fillStyle = ng;
           ctx.globalAlpha = 0.88;
           ctx.beginPath();
@@ -389,8 +389,8 @@ export const HeroCanvas: React.FC = () => {
       const landmarks = [3, 8, 12, 17, 22, 27];
       landmarks.forEach((idx) => {
         if (idx >= streams.length) return;
-        const s  = streams[idx];
-        const T  = time * s.speedMult;
+        const s = streams[idx];
+        const T = time * s.speedMult;
         const tPos = 0.46 + Math.sin(time * 0.28 + idx) * 0.05;
 
         const cp1x = OX + (s.endX - OX) * 0.30 + noise(s.sx1, s.sy1, T) * W * 0.045 + Math.sin(T * 0.7 + s.phaseOffset) * W * 0.022;
@@ -404,10 +404,10 @@ export const HeroCanvas: React.FC = () => {
         ctx.save();
         ctx.globalCompositeOperation = 'lighter';
         const mg = ctx.createRadialGradient(pt.x, pt.y, 0, pt.x, pt.y, nr * 5);
-        mg.addColorStop(0,    '#ffffff');
-        mg.addColorStop(0.3,  s.color);
-        mg.addColorStop(0.7,  s.color + '44');
-        mg.addColorStop(1,    'transparent');
+        mg.addColorStop(0, '#ffffff');
+        mg.addColorStop(0.3, s.color);
+        mg.addColorStop(0.7, s.color + '44');
+        mg.addColorStop(1, 'transparent');
         ctx.fillStyle = mg;
         ctx.globalAlpha = 0.85;
         ctx.beginPath();
@@ -425,11 +425,11 @@ export const HeroCanvas: React.FC = () => {
 
         // Large soft halo
         const halo = ctx.createRadialGradient(OX, OY, 0, OX, OY, 52 * breathe);
-        halo.addColorStop(0,   '#ffffff');
+        halo.addColorStop(0, '#ffffff');
         halo.addColorStop(0.18, 'rgba(100,170,255,0.9)');
         halo.addColorStop(0.45, 'rgba(66,133,244,0.4)');
         halo.addColorStop(0.75, 'rgba(66,133,244,0.12)');
-        halo.addColorStop(1,   'transparent');
+        halo.addColorStop(1, 'transparent');
         ctx.fillStyle = halo;
         ctx.beginPath();
         ctx.arc(OX, OY, 52 * breathe, 0, Math.PI * 2);
@@ -438,7 +438,7 @@ export const HeroCanvas: React.FC = () => {
         // Tiny bright core
         ctx.fillStyle = '#ffffff';
         ctx.shadowColor = '#8ab8ff';
-        ctx.shadowBlur  = 22;
+        ctx.shadowBlur = 22;
         ctx.beginPath();
         ctx.arc(OX, OY, 4.5, 0, Math.PI * 2);
         ctx.fill();

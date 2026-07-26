@@ -37,11 +37,10 @@ export const Navbar: React.FC = () => {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-400 ${
-          scrolled
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-400 ${scrolled
             ? 'bg-white/90 backdrop-blur-md shadow-[0_1px_20px_rgba(26,26,46,0.08)] border-b border-[#E8ECF0]'
             : 'bg-transparent'
-        }`}
+          }`}
         style={{ transitionDuration: '350ms' }}
       >
         <div className="mx-auto max-w-[1280px] px-6 sm:px-8">
@@ -60,11 +59,10 @@ export const Navbar: React.FC = () => {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`relative px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
-                      isActive
+                    className={`relative px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${isActive
                         ? 'bg-[#4285F4]/10 text-[#4285F4] font-semibold'
                         : 'text-[#5F6B7A] hover:text-[#1A1A2E] hover:bg-[#1A1A2E]/06'
-                    }`}
+                      }`}
                   >
                     {item.label}
                     {isActive && (
@@ -149,11 +147,10 @@ export const Navbar: React.FC = () => {
                       <Link
                         href={item.href}
                         onClick={() => setMobileOpen(false)}
-                        className={`flex items-center justify-between px-4 py-3 rounded-2xl text-base font-semibold transition-all duration-200 ${
-                          isActive
+                        className={`flex items-center justify-between px-4 py-3 rounded-2xl text-base font-semibold transition-all duration-200 ${isActive
                             ? 'bg-[#4285F4]/15 text-[#6BA3F7]'
                             : 'text-[#8B949E] hover:text-white hover:bg-white/05'
-                        }`}
+                          }`}
                       >
                         <span>{item.label}</span>
                         {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[#4285F4]" />}
