@@ -57,13 +57,13 @@ export const Modal: React.FC<ModalProps> = ({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-            className={`relative w-full ${widthClasses[maxWidth]} rounded-2xl border border-white/15 bg-slate-900/90 p-6 md:p-8 text-white shadow-2xl backdrop-blur-2xl z-10 my-auto`}
+            className={`relative w-full ${widthClasses[maxWidth]} rounded-2xl border border-[#DADCE0] bg-white p-6 md:p-8 text-[#202124] shadow-2xl z-10 my-auto`}
           >
-            <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
-              {title && <h3 className="text-xl font-bold tracking-tight text-white">{title}</h3>}
+            <div className="flex items-center justify-between border-b border-[#DADCE0] pb-4 mb-6">
+              {title && <h3 className="text-xl font-bold tracking-tight text-[#202124]">{title}</h3>}
               <button
                 onClick={onClose}
-                className="ml-auto rounded-full p-2 text-slate-400 hover:bg-white/10 hover:text-white transition-colors"
+                className="ml-auto rounded-full p-2 text-[#5F6368] hover:bg-[#F8F9FA] hover:text-[#202124] transition-colors"
                 aria-label="Close modal"
               >
                 <X className="h-5 w-5" />

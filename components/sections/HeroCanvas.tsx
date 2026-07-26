@@ -191,14 +191,14 @@ export const HeroCanvas: React.FC = () => {
         // Three pulsing soft halos at different radii
         const pulse = Math.sin(time * 1.4) * 0.05;
         radialGlow(OX, OY, W * 0.32,
-          'rgba(66,133,244,0.14)',
-          'rgba(11,15,23,0)', 1);
+          'rgba(66,133,244,0.06)',
+          'rgba(255,255,255,0)', 1);
         radialGlow(OX, OY, W * 0.16,
-          'rgba(66,133,244,0.22)',
-          'rgba(11,15,23,0)', 1);
+          'rgba(66,133,244,0.09)',
+          'rgba(255,255,255,0)', 1);
         radialGlow(OX, OY, W * 0.07 * (1 + pulse),
-          'rgba(100,160,255,0.30)',
-          'rgba(11,15,23,0)', 1);
+          'rgba(100,160,255,0.12)',
+          'rgba(255,255,255,0)', 1);
       }
 
       /* ══ LAYER 1 – Ambient floating dust ══ */

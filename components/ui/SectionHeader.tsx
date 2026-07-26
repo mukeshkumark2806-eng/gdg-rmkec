@@ -35,7 +35,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
         </Badge>
       )}
 
-      <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
+      <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-[#202124] leading-tight">
         {title}{' '}
         {highlightText && (
           <span className="text-gradient-google bg-clip-text text-transparent">
@@ -45,7 +45,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
       </h2>
 
       {subtitle && (
-        <p className="mt-4 text-base md:text-lg text-slate-400 max-w-2xl font-normal leading-relaxed">
+        <p className="mt-4 text-base md:text-lg text-[#5F6368] max-w-2xl font-normal leading-relaxed">
           {subtitle}
         </p>
       )}

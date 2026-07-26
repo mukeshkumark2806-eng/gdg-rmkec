@@ -7,136 +7,127 @@ import { siteConfig } from '@/data/site';
 import { footerNav } from '@/data/navigation';
 import { GDGLogo } from '@/components/ui/GDGLogo';
 
+const socialLinks = [
+  { href: siteConfig.socials.github,    icon: <Github    className="h-4 w-4" />, label: 'GitHub' },
+  { href: siteConfig.socials.linkedin,  icon: <Linkedin  className="h-4 w-4" />, label: 'LinkedIn' },
+  { href: siteConfig.socials.instagram, icon: <Instagram className="h-4 w-4" />, label: 'Instagram' },
+  { href: siteConfig.socials.twitter,   icon: <Twitter   className="h-4 w-4" />, label: 'Twitter' },
+];
+
 export const Footer: React.FC = () => {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   return (
-    <footer className="relative border-t border-white/10 bg-slate-950 text-slate-300 pt-16 pb-12 overflow-hidden">
-      {/* Background Radial Glow */}
-      <div className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 h-[350px] w-[600px] rounded-full bg-blue-600/10 blur-[120px]" />
+    <footer className="relative bg-[#0D1117] text-[#E8EAED] overflow-hidden">
 
-      <div className="mx-auto max-w-[1400px] px-6 sm:px-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-white/10">
-          {/* Brand Info */}
-          <div className="lg:col-span-2 flex flex-col gap-4">
-            <Link href="/" className="hover:opacity-90 transition-opacity">
-              <GDGLogo size={38} />
+      {/* Wave divider: white CTA → dark footer */}
+      <div className="relative -mt-px">
+        <svg viewBox="0 0 1440 64" xmlns="http://www.w3.org/2000/svg" className="w-full block" preserveAspectRatio="none">
+          <path d="M0,16 C360,64 1080,0 1440,48 L1440,0 L0,0 Z" fill="#FFFFFF" />
+        </svg>
+      </div>
+
+      {/* Subtle dot grid */}
+      <div className="absolute inset-0 bg-dot-grid-dark pointer-events-none opacity-60" />
+
+      {/* Soft glow bottom center */}
+      <div
+        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[500px] h-[200px] rounded-full pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse, rgba(66,133,244,0.07) 0%, transparent 70%)' }}
+      />
+
+      <div className="relative z-10 mx-auto max-w-[1280px] px-6 sm:px-8 pt-16 pb-10">
+
+        {/* Main grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-10 border-b border-white/08">
+
+          {/* Brand column */}
+          <div className="lg:col-span-2 flex flex-col gap-5">
+            <Link href="/" className="hover:opacity-80 transition-opacity w-fit">
+              <GDGLogo size={34} theme="dark" />
             </Link>
 
-            <p className="text-sm text-slate-400 max-w-sm leading-relaxed">
-              Google Developer Group - RMK Engineering College. Connecting student developers, building innovative open-source applications, and cultivating industry-ready skills.
+            <p className="text-[14px] text-[#8B949E] leading-relaxed max-w-sm">
+              The official Google Developer Group at RMK Engineering College — connecting student developers, building innovative open-source software, and cultivating industry-ready skills.
             </p>
 
-            <div className="flex items-center gap-2 text-xs text-slate-400 mt-2">
-              <MapPin className="h-4 w-4 text-red-400 shrink-0" />
+            <div className="flex items-center gap-2 text-[12px] text-[#8B949E]">
+              <MapPin className="h-3.5 w-3.5 text-[#EA4335] shrink-0" />
               <span>{siteConfig.address}</span>
             </div>
 
-            {/* Social Channels */}
-            <div className="flex items-center gap-3 mt-3">
-              <a
-                href={siteConfig.socials.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-xl bg-slate-900 p-2.5 text-slate-400 hover:bg-blue-600/20 hover:text-blue-400 hover:border-blue-500/40 border border-white/10 transition-colors"
-                aria-label="GitHub"
-              >
-                <Github className="h-4 w-4" />
-              </a>
-              <a
-                href={siteConfig.socials.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-xl bg-slate-900 p-2.5 text-slate-400 hover:bg-blue-600/20 hover:text-blue-400 hover:border-blue-500/40 border border-white/10 transition-colors"
-                aria-label="LinkedIn"
-              >
-                <Linkedin className="h-4 w-4" />
-              </a>
-              <a
-                href={siteConfig.socials.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-xl bg-slate-900 p-2.5 text-slate-400 hover:bg-pink-600/20 hover:text-pink-400 hover:border-pink-500/40 border border-white/10 transition-colors"
-                aria-label="Instagram"
-              >
-                <Instagram className="h-4 w-4" />
-              </a>
-              <a
-                href={siteConfig.socials.twitter}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-xl bg-slate-900 p-2.5 text-slate-400 hover:bg-blue-400/20 hover:text-blue-400 hover:border-blue-400/40 border border-white/10 transition-colors"
-                aria-label="Twitter"
-              >
-                <Twitter className="h-4 w-4" />
-              </a>
+            {/* Socials */}
+            <div className="flex items-center gap-2 mt-1">
+              {socialLinks.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={s.label}
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-[#8B949E] hover:border-[#4285F4]/50 hover:text-[#6BA3F7] hover:bg-[#4285F4]/08 transition-all duration-200"
+                >
+                  {s.icon}
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Quick Links Column 1 */}
-          <div className="flex flex-col gap-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-white">Explore</h4>
-            <ul className="flex flex-col gap-2.5 text-xs text-slate-400">
-              {footerNav.explore.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="hover:text-blue-400 transition-colors">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Quick Links Column 2 */}
-          <div className="flex flex-col gap-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-white">Community</h4>
-            <ul className="flex flex-col gap-2.5 text-xs text-slate-400">
-              {footerNav.community.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="hover:text-blue-400 transition-colors">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Quick Links Column 3 */}
-          <div className="flex flex-col gap-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-white">Resources</h4>
-            <ul className="flex flex-col gap-2.5 text-xs text-slate-400">
-              {footerNav.resources.map((link) => (
-                <li key={link.href}>
-                  <a
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-blue-400 transition-colors"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {/* Nav columns */}
+          {[
+            { title: 'Explore', links: footerNav.explore },
+            { title: 'Community', links: footerNav.community },
+            { title: 'Resources', links: footerNav.resources },
+          ].map((col) => (
+            <div key={col.title} className="flex flex-col gap-4">
+              <h4
+                className="text-[12px] font-bold uppercase tracking-widest text-[#E8EAED]"
+                style={{ fontFamily: 'var(--font-heading)' }}
+              >
+                {col.title}
+              </h4>
+              <ul className="flex flex-col gap-2.5">
+                {col.links.map((link) => (
+                  <li key={link.href}>
+                    {'external' in link && link.external ? (
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[13px] text-[#8B949E] hover:text-[#E8EAED] transition-colors duration-200"
+                      >
+                        {link.label}
+                      </a>
+                    ) : (
+                      <Link
+                        href={link.href}
+                        className="text-[13px] text-[#8B949E] hover:text-[#E8EAED] transition-colors duration-200"
+                      >
+                        {link.label}
+                      </Link>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
-        {/* Bottom Bar */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        {/* Bottom bar */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[12px] text-[#8B949E]">
           <p>© {new Date().getFullYear()} Google Developer Group RMKEC. All rights reserved.</p>
           <div className="flex items-center gap-6">
-            <span>Designed for RMK Engineering College Developers</span>
+            <span className="hidden sm:block">Designed for RMK Engineering College</span>
             <button
               onClick={scrollToTop}
-              className="flex items-center gap-1.5 rounded-full bg-slate-900 border border-white/10 px-3 py-1.5 text-slate-300 hover:text-white hover:border-blue-500/40 transition-colors"
+              className="flex items-center gap-1.5 rounded-full border border-white/10 px-3 py-1.5 text-[#8B949E] hover:text-[#E8EAED] hover:border-[#4285F4]/40 transition-all duration-200"
             >
-              <span>Back to top</span>
-              <ArrowUp className="h-3.5 w-3.5 text-blue-400" />
+              Back to top
+              <ArrowUp className="h-3.5 w-3.5 text-[#4285F4]" />
             </button>
           </div>
         </div>
+
       </div>
     </footer>
   );

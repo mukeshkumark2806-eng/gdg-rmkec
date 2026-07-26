@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter, Outfit } from 'next/font/google';
+import { Space_Grotesk, Inter } from 'next/font/google';
 import './globals.css';
 import { SmoothScroll } from '@/components/layout/SmoothScroll';
 import { CustomCursor } from '@/components/ui/CustomCursor';
@@ -7,9 +7,16 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { siteConfig } from '@/data/site';
 
-const outfit = Outfit({
+const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
-  variable: '--font-sans',
+  variable: '--font-heading',
+  display: 'swap',
+  weight: ['400', '500', '600', '700'],
+});
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-body',
   display: 'swap',
 });
 
@@ -50,8 +57,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${outfit.variable} dark scroll-smooth`}>
-      <body className="bg-[#0B0F17] text-gray-100 flex min-h-screen flex-col selection:bg-blue-500/30 selection:text-blue-200">
+    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable} scroll-smooth`}>
+      <body className="bg-[#F5F7FA] text-[#1A1A2E] flex min-h-screen flex-col selection:bg-blue-100 selection:text-blue-900">
         <SmoothScroll>
           <CustomCursor />
           <Navbar />

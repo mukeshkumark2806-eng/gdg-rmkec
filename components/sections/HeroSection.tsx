@@ -3,87 +3,366 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, Calendar, ArrowDown } from 'lucide-react';
-import { HeroCanvas } from '@/components/sections/HeroCanvas';
+import { ArrowRight, ArrowDown, Sparkles, Users, Code2, Cloud, Globe, Zap } from 'lucide-react';
+
+/* ── Fade-in-up helper ─────────────────────────────── */
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 28 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.6, delay, ease: [0.215, 0.61, 0.355, 1] as [number, number, number, number] },
+});
+
+/* ── Float helper ──────────────────────────────────── */
+const floatAnim = (yRange: number[], xRange: number[], dur: number, del = 0) => ({
+  animate: { y: yRange, x: xRange },
+  transition: { duration: dur, delay: del, repeat: Infinity, ease: 'easeInOut' as const, repeatType: 'loop' as const },
+});
+
+/* ── Floating shape ────────────────────────────────── */
+interface ShapeProps {
+  style?: React.CSSProperties;
+  className?: string;
+  yRange?: number[];
+  xRange?: number[];
+  dur?: number;
+  del?: number;
+  children?: React.ReactNode;
+}
+const FloatShape: React.FC<ShapeProps> = ({ style, className = '', yRange = [0, -10, 0], xRange = [0, 5, 0], dur = 5, del = 0, children }) => (
+  <motion.div {...floatAnim(yRange, xRange, dur, del)} className={`absolute pointer-events-none ${className}`} style={style}>{children}</motion.div>
+);
 
 export const HeroSection: React.FC = () => {
   return (
-    <section className="relative min-h-screen h-screen flex flex-col justify-between pt-28 pb-4 overflow-hidden bg-[#0B0F17]">
-      {/* Background Interactive Real-Time Neural Network Visualization Canvas */}
-      <HeroCanvas />
+    <section className="relative min-h-screen bg-[#F5F7FA] overflow-hidden flex flex-col">
 
-      {/* Main Content Area */}
-      <div className="relative z-20 mx-auto max-w-[1400px] w-full px-6 sm:px-8 my-auto flex flex-col justify-center">
-        <div className="max-w-2xl text-left">
-          {/* Tag Pill Matching Mockup */}
+      {/* ════════════════════════════════
+          LAYER 1 — LARGE BLOBS
+      ════════════════════════════════ */}
+      {/* Top-right — Blue+Green */}
+      <div className="blob" style={{ width: 700, height: 600, background: 'radial-gradient(ellipse, #4285F4 0%, #34A853 55%, transparent 100%)', top: -200, right: -150, opacity: 0.13 }} />
+      {/* Bottom-left — Yellow+Red */}
+      <div className="blob" style={{ width: 500, height: 400, background: 'radial-gradient(ellipse, #FBBC05 0%, #EA4335 55%, transparent 100%)', bottom: 40, left: -120, opacity: 0.09, animationDelay: '4s' }} />
+      {/* Center subtle — Blue only */}
+      <div className="blob" style={{ width: 600, height: 400, background: 'radial-gradient(ellipse, #4285F4 0%, transparent 70%)', top: '30%', left: '25%', opacity: 0.05, animationDelay: '8s' }} />
+
+      {/* ════════════════════════════════
+          LAYER 2 — DOT GRID TEXTURE
+      ════════════════════════════════ */}
+      <div className="absolute inset-0 bg-dot-grid pointer-events-none" />
+
+      {/* ════════════════════════════════
+          LAYER 3 — GEOMETRIC SHAPES
+      ════════════════════════════════ */}
+
+      {/* Dashed ring (large, top-right) */}
+      <FloatShape yRange={[0, -18, 0]} xRange={[0, 10, 0]} dur={7} del={0}
+        style={{ top: '5%', right: '12%', width: 260, height: 260 }}
+        className="rounded-full border-2 border-dashed border-[#4285F4]/20"
+      />
+
+      {/* Solid ring (smaller, top-right inner) */}
+      <FloatShape yRange={[0, 12, 0]} xRange={[0, -8, 0]} dur={5.5} del={1}
+        style={{ top: '12%', right: '18%', width: 120, height: 120 }}
+        className="rounded-full border border-[#34A853]/30"
+      />
+
+      {/* Blue filled circle — upper left */}
+      <FloatShape yRange={[0, -14, 0]} xRange={[0, 6, 0]} dur={6} del={0.5}
+        style={{ top: '8%', left: '4%', width: 18, height: 18, background: '#4285F4', borderRadius: '50%', opacity: 0.35 }}
+      />
+      {/* Green filled circle — left mid */}
+      <FloatShape yRange={[0, 10, 0]} xRange={[0, -5, 0]} dur={4.5} del={2}
+        style={{ top: '38%', left: '2%', width: 12, height: 12, background: '#34A853', borderRadius: '50%', opacity: 0.45 }}
+      />
+      {/* Red square — left lower */}
+      <FloatShape yRange={[0, -8, 0]} xRange={[0, 4, 0]} dur={5} del={3}
+        style={{ top: '60%', left: '6%', width: 10, height: 10, background: '#EA4335', borderRadius: '3px', opacity: 0.35, transform: 'rotate(45deg)' }}
+      />
+      {/* Yellow dot — bottom left */}
+      <FloatShape yRange={[0, 8, 0]} xRange={[0, -4, 0]} dur={6.5} del={1.5}
+        style={{ bottom: '15%', left: '10%', width: 14, height: 14, background: '#FBBC05', borderRadius: '50%', opacity: 0.4 }}
+      />
+
+      {/* Large blue square (outline) — right mid */}
+      <FloatShape yRange={[0, -20, 0]} xRange={[0, 12, 0]} dur={8} del={0.3}
+        style={{ top: '35%', right: '4%', width: 80, height: 80, border: '2px solid rgba(66,133,244,0.18)', borderRadius: '12px', transform: 'rotate(15deg)' }}
+      />
+      {/* Small green diamond — right upper */}
+      <FloatShape yRange={[0, 14, 0]} xRange={[0, -8, 0]} dur={5} del={2}
+        style={{ top: '20%', right: '7%', width: 20, height: 20, background: '#34A853', borderRadius: '4px', opacity: 0.28, transform: 'rotate(45deg)' }}
+      />
+      {/* Small yellow triangle/diamond — bottom right */}
+      <FloatShape yRange={[0, -10, 0]} xRange={[0, 6, 0]} dur={4.8} del={1}
+        style={{ bottom: '18%', right: '10%', width: 16, height: 16, background: '#FBBC05', borderRadius: '3px', opacity: 0.32, transform: 'rotate(30deg)' }}
+      />
+
+      {/* Horizontal accent line — left side */}
+      <FloatShape yRange={[0, -5, 0]} xRange={[0, 3, 0]} dur={9} del={0}
+        style={{ top: '52%', left: 0, width: 60, height: 2, background: 'linear-gradient(90deg, transparent, #4285F4)', opacity: 0.3 }}
+      />
+      {/* Vertical accent line — right side */}
+      <FloatShape yRange={[0, 8, 0]} xRange={[0, -3, 0]} dur={7} del={2}
+        style={{ top: '25%', right: 0, width: 2, height: 80, background: 'linear-gradient(180deg, transparent, #34A853)', opacity: 0.3 }}
+      />
+
+      {/* Cross/plus icon — scattered */}
+      <FloatShape yRange={[0, -12, 0]} xRange={[0, 5, 0]} dur={6} del={3.5}
+        style={{ top: '72%', left: '18%', width: 20, height: 20, opacity: 0.22 }}
+        className="text-[#4285F4]"
+      >
+        <svg viewBox="0 0 20 20" fill="none">
+          <path d="M10 2v16M2 10h16" stroke="#4285F4" strokeWidth="2" strokeLinecap="round" />
+        </svg>
+      </FloatShape>
+      <FloatShape yRange={[0, 10, 0]} xRange={[0, -4, 0]} dur={5.5} del={1.8}
+        style={{ top: '15%', left: '40%', width: 16, height: 16, opacity: 0.18 }}
+      >
+        <svg viewBox="0 0 16 16" fill="none">
+          <path d="M8 1v14M1 8h14" stroke="#EA4335" strokeWidth="2" strokeLinecap="round" />
+        </svg>
+      </FloatShape>
+
+      {/* Dotted cluster — bottom right area */}
+      {[0,1,2,3,4,5].map(i => (
+        <FloatShape key={i} yRange={[0, (i%2===0?-8:8), 0]} xRange={[0, (i%3===0?5:-5), 0]} dur={4+i*0.4} del={i*0.3}
+          style={{
+            bottom: `${12 + (i%3)*5}%`,
+            right: `${14 + (i%4)*3}%`,
+            width: 5, height: 5,
+            borderRadius: '50%',
+            background: ['#4285F4','#EA4335','#FBBC05','#34A853','#4285F4','#34A853'][i],
+            opacity: 0.35,
+          }}
+        />
+      ))}
+
+      {/* Dotted cluster — top left area */}
+      {[0,1,2,3].map(i => (
+        <FloatShape key={`tl${i}`} yRange={[0, (i%2===0?-6:6), 0]} xRange={[0, (i%2===0?4:-4), 0]} dur={3.5+i*0.5} del={i*0.4}
+          style={{
+            top: `${6 + (i%3)*4}%`,
+            left: `${8 + (i%3)*4}%`,
+            width: 4, height: 4,
+            borderRadius: '50%',
+            background: ['#34A853','#FBBC05','#4285F4','#EA4335'][i],
+            opacity: 0.4,
+          }}
+        />
+      ))}
+
+      {/* ════════════════════════════════
+          LAYER 4 — CORNER BRACKET DECORATIONS
+      ════════════════════════════════ */}
+      {/* Top-left corner bracket */}
+      <div className="absolute top-6 left-6 pointer-events-none opacity-20">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+          <path d="M20 4L4 20" stroke="#4285F4" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M4 4v16M4 4h16" stroke="#4285F4" strokeWidth="1.5" strokeLinecap="round" />
+        </svg>
+      </div>
+      {/* Bottom-right corner bracket */}
+      <div className="absolute bottom-20 right-6 pointer-events-none opacity-20">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+          <path d="M36 36v-16M36 36h-16" stroke="#34A853" strokeWidth="1.5" strokeLinecap="round" />
+        </svg>
+      </div>
+
+      {/* ════════════════════════════════
+          MAIN CONTENT
+      ════════════════════════════════ */}
+      <div className="relative z-10 flex-1 mx-auto max-w-[1280px] w-full px-6 sm:px-8 flex items-center pt-28 pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 w-full items-center">
+
+          {/* LEFT: Text content (7 cols) */}
+          <div className="lg:col-span-7 space-y-8">
+
+            {/* Eyebrow chip */}
+            <motion.div {...fadeUp(0.1)}>
+              <span className="chip chip-blue">
+                <Sparkles className="h-3.5 w-3.5" />
+                Official Google Developer Group · RMKEC
+              </span>
+            </motion.div>
+
+            {/* Headline */}
+            <motion.div {...fadeUp(0.2)} className="space-y-2">
+              <h1 className="heading-display text-[#1A1A2E]" style={{ fontSize: 'clamp(48px, 6vw, 80px)' }}>
+                Build. Learn.
+                <br />
+                Grow.{' '}
+                <span className="text-gradient-google">Together.</span>
+              </h1>
+            </motion.div>
+
+            {/* Body */}
+            <motion.p {...fadeUp(0.32)} className="text-[#5F6B7A] max-w-lg" style={{ fontSize: '18px', lineHeight: '1.75' }}>
+              A vibrant community of student developers at RMK Engineering College — building real products, mastering Google technologies, and growing careers together.
+            </motion.p>
+
+            {/* Domain chips */}
+            <motion.div {...fadeUp(0.42)} className="flex flex-wrap gap-2">
+              <span className="chip chip-blue"><Code2 className="h-3.5 w-3.5" /> Web Dev</span>
+              <span className="chip chip-red"><Sparkles className="h-3.5 w-3.5" /> AI &amp; ML</span>
+              <span className="chip chip-green"><Cloud className="h-3.5 w-3.5" /> Cloud</span>
+              <span className="chip chip-yellow"><Users className="h-3.5 w-3.5" /> Community</span>
+              <span className="chip chip-neutral"><Globe className="h-3.5 w-3.5" /> Android</span>
+              <span className="chip chip-blue"><Zap className="h-3.5 w-3.5" /> DevFest</span>
+            </motion.div>
+
+            {/* CTAs */}
+            <motion.div {...fadeUp(0.52)} className="flex flex-wrap gap-4 items-center">
+              <Link href="/join" className="btn-primary">
+                Join the Community
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link href="/events" className="btn-ghost">
+                Explore Events
+              </Link>
+            </motion.div>
+
+            {/* Social proof */}
+            <motion.div {...fadeUp(0.62)} className="flex items-center gap-8 pt-2">
+              {[
+                { value: '650+', label: 'Members', color: '#4285F4' },
+                { value: '40+', label: 'Events', color: '#EA4335' },
+                { value: '25+', label: 'Projects', color: '#34A853' },
+              ].map((s) => (
+                <div key={s.label} className="text-center relative">
+                  <div className="font-bold text-[#1A1A2E]" style={{ fontFamily: 'var(--font-heading)', fontSize: '26px', lineHeight: 1, color: s.color }}>
+                    {s.value}
+                  </div>
+                  <div className="text-xs text-[#5F6B7A] mt-1 font-medium">{s.label}</div>
+                </div>
+              ))}
+              {/* Divider dots */}
+              <div className="flex gap-1 items-center pb-4">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#4285F4] opacity-60" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#EA4335] opacity-60" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#34A853] opacity-60" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#FBBC05] opacity-60" />
+              </div>
+            </motion.div>
+          </div>
+
+          {/* RIGHT: GDG Bracket Visual (5 cols) */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="inline-flex items-center gap-2 rounded-full bg-slate-950/80 px-4 py-1.5 border border-white/15 backdrop-blur-md mb-7 shadow-lg"
+            initial={{ opacity: 0, scale: 0.88 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.215, 0.61, 0.355, 1] }}
+            className="lg:col-span-5 flex justify-center items-center"
           >
-            <span className="text-xs sm:text-sm font-mono text-slate-300 tracking-wide">
-              &lt; Developers <span className="text-slate-500">|</span> Innovators <span className="text-slate-500">|</span> Problem Solvers /&gt;
-            </span>
+            <div className="relative w-[340px] h-[340px] sm:w-[440px] sm:h-[440px]">
+
+              {/* Background rings */}
+              <div className="absolute inset-0 rounded-full border border-dashed border-[#4285F4]/15" />
+              <div className="absolute inset-[30px] rounded-full border border-[#34A853]/10" />
+              <div className="absolute inset-[60px] rounded-full border border-dashed border-[#EA4335]/10" />
+
+              {/* Glow */}
+              <div className="absolute inset-0 rounded-full" style={{ background: 'radial-gradient(circle at 50% 50%, rgba(66,133,244,0.10) 0%, transparent 70%)' }} />
+
+              {/* Blue Left Bracket */}
+              <motion.div animate={{ y: [0, -14, 0], x: [0, -6, 0] }} transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut' as const }}
+                className="absolute left-[6%] top-[12%] w-[28%] h-[76%]">
+                <svg viewBox="0 0 22 36" fill="none" className="w-full h-full drop-shadow-[0_4px_20px_rgba(66,133,244,0.5)]">
+                  <path d="M22 6L4 24L22 42L29 35L17 24L29 13L22 6Z" fill="#4285F4" />
+                </svg>
+              </motion.div>
+
+              {/* Red Top Bar */}
+              <motion.div animate={{ y: [-8, 4, -8], x: [0, 5, 0] }} transition={{ duration: 3.8, delay: 0.6, repeat: Infinity, ease: 'easeInOut' as const }}
+                className="absolute left-[32%] top-[11%] w-[42%] h-[22%]">
+                <svg viewBox="0 0 36 11" fill="none" className="w-full h-full drop-shadow-[0_4px_16px_rgba(234,67,53,0.5)]">
+                  <path d="M33 6L57 6L45 17L21 17L33 6Z" fill="#EA4335" />
+                </svg>
+              </motion.div>
+
+              {/* Yellow Right Bracket */}
+              <motion.div animate={{ y: [0, 14, 0], x: [0, 7, 0] }} transition={{ duration: 4.5, delay: 0.3, repeat: Infinity, ease: 'easeInOut' as const }}
+                className="absolute right-[5%] top-[12%] w-[30%] h-[76%]">
+                <svg viewBox="0 0 25 36" fill="none" className="w-full h-full drop-shadow-[0_4px_20px_rgba(251,188,5,0.5)]">
+                  <path d="M45 42L63 24L45 6L52 6L70 24L52 42L45 42Z" fill="#FBBC05" />
+                </svg>
+              </motion.div>
+
+              {/* Green Bottom Bar */}
+              <motion.div animate={{ y: [6, -4, 6], x: [-4, 4, -4] }} transition={{ duration: 4.0, delay: 1.0, repeat: Infinity, ease: 'easeInOut' as const }}
+                className="absolute left-[24%] bottom-[11%] w-[42%] h-[22%]">
+                <svg viewBox="0 0 36 11" fill="none" className="w-full h-full drop-shadow-[0_4px_16px_rgba(52,168,83,0.5)]">
+                  <path d="M25 42L49 42L37 31L13 31L25 42Z" fill="#34A853" />
+                </svg>
+              </motion.div>
+
+              {/* Orbiting dot — blue */}
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 12, repeat: Infinity, ease: 'linear' as const }}
+                className="absolute inset-0"
+              >
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-[#4285F4] shadow-[0_0_10px_#4285F4]" />
+              </motion.div>
+
+              {/* Orbiting dot — green */}
+              <motion.div
+                animate={{ rotate: -360 }}
+                transition={{ duration: 18, repeat: Infinity, ease: 'linear' as const }}
+                className="absolute inset-[20px]"
+              >
+                <div className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-[#34A853] shadow-[0_0_8px_#34A853]" />
+              </motion.div>
+
+              {/* Orbiting dot — yellow */}
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 22, delay: 3, repeat: Infinity, ease: 'linear' as const }}
+                className="absolute inset-[10px]"
+              >
+                <div className="absolute top-1/2 right-0 w-2 h-2 rounded-full bg-[#FBBC05] shadow-[0_0_8px_#FBBC05]" />
+              </motion.div>
+
+              {/* Pulsing dots */}
+              <motion.div animate={{ scale: [1, 1.4, 1], opacity: [0.5, 1, 0.5] }} transition={{ duration: 2.5, repeat: Infinity }}
+                className="absolute w-3 h-3 rounded-full bg-[#4285F4] top-[8%] right-[28%]" />
+              <motion.div animate={{ scale: [1, 1.3, 1], opacity: [0.5, 1, 0.5] }} transition={{ duration: 3, delay: 0.8, repeat: Infinity }}
+                className="absolute w-2 h-2 rounded-full bg-[#34A853] bottom-[8%] left-[30%]" />
+              <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.4, 0.9, 0.4] }} transition={{ duration: 2.8, delay: 1.4, repeat: Infinity }}
+                className="absolute w-3.5 h-3.5 rounded-full bg-[#FBBC05] top-[40%] left-[2%]" />
+              <motion.div animate={{ scale: [1, 1.3, 1], opacity: [0.4, 0.8, 0.4] }} transition={{ duration: 3.2, delay: 2, repeat: Infinity }}
+                className="absolute w-2.5 h-2.5 rounded-full bg-[#EA4335] bottom-[30%] right-[2%]" />
+
+              {/* Small floating squares */}
+              <FloatShape yRange={[0, -12, 0]} xRange={[0, 6, 0]} dur={5} del={0.5}
+                style={{ top: '6%', left: '15%', width: 12, height: 12, background: '#4285F4', borderRadius: '3px', opacity: 0.4, transform: 'rotate(20deg)' }} />
+              <FloatShape yRange={[0, 10, 0]} xRange={[0, -5, 0]} dur={4.5} del={1.5}
+                style={{ bottom: '6%', right: '20%', width: 10, height: 10, background: '#EA4335', borderRadius: '3px', opacity: 0.38, transform: 'rotate(45deg)' }} />
+            </div>
           </motion.div>
 
-          {/* Main Headline Matching Mockup */}
-          <motion.h1
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.25, ease: [0.215, 0.61, 0.355, 1] as [number, number, number, number] }}
-            className="text-5xl sm:text-7xl lg:text-[84px] font-black tracking-tight text-white leading-[1.06] mb-6"
-          >
-            Build. Learn. <br />
-            Grow. <span className="text-gradient-google">Together.</span>
-          </motion.h1>
-
-          {/* Subtitle Paragraph Matching Mockup */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.4 }}
-            className="text-base sm:text-lg text-slate-300 leading-relaxed font-normal mb-10 max-w-xl"
-          >
-            Google Developer Group RMKEC is a community of passionate developers building the future through learning, collaboration, and impactful solutions.
-          </motion.p>
-
-          {/* Action Buttons Matching Mockup */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.55 }}
-            className="flex flex-wrap items-center gap-4"
-          >
-            <Link href="/join">
-              <button className="group relative inline-flex items-center gap-3 rounded-2xl bg-gradient-to-r from-[#4285F4] via-[#EA4335] via-[#FBBC05] to-[#34A853] px-8 py-4 text-sm font-bold text-white shadow-[0_0_35px_rgba(66,133,244,0.45)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_45px_rgba(66,133,244,0.65)]">
-                <span>Join Community</span>
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </button>
-            </Link>
-
-            <Link href="/events">
-              <button className="group relative inline-flex items-center gap-3 rounded-2xl border border-white/20 bg-slate-900/60 px-8 py-4 text-sm font-semibold text-white backdrop-blur-md transition-all duration-300 hover:border-white/40 hover:bg-slate-800/80">
-                <span>Explore Events</span>
-                <Calendar className="h-4 w-4 text-slate-300" />
-              </button>
-            </Link>
-          </motion.div>
         </div>
       </div>
 
-      {/* Center Bottom Scroll Indicator Matching Mockup */}
+      {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.8, duration: 1 }}
-        className="relative z-20 mx-auto mb-2 flex flex-col items-center gap-2 text-slate-400 text-xs font-medium"
+        transition={{ delay: 1.0, duration: 0.8 }}
+        className="relative z-10 flex flex-col items-center gap-2 pb-10 text-[#5F6B7A]"
       >
-        <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-slate-900/60 backdrop-blur-md shadow-lg">
-          <ArrowDown className="h-4 w-4 text-white animate-bounce" />
-        </div>
-        <span className="tracking-wide text-slate-400">Scroll to explore</span>
+        <motion.div animate={{ y: [0, 6, 0] }} transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' as const }}
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-[#E8ECF0] bg-white shadow-sm">
+          <ArrowDown className="h-4 w-4 text-[#4285F4]" />
+        </motion.div>
+        <span className="text-xs font-medium tracking-wide">Scroll to explore</span>
       </motion.div>
+
+      {/* Wave divider: light → dark */}
+      <div className="relative -mb-px">
+        <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" className="w-full block" preserveAspectRatio="none">
+          <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0D1117" />
+        </svg>
+      </div>
+
     </section>
   );
 };
