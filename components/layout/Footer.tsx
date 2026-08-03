@@ -43,7 +43,11 @@ export const Footer: React.FC = () => {
 
           {/* Brand column */}
           <div className="lg:col-span-2 flex flex-col gap-5">
-            <Link href="/" className="hover:opacity-80 transition-opacity w-fit">
+            <Link
+              href="/"
+              onClick={() => window.dispatchEvent(new CustomEvent('trigger-google-loader'))}
+              className="hover:opacity-80 transition-opacity w-fit"
+            >
               <GDGLogo size={48} theme="dark" />
             </Link>
 

@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, RotateCcw, Moon, Sun, FastForward, CheckCircle2, Sparkles } from 'lucide-react';
+import { Play, RotateCcw, Moon, Sun, FastForward, CheckCircle2 } from 'lucide-react';
 
 interface GoogleLoaderProps {
   /** Initial visibility */
@@ -24,6 +25,8 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
   autoClose = true,
   showControls = true,
 }) => {
+  const pathname = usePathname();
+  const prevPathname = useRef(pathname);
   const [active, setActive] = useState(isOpen);
   const [stage, setStage] = useState<LoaderStage>('dots');
   const [theme, setTheme] = useState<LoaderTheme>('dark');
@@ -35,48 +38,48 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
     setStage('dots');
     setProgress(0);
 
-    const baseDuration = 1000 / speed;
+    const baseDuration = 800 / speed;
 
-    // Stage 1: 4 Dots Wave & Orbit (0ms to 2400ms)
+    // Stage 1: 4 Dots Wave & Orbit (0ms to 1200ms)
     const p1 = setInterval(() => {
       setProgress((prev) => {
-        if (prev >= 40) {
+        if (prev >= 45) {
           clearInterval(p1);
-          return 40;
+          return 45;
         }
-        return prev + 2;
+        return prev + 3;
       });
-    }, baseDuration / 30);
+    }, baseDuration / 25);
 
-    // Stage 2: Morph into Circle (2200ms)
+    // Stage 2: Morph into Circle (1200ms)
     const tCircle = setTimeout(() => {
       setStage('circle');
-    }, 2200 / speed);
+    }, 1200 / speed);
 
     const p2 = setInterval(() => {
       setProgress((prev) => {
-        if (prev >= 80) {
+        if (prev >= 85) {
           clearInterval(p2);
-          return 80;
+          return 85;
         }
-        return Math.min(80, prev + 2);
+        return Math.min(85, prev + 2);
       });
-    }, baseDuration / 30);
+    }, baseDuration / 25);
 
-    // Stage 3: Reveal Google Logo (4600ms)
+    // Stage 3: Reveal Google Logo (2400ms)
     const tLogo = setTimeout(() => {
       setStage('logo');
       setProgress(100);
-    }, 4600 / speed);
+    }, 2400 / speed);
 
-    // Stage 4: Complete / Auto close (7200ms)
+    // Stage 4: Complete / Auto close (3600ms)
     const tComplete = setTimeout(() => {
       setStage('complete');
       if (onComplete) onComplete();
       if (autoClose) {
-        setTimeout(() => setActive(false), 500 / speed);
+        setTimeout(() => setActive(false), 400 / speed);
       }
-    }, 7200 / speed);
+    }, 3600 / speed);
 
     return () => {
       clearInterval(p1);
@@ -86,6 +89,17 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
       clearTimeout(tComplete);
     };
   }, [speed, autoClose, onComplete]);
+
+  // Trigger loader when navigating to home page
+  useEffect(() => {
+    if (prevPathname.current !== pathname) {
+      if (pathname === '/') {
+        setActive(true);
+        runAnimationSequence();
+      }
+      prevPathname.current = pathname;
+    }
+  }, [pathname, runAnimationSequence]);
 
   // Sync external isOpen prop
   useEffect(() => {
@@ -157,28 +171,6 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
               />
               <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:24px_24px]" />
             </div>
-
-            {/* Stage Indicator Pill */}
-            <motion.div
-              initial={{ y: -20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              className={`absolute top-8 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase backdrop-blur-md border ${
-                theme === 'dark'
-                  ? 'bg-white/06 border-white/10 text-white/70'
-                  : 'bg-black/05 border-black/10 text-black/70'
-              }`}
-            >
-              <span className="flex items-center gap-2">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#4285F4] opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#4285F4]" />
-                </span>
-                Stage: {stage === 'dots' && '1. 4 Dots Bounce & Orbit'}
-                {stage === 'circle' && '2. Material Circle Spinner'}
-                {stage === 'logo' && '3. Google Logo Reveal'}
-                {stage === 'complete' && '4. Transition Complete'}
-              </span>
-            </motion.div>
 
             {/* Central Animation Sandbox Container */}
             <div className="relative z-10 flex flex-col items-center justify-center min-h-[320px] w-full max-w-md px-6">
@@ -253,15 +245,6 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
                         }}
                       />
                     </div>
-
-                    {/* Stage 1 Subtext */}
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 0.8 }}
-                      className="text-center font-medium text-sm tracking-wider uppercase opacity-70"
-                    >
-                      Initializing Google Engine...
-                    </motion.div>
                   </motion.div>
                 )}
 
@@ -350,14 +333,6 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
                         className="absolute w-4 h-4 rounded-full bg-[#4285F4] shadow-[0_0_12px_#4285F4]"
                       />
                     </div>
-
-                    <motion.div
-                      initial={{ opacity: 0, y: 5 }}
-                      animate={{ opacity: 0.85, y: 0 }}
-                      className="text-center font-medium text-sm tracking-wider uppercase"
-                    >
-                      Building Circle Morph...
-                    </motion.div>
                   </motion.div>
                 )}
 
@@ -472,16 +447,6 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
                         </div>
                       </div>
                     </div>
-
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.7 }}
-                      className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-[#4285F4] bg-[#4285F4]/10 px-4 py-1.5 rounded-full border border-[#4285F4]/20"
-                    >
-                      <Sparkles className="w-3.5 h-3.5" />
-                      Google Developer Groups RMKEC
-                    </motion.div>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -496,8 +461,8 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
                   transition={{ duration: 0.3, ease: 'easeOut' }}
                 />
               </div>
-              <div className="text-[11px] font-mono opacity-60">
-                {progress}% Loaded
+              <div className="text-xs font-mono font-medium opacity-75">
+                {progress}%
               </div>
             </div>
           </motion.div>

@@ -47,7 +47,11 @@ export const Navbar: React.FC = () => {
           <div className="flex items-center justify-between h-16 sm:h-[72px]">
 
             {/* Logo */}
-            <Link href="/" className="hover:opacity-85 transition-opacity duration-200">
+            <Link
+              href="/"
+              onClick={() => window.dispatchEvent(new CustomEvent('trigger-google-loader'))}
+              className="hover:opacity-85 transition-opacity duration-200"
+            >
               <GDGLogo size={48} />
             </Link>
 
