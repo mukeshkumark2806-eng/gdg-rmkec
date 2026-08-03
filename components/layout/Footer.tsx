@@ -44,7 +44,7 @@ export const Footer: React.FC = () => {
           {/* Brand column */}
           <div className="lg:col-span-2 flex flex-col gap-5">
             <Link href="/" className="hover:opacity-80 transition-opacity w-fit">
-              <GDGLogo size={34} theme="dark" />
+              <GDGLogo size={48} theme="dark" />
             </Link>
 
             <p className="text-[14px] text-[#8B949E] leading-relaxed max-w-sm">

@@ -246,7 +246,7 @@ export const HeroSection: React.FC = () => {
             </motion.div>
           </div>
 
-          {/* RIGHT: GDG Bracket Visual (5 cols) */}
+          {/* RIGHT: GDG Visual (5 cols) */}
           <motion.div
             initial={{ opacity: 0, scale: 0.88 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -263,35 +263,27 @@ export const HeroSection: React.FC = () => {
               {/* Glow */}
               <div className="absolute inset-0 rounded-full" style={{ background: 'radial-gradient(circle at 50% 50%, rgba(66,133,244,0.10) 0%, transparent 70%)' }} />
 
-              {/* Blue Left Bracket */}
-              <motion.div animate={{ y: [0, -14, 0], x: [0, -6, 0] }} transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut' as const }}
-                className="absolute left-[6%] top-[12%] w-[28%] h-[76%]">
-                <svg viewBox="0 0 22 36" fill="none" className="w-full h-full drop-shadow-[0_4px_20px_rgba(66,133,244,0.5)]">
-                  <path d="M22 6L4 24L22 42L29 35L17 24L29 13L22 6Z" fill="#4285F4" />
+              {/* Red + Blue Combined Floating Segment */}
+              <motion.div
+                animate={{ y: [0, -12, 0], x: [0, -5, 0] }}
+                transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut' as const }}
+                className="absolute inset-0 w-full h-full p-8 sm:p-12"
+              >
+                <svg viewBox="2.586 66.379 250.828 124.639" fill="none" className="w-full h-full filter drop-shadow-[0_4px_20px_rgba(66,133,244,0.4)]">
+                  <path d="m102.907 106.981-66.897 40.034c-9.6 5.83-22.009 2.773-27.716-6.83-5.708-9.601-2.552-22.112 7.048-27.942l66.897-40.034c9.6-5.83 22.009-2.773 27.716 6.83s2.552 22.112-7.048 27.942z" fill="#EA4335" />
+                  <path d="m82.153 185.617-66.182-38.053c-9.742-5.4-13.214-17.764-7.754-27.614s17.784-13.457 27.527-8.057l66.182 38.054c9.743 5.4 13.214 17.763 7.754 27.613s-17.784 13.458-27.527 8.057z" fill="#4285F4" />
                 </svg>
               </motion.div>
 
-              {/* Red Top Bar */}
-              <motion.div animate={{ y: [-8, 4, -8], x: [0, 5, 0] }} transition={{ duration: 3.8, delay: 0.6, repeat: Infinity, ease: 'easeInOut' as const }}
-                className="absolute left-[32%] top-[11%] w-[42%] h-[22%]">
-                <svg viewBox="0 0 36 11" fill="none" className="w-full h-full drop-shadow-[0_4px_16px_rgba(234,67,53,0.5)]">
-                  <path d="M33 6L57 6L45 17L21 17L33 6Z" fill="#EA4335" />
-                </svg>
-              </motion.div>
-
-              {/* Yellow Right Bracket */}
-              <motion.div animate={{ y: [0, 14, 0], x: [0, 7, 0] }} transition={{ duration: 4.5, delay: 0.3, repeat: Infinity, ease: 'easeInOut' as const }}
-                className="absolute right-[5%] top-[12%] w-[30%] h-[76%]">
-                <svg viewBox="0 0 25 36" fill="none" className="w-full h-full drop-shadow-[0_4px_20px_rgba(251,188,5,0.5)]">
-                  <path d="M45 42L63 24L45 6L52 6L70 24L52 42L45 42Z" fill="#FBBC05" />
-                </svg>
-              </motion.div>
-
-              {/* Green Bottom Bar */}
-              <motion.div animate={{ y: [6, -4, 6], x: [-4, 4, -4] }} transition={{ duration: 4.0, delay: 1.0, repeat: Infinity, ease: 'easeInOut' as const }}
-                className="absolute left-[24%] bottom-[11%] w-[42%] h-[22%]">
-                <svg viewBox="0 0 36 11" fill="none" className="w-full h-full drop-shadow-[0_4px_16px_rgba(52,168,83,0.5)]">
-                  <path d="M25 42L49 42L37 31L13 31L25 42Z" fill="#34A853" />
+              {/* Green + Yellow Combined Floating Segment */}
+              <motion.div
+                animate={{ y: [0, 12, 0], x: [0, 5, 0] }}
+                transition={{ duration: 4.5, delay: 0.4, repeat: Infinity, ease: 'easeInOut' as const }}
+                className="absolute inset-0 w-full h-full p-8 sm:p-12"
+              >
+                <svg viewBox="2.586 66.379 250.828 124.639" fill="none" className="w-full h-full filter drop-shadow-[0_4px_20px_rgba(52,168,83,0.4)]">
+                  <path d="m173.847 185.617 66.182-38.053c9.742-5.4 13.214-17.764 7.754-27.614s-17.784-13.457-27.527-8.057l-66.182 38.054c-9.743 5.4-13.214 17.763-7.754 27.613s17.784 13.458 27.527 8.057z" fill="#FBBC04" />
+                  <path d="m153.093 106.981 66.897 40.034c9.6 5.83 22.009 2.773 27.716-6.83 5.708-9.601-2.552-22.112-7.048-27.942l-66.897-40.034c-9.6-5.83-22.009-2.773-27.716 6.83s-2.552 22.112 7.048 27.942z" fill="#0F9D58" />
                 </svg>
               </motion.div>
 

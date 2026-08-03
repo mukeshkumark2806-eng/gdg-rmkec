@@ -48,7 +48,7 @@ export const Navbar: React.FC = () => {
 
             {/* Logo */}
             <Link href="/" className="hover:opacity-85 transition-opacity duration-200">
-              <GDGLogo size={34} />
+              <GDGLogo size={48} />
             </Link>
 
             {/* Desktop Nav */}
@@ -123,7 +123,7 @@ export const Navbar: React.FC = () => {
             >
               {/* Drawer Header */}
               <div className="flex items-center justify-between px-6 py-5 border-b border-white/08">
-                <GDGLogo size={30} />
+                <GDGLogo size={42} />
                 <button
                   onClick={() => setMobileOpen(false)}
                   className="p-2 rounded-full bg-white/08 hover:bg-white/12 transition-colors"
