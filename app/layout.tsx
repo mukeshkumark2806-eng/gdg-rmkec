@@ -4,6 +4,7 @@ import './globals.css';
 import '@/styles/gdg-wave.css';
 import { SmoothScroll } from '@/components/layout/SmoothScroll';
 import { CustomCursor } from '@/components/ui/CustomCursor';
+import { GoogleLoader } from '@/components/ui/GoogleLoader';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { siteConfig } from '@/data/site';
@@ -44,7 +45,7 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     locale: 'en_US',
     type: 'website',
-  },
+    },
   twitter: {
     card: 'summary_large_image',
     title: siteConfig.fullName,
@@ -62,6 +63,7 @@ export default function RootLayout({
       <body className="bg-[#F5F7FA] text-[#1A1A2E] flex min-h-screen flex-col selection:bg-blue-100 selection:text-blue-900">
         <SmoothScroll>
           <CustomCursor />
+          <GoogleLoader isOpen={true} showControls={true} />
           <Navbar />
           <main className="flex-grow relative">{children}</main>
           <Footer />
