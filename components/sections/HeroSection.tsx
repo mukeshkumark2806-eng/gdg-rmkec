@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight, ArrowDown, Sparkles, Users, Code2, Cloud, Globe, Zap } from 'lucide-react';
+import { GDGWaveStrip } from '@/components/GDGWaveStrip';
 
 /* ── Fade-in-up helper ─────────────────────────────── */
 const fadeUp = (delay = 0) => ({
@@ -356,12 +357,8 @@ export const HeroSection: React.FC = () => {
         <span className="text-xs font-medium tracking-wide">Scroll to explore</span>
       </motion.div>
 
-      {/* Wave divider: light → dark */}
-      <div className="relative -mb-px">
-        <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" className="w-full block" preserveAspectRatio="none">
-          <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#0D1117" />
-        </svg>
-      </div>
+      {/* Animated GDG Wave Transition Area (220–280px tall) */}
+      <GDGWaveStrip />
 
     </section>
   );
