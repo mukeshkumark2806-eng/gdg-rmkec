@@ -217,13 +217,6 @@ export const HeroSection: React.FC = () => {
                 Join the Community
                 <ArrowRight className="h-4 w-4" />
               </Link>
-              <button
-                onClick={() => window.dispatchEvent(new CustomEvent('trigger-google-loader'))}
-                className="btn-ghost flex items-center gap-2 border border-[#4285F4]/30 hover:border-[#4285F4] hover:bg-[#4285F4]/05 text-[#4285F4]"
-              >
-                <Sparkles className="h-4 w-4 text-[#FBBC05]" />
-                Play Google Loading Effect
-              </button>
             </motion.div>
 
             {/* Social proof */}
