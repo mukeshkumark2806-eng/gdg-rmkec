@@ -38,46 +38,46 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
     setStage('dots');
     setProgress(0);
 
-    const baseDuration = 800 / speed;
+    const baseDuration = 600 / speed;
 
-    // Stage 1: 4 Dots Wave & Orbit (0ms to 1200ms)
+    // Stage 1: 4 Dots Wave & Orbit (0ms to 900ms)
     const p1 = setInterval(() => {
       setProgress((prev) => {
-        if (prev >= 45) {
+        if (prev >= 40) {
           clearInterval(p1);
-          return 45;
+          return 40;
         }
-        return prev + 3;
+        return prev + 4;
       });
-    }, baseDuration / 25);
+    }, baseDuration / 20);
 
-    // Stage 2: Morph into Circle (1200ms)
+    // Stage 2: Morph into Circle (900ms)
     const tCircle = setTimeout(() => {
       setStage('circle');
-    }, 1200 / speed);
+    }, 900 / speed);
 
     const p2 = setInterval(() => {
       setProgress((prev) => {
-        if (prev >= 85) {
+        if (prev >= 80) {
           clearInterval(p2);
-          return 85;
+          return 80;
         }
-        return Math.min(85, prev + 2);
+        return Math.min(80, prev + 3);
       });
-    }, baseDuration / 25);
+    }, baseDuration / 20);
 
-    // Stage 3: Reveal Google Logo (2400ms)
+    // Stage 3: Reveal Google Logo (1800ms)
     const tLogo = setTimeout(() => {
       setStage('logo');
       setProgress(100);
-    }, 2400 / speed);
+    }, 1800 / speed);
 
-    // Stage 4: Complete / Auto close (3600ms)
+    // Stage 4: Complete / Auto close (3600ms) - Gives 1.8s display time for Google Logo
     const tComplete = setTimeout(() => {
       setStage('complete');
       if (onComplete) onComplete();
       if (autoClose) {
-        setTimeout(() => setActive(false), 400 / speed);
+        setTimeout(() => setActive(false), 300 / speed);
       }
     }, 3600 / speed);
 
@@ -151,10 +151,10 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
       <AnimatePresence mode="wait">
         {active && (
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }}
-            className={`fixed inset-0 z-[99999] flex flex-col items-center justify-center select-none transition-colors duration-500 overflow-hidden ${
+            exit={{ opacity: 0, transition: { duration: 0.3, ease: 'easeOut' } }}
+            className={`fixed inset-0 z-[99999] flex flex-col items-center justify-center select-none overflow-hidden ${
               theme === 'dark' ? 'bg-[#0B0F19] text-white' : 'bg-white text-[#1A1A2E]'
             }`}
           >
@@ -181,9 +181,9 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
                 {stage === 'dots' && (
                   <motion.div
                     key="stage-dots"
-                    initial={{ opacity: 0, scale: 0.8 }}
+                    initial={{ opacity: 1, scale: 1 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.85, transition: { duration: 0.3 } }}
+                    exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
                     className="flex flex-col items-center gap-10"
                   >
                     {/* 4 Dots Container */}
@@ -397,49 +397,49 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
                         {/* Google Brand Colored Typography */}
                         <div className="flex items-center gap-1 text-4xl sm:text-5xl font-bold tracking-tight select-none">
                           <motion.span
-                            initial={{ y: 20, opacity: 0 }}
+                            initial={{ y: 16, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
-                            transition={{ delay: 0.2 }}
+                            transition={{ delay: 0.1, duration: 0.3 }}
                             className="text-[#4285F4]"
                           >
                             G
                           </motion.span>
                           <motion.span
-                            initial={{ y: 20, opacity: 0 }}
+                            initial={{ y: 16, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
-                            transition={{ delay: 0.28 }}
+                            transition={{ delay: 0.16, duration: 0.3 }}
                             className="text-[#EA4335]"
                           >
                             o
                           </motion.span>
                           <motion.span
-                            initial={{ y: 20, opacity: 0 }}
+                            initial={{ y: 16, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
-                            transition={{ delay: 0.36 }}
+                            transition={{ delay: 0.22, duration: 0.3 }}
                             className="text-[#FBBC05]"
                           >
                             o
                           </motion.span>
                           <motion.span
-                            initial={{ y: 20, opacity: 0 }}
+                            initial={{ y: 16, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
-                            transition={{ delay: 0.44 }}
+                            transition={{ delay: 0.28, duration: 0.3 }}
                             className="text-[#4285F4]"
                           >
                             g
                           </motion.span>
                           <motion.span
-                            initial={{ y: 20, opacity: 0 }}
+                            initial={{ y: 16, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
-                            transition={{ delay: 0.52 }}
+                            transition={{ delay: 0.34, duration: 0.3 }}
                             className="text-[#34A853]"
                           >
                             l
                           </motion.span>
                           <motion.span
-                            initial={{ y: 20, opacity: 0 }}
+                            initial={{ y: 16, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
-                            transition={{ delay: 0.6 }}
+                            transition={{ delay: 0.4, duration: 0.3 }}
                             className="text-[#EA4335]"
                           >
                             e
