@@ -10,6 +10,7 @@ import { GDGLogo } from '@/components/ui/GDGLogo';
 
 // Smaller subset for desktop nav to avoid overcrowding
 const desktopNav = [
+  { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
   { label: 'Events', href: '/events' },
   { label: 'Projects', href: '/projects' },
@@ -63,6 +64,11 @@ export const Navbar: React.FC = () => {
                   <Link
                     key={item.href}
                     href={item.href}
+                    onClick={() => {
+                      if (item.href === '/') {
+                        window.dispatchEvent(new CustomEvent('trigger-google-loader'));
+                      }
+                    }}
                     className={`relative px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${isActive
                         ? 'bg-[#4285F4]/10 text-[#4285F4] font-semibold'
                         : 'text-[#5F6B7A] hover:text-[#1A1A2E] hover:bg-[#1A1A2E]/06'
@@ -150,7 +156,12 @@ export const Navbar: React.FC = () => {
                     >
                       <Link
                         href={item.href}
-                        onClick={() => setMobileOpen(false)}
+                        onClick={() => {
+                          setMobileOpen(false);
+                          if (item.href === '/') {
+                            window.dispatchEvent(new CustomEvent('trigger-google-loader'));
+                          }
+                        }}
                         className={`flex items-center justify-between px-4 py-3 rounded-2xl text-base font-semibold transition-all duration-200 ${isActive
                             ? 'bg-[#4285F4]/15 text-[#6BA3F7]'
                             : 'text-[#8B949E] hover:text-white hover:bg-white/05'
