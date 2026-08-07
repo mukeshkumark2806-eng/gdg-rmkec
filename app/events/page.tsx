@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { eventsData } from '@/data/events';
 import { EventItem } from '@/types';
 import { Badge } from '@/components/ui/Badge';
@@ -16,6 +16,16 @@ export default function EventsPage() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeModalEvent, setActiveModalEvent] = useState<EventItem | null>(null);
+
+  useEffect(() => {
+    // Load dotlottie-wc web component script if not already present
+    if (!document.querySelector('script[src*="dotlottie-wc"]')) {
+      const script = document.createElement('script');
+      script.src = 'https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.4/dist/dotlottie-wc.js';
+      script.type = 'module';
+      document.head.appendChild(script);
+    }
+  }, []);
 
   const filteredEvents = eventsData.filter((event) => {
     const matchesCategory =
@@ -37,6 +47,15 @@ export default function EventsPage() {
 
   return (
     <div className="pt-32 pb-24 relative overflow-hidden">
+      {/* Top Left DotLottie Animation below Navbar */}
+      <div className="absolute top-20 left-2 sm:left-6 md:left-12 z-0 pointer-events-none opacity-85 lg:opacity-100">
+        <dotlottie-wc
+          src="https://lottie.host/15fb94bb-ad03-4ae3-baec-ee1492599330/pKuLjHKXhA.lottie"
+          style={{ width: '280px', height: '280px' }}
+          autoplay
+          loop
+        />
+      </div>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">

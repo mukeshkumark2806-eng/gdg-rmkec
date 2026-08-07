@@ -257,8 +257,14 @@ export const HeroSection: React.FC = () => {
               <div className="absolute inset-[30px] rounded-full border border-[#34A853]/10" />
               <div className="absolute inset-[60px] rounded-full border border-dashed border-[#EA4335]/10" />
 
-              {/* Glow */}
-              <div className="absolute inset-0 rounded-full" style={{ background: 'radial-gradient(circle at 50% 50%, rgba(66,133,244,0.10) 0%, transparent 70%)' }} />
+              {/* Central subtle glow */}
+              <div className="absolute inset-0 rounded-full" style={{ background: 'radial-gradient(circle at 50% 50%, rgba(66,133,244,0.08) 0%, transparent 70%)' }} />
+
+              {/* Position-Matched Subtle Color Glows Behind Respective Brackets */}
+              <div className="absolute top-[26%] left-[20%] w-28 h-28 rounded-full bg-[#EA4335]/18 blur-xl pointer-events-none" />
+              <div className="absolute bottom-[20%] left-[22%] w-28 h-28 rounded-full bg-[#4285F4]/18 blur-xl pointer-events-none" />
+              <div className="absolute bottom-[20%] right-[22%] w-28 h-28 rounded-full bg-[#FBBC05]/18 blur-xl pointer-events-none" />
+              <div className="absolute top-[26%] right-[20%] w-28 h-28 rounded-full bg-[#34A853]/18 blur-xl pointer-events-none" />
 
               {/* Red + Blue Combined Floating Segment */}
               <motion.div
@@ -266,9 +272,9 @@ export const HeroSection: React.FC = () => {
                 transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut' as const }}
                 className="absolute inset-0 w-full h-full p-8 sm:p-12"
               >
-                <svg viewBox="2.586 66.379 250.828 124.639" fill="none" className="w-full h-full filter drop-shadow-[0_4px_20px_rgba(66,133,244,0.4)]">
-                  <path d="m102.907 106.981-66.897 40.034c-9.6 5.83-22.009 2.773-27.716-6.83-5.708-9.601-2.552-22.112 7.048-27.942l66.897-40.034c9.6-5.83 22.009-2.773 27.716 6.83s2.552 22.112-7.048 27.942z" fill="#EA4335" />
-                  <path d="m82.153 185.617-66.182-38.053c-9.742-5.4-13.214-17.764-7.754-27.614s17.784-13.457 27.527-8.057l66.182 38.054c9.743 5.4 13.214 17.763 7.754 27.613s-17.784 13.458-27.527 8.057z" fill="#4285F4" />
+                <svg viewBox="2.586 66.379 250.828 124.639" fill="none" className="w-full h-full overflow-visible">
+                  <path d="m102.907 106.981-66.897 40.034c-9.6 5.83-22.009 2.773-27.716-6.83-5.708-9.601-2.552-22.112 7.048-27.942l66.897-40.034c9.6-5.83 22.009-2.773 27.716 6.83s2.552 22.112-7.048 27.942z" fill="#EA4335" style={{ filter: 'drop-shadow(0 0 8px rgba(234,67,53,0.4))' }} />
+                  <path d="m82.153 185.617-66.182-38.053c-9.742-5.4-13.214-17.764-7.754-27.614s17.784-13.457 27.527-8.057l66.182 38.054c9.743 5.4 13.214 17.763 7.754 27.613s-17.784 13.458-27.527 8.057z" fill="#4285F4" style={{ filter: 'drop-shadow(0 0 8px rgba(66,133,244,0.4))' }} />
                 </svg>
               </motion.div>
 
@@ -278,9 +284,9 @@ export const HeroSection: React.FC = () => {
                 transition={{ duration: 4.5, delay: 0.4, repeat: Infinity, ease: 'easeInOut' as const }}
                 className="absolute inset-0 w-full h-full p-8 sm:p-12"
               >
-                <svg viewBox="2.586 66.379 250.828 124.639" fill="none" className="w-full h-full filter drop-shadow-[0_4px_20px_rgba(52,168,83,0.4)]">
-                  <path d="m173.847 185.617 66.182-38.053c9.742-5.4 13.214-17.764 7.754-27.614s-17.784-13.457-27.527-8.057l-66.182 38.054c-9.743 5.4-13.214 17.763-7.754 27.613s17.784 13.458 27.527 8.057z" fill="#FBBC04" />
-                  <path d="m153.093 106.981 66.897 40.034c9.6 5.83 22.009 2.773 27.716-6.83 5.708-9.601-2.552-22.112-7.048-27.942l-66.897-40.034c-9.6-5.83-22.009-2.773-27.716 6.83s-2.552 22.112 7.048 27.942z" fill="#0F9D58" />
+                <svg viewBox="2.586 66.379 250.828 124.639" fill="none" className="w-full h-full overflow-visible">
+                  <path transform="translate(-0.5, 0.287)" d="m173.847 185.617 66.182-38.053c9.742-5.4 13.214-17.764 7.754-27.614s-17.784-13.457-27.527-8.057l-66.182 38.054c-9.743 5.4-13.214 17.763-7.754 27.613s17.784 13.458 27.527 8.057z" fill="#FBBC04" style={{ filter: 'drop-shadow(0 0 8px rgba(251,188,5,0.4))' }} />
+                  <path d="m153.093 106.981 66.897 40.034c9.6 5.83 22.009 2.773 27.716-6.83 5.708-9.601-2.552-22.112-7.048-27.942l-66.897-40.034c-9.6-5.83-22.009-2.773-27.716 6.83s-2.552 22.112 7.048 27.942z" fill="#0F9D58" style={{ filter: 'drop-shadow(0 0 8px rgba(52,168,83,0.4))' }} />
                 </svg>
               </motion.div>
 
@@ -346,7 +352,7 @@ export const HeroSection: React.FC = () => {
         <span className="text-xs font-medium tracking-wide">Scroll to explore</span>
       </motion.div>
 
-      {/* Animated GDG Wave Transition Area (220–280px tall) */}
+      {/* Animated GDG Wave Transition Area */}
       <GDGWaveStrip />
 
     </section>
