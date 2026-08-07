@@ -22,7 +22,14 @@ const perks = [
 
 export default function CommunityPage() {
   return (
-    <div className="pt-32 pb-24 relative overflow-hidden">
+    <div className="pt-32 pb-24 relative overflow-hidden bg-[#F5F7FA]">
+      {/* Background Blobs like Home Page */}
+      <div className="blob" style={{ width: 700, height: 600, background: 'radial-gradient(ellipse, #4285F4 0%, #34A853 55%, transparent 100%)', top: -200, right: -150, opacity: 0.13 }} />
+      <div className="blob" style={{ width: 500, height: 400, background: 'radial-gradient(ellipse, #FBBC05 0%, #EA4335 55%, transparent 100%)', bottom: 40, left: -120, opacity: 0.09, animationDelay: '4s' }} />
+      <div className="blob" style={{ width: 600, height: 400, background: 'radial-gradient(ellipse, #4285F4 0%, transparent 70%)', top: '30%', left: '25%', opacity: 0.05, animationDelay: '8s' }} />
+
+      {/* Dot Grid Texture like Home Page */}
+      <div className="absolute inset-0 bg-dot-grid pointer-events-none" />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-20">
           <Badge variant="green" className="mb-4">
