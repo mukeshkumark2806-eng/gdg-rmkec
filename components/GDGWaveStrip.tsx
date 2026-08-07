@@ -70,7 +70,7 @@ export const GDGWaveStrip: React.FC = () => {
         <g className="gdg-gpu-layer gdg-scroll-left-22s gdg-blur-mid" style={{ opacity: 0.80 }}>
           <g className="gdg-gpu-layer gdg-morph-layer-1">
             <path
-              d="M 0,90 C 360,35 360,140 720,90 C 1080,35 1080,140 1440,90 C 1800,35 1800,140 2160,90 C 2520,35 2520,140 2880,90 L 2880,220 L 0,220 Z"
+              d="M 0,90 C 360,35 360,140 720,90 C 1080,35 1080,140 1440,90 C 1800,35 1800,140 2160,90 C 2520,35 2520,140 2880,90 L 2880,250 L 0,250 Z"
               fill="url(#wave-gdg-green)"
               stroke="#188038"
               strokeWidth="1.5"
@@ -86,7 +86,7 @@ export const GDGWaveStrip: React.FC = () => {
         <g className="gdg-gpu-layer gdg-scroll-right-19s gdg-blur-soft" style={{ opacity: 0.88 }}>
           <g className="gdg-gpu-layer gdg-morph-layer-2">
             <path
-              d="M 0,110 C 280,155 440,60 720,110 C 1000,155 1160,60 1440,110 C 1720,155 1880,60 2160,110 C 2440,155 2600,60 2880,110 L 2880,220 L 0,220 Z"
+              d="M 0,110 C 280,155 440,60 720,110 C 1000,155 1160,60 1440,110 C 1720,155 1880,60 2160,110 C 2440,155 2600,60 2880,110 L 2880,250 L 0,250 Z"
               fill="url(#wave-gdg-yellow)"
               stroke="#F9AB00"
               strokeWidth="1.5"
@@ -102,7 +102,7 @@ export const GDGWaveStrip: React.FC = () => {
         <g className="gdg-gpu-layer gdg-scroll-left-16s" style={{ opacity: 0.95 }}>
           <g className="gdg-gpu-layer gdg-morph-layer-3">
             <path
-              d="M 0,105 C 240,65 480,145 720,105 C 960,65 1200,145 1440,105 C 1680,65 1920,145 2160,105 C 2400,65 2640,145 2880,105 L 2880,220 L 0,220 Z"
+              d="M 0,105 C 240,65 480,145 720,105 C 960,65 1200,145 1440,105 C 1680,65 1920,145 2160,105 C 2400,65 2640,145 2880,105 L 2880,250 L 0,250 Z"
               fill="url(#wave-gdg-red)"
               stroke="#C5221F"
               strokeWidth="1.5"
@@ -118,7 +118,7 @@ export const GDGWaveStrip: React.FC = () => {
         <g className="gdg-gpu-layer gdg-scroll-right-14s" style={{ opacity: 1.0 }}>
           <g className="gdg-gpu-layer gdg-morph-layer-4">
             <path
-              d="M 0,125 C 320,165 400,85 720,125 C 1040,165 1120,85 1440,125 C 1760,165 1840,85 2160,125 C 2480,165 2560,85 2880,125 L 2880,220 L 0,220 Z"
+              d="M 0,125 C 320,165 400,85 720,125 C 1040,165 1120,85 1440,125 C 1760,165 1840,85 2160,125 C 2480,165 2560,85 2880,125 L 2880,250 L 0,250 Z"
               fill="url(#wave-gdg-blue)"
               stroke="#1A73E8"
               strokeWidth="2"

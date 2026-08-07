@@ -4,9 +4,10 @@ import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles } from 'lucide-react';
+import { GDGWaveStrip } from '@/components/GDGWaveStrip';
 
 export const CTASection: React.FC = () => (
-  <section className="relative bg-white overflow-hidden py-28">
+  <section className="relative bg-white overflow-hidden pt-28 pb-0">
 
     {/* Large blobs */}
     <div className="blob" style={{ width: 600, height: 500, background: 'radial-gradient(ellipse, #4285F4 0%, #34A853 50%, transparent 100%)', top: '-120px', left: '-80px', opacity: 0.10 }} />
@@ -82,7 +83,7 @@ export const CTASection: React.FC = () => (
       ))}
     </div>
 
-    <div className="relative z-10 mx-auto max-w-[1280px] px-6 sm:px-8 text-center">
+    <div className="relative z-10 mx-auto max-w-[1280px] px-6 sm:px-8 text-center pb-20">
       <div className="max-w-2xl mx-auto space-y-8">
 
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
@@ -131,5 +132,8 @@ export const CTASection: React.FC = () => (
 
       </div>
     </div>
+
+    {/* Fluid GDG Wave transition: Light (white) -> Dark (#0D1117 Footer) */}
+    <GDGWaveStrip />
   </section>
 );

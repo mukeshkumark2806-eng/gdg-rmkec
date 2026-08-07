@@ -28,25 +28,28 @@ export default function CommunityPage() {
           <Badge variant="green" className="mb-4">
             Developer Ecosystem
           </Badge>
-          <h1 className="text-4xl sm:text-6xl font-black text-white tracking-tight leading-tight">
+          <h1 className="text-4xl sm:text-6xl font-black text-[#1A1A2E] tracking-tight leading-tight">
             Our Student <span className="text-gradient-google">Community</span>
           </h1>
-          <p className="mt-4 text-base sm:text-lg text-slate-300">
+          <p className="mt-4 text-base sm:text-lg text-slate-600 font-medium">
             Discover domain tracks, student perks, and collaborative build environments designed to accelerate tech careers.
           </p>
         </div>
 
-        {/* Member Perks Box */}
-        <div className="mb-20 rounded-3xl border border-white/10 bg-slate-900/70 p-8 sm:p-12 backdrop-blur-2xl">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-6 text-center">
+        {/* Member Perks Box - Black Box */}
+        <div className="mb-20 rounded-3xl border border-white/15 bg-black text-white p-8 sm:p-12 shadow-2xl backdrop-blur-xl">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-8 text-center">
             Member Perks & <span className="text-gradient-google">Benefits</span>
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {perks.map((perk) => (
-              <div key={perk} className="flex items-start gap-3 rounded-xl bg-slate-800/60 p-4 border border-white/5">
+              <div
+                key={perk}
+                className="flex items-start gap-3 rounded-xl bg-zinc-950 p-4 border border-white/15 hover:border-green-500/50 hover:shadow-[0_0_15px_rgba(52,168,83,0.2)] transition-all duration-300"
+              >
                 <CheckCircle2 className="h-5 w-5 text-green-400 shrink-0 mt-0.5" />
-                <span className="text-xs sm:text-sm text-slate-200 font-medium">{perk}</span>
+                <span className="text-xs sm:text-sm text-white font-semibold">{perk}</span>
               </div>
             ))}
           </div>

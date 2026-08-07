@@ -27,7 +27,7 @@ export const FeaturedSection: React.FC = () => {
   const featuredProjects = projectsData.filter((p) => p.featured).slice(0, 3);
 
   return (
-    <section className="relative bg-[#0D1117] py-24 overflow-hidden">
+    <section className="relative bg-[#0D1117] pt-24 pb-0 overflow-hidden">
 
       {/* Background textures */}
       <div className="absolute inset-0 bg-dot-grid-dark pointer-events-none" />

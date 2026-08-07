@@ -20,12 +20,7 @@ export const Footer: React.FC = () => {
   return (
     <footer className="relative bg-[#0D1117] text-[#E8EAED] overflow-hidden">
 
-      {/* Wave divider: white CTA → dark footer */}
-      <div className="relative -mt-px">
-        <svg viewBox="0 0 1440 64" xmlns="http://www.w3.org/2000/svg" className="w-full block" preserveAspectRatio="none">
-          <path d="M0,16 C360,64 1080,0 1440,48 L1440,0 L0,0 Z" fill="#FFFFFF" />
-        </svg>
-      </div>
+
 
       {/* Subtle dot grid */}
       <div className="absolute inset-0 bg-dot-grid-dark pointer-events-none opacity-60" />

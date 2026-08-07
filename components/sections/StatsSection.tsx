@@ -37,7 +37,7 @@ const Counter: React.FC<{ target: number; suffix?: string }> = ({ target, suffix
 
 export const StatsSection: React.FC = () => {
   return (
-    <section className="relative bg-[#0D1117] py-28 overflow-hidden">
+    <section className="relative bg-[#0D1117] pt-28 pb-0 overflow-hidden">
 
       {/* ── Background textures ── */}
       <div className="absolute inset-0 bg-dot-grid-dark pointer-events-none" />

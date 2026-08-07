@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Globe, Smartphone, BrainCircuit, Cloud, Palette, ChevronRight } from 'lucide-react';
+import { GDGWaveStrip } from '@/components/GDGWaveStrip';
 
 const domains = [
   {
@@ -65,7 +66,7 @@ const domains = [
 
 export const DomainsSection: React.FC = () => {
   return (
-    <section className="relative bg-[#F5F7FA] py-28 overflow-hidden">
+    <section className="relative bg-[#F5F7FA] pt-28 pb-0 overflow-hidden">
 
       {/* ── Large blobs ── */}
       <div className="blob" style={{ width: 500, height: 400, background: 'radial-gradient(ellipse, #34A853 0%, #4285F4 70%, transparent 100%)', top: '-80px', right: '5%', opacity: 0.08, animationDelay: '1s' }} />
@@ -237,7 +238,7 @@ export const DomainsSection: React.FC = () => {
 
         {/* Bottom decorative row */}
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.5, duration: 0.5 }}
-          className="flex justify-center gap-3 mt-14">
+          className="flex justify-center gap-3 mt-14 mb-8">
           {['#4285F4','#EA4335','#FBBC05','#34A853'].map((c) => (
             <div key={c} className="w-2 h-2 rounded-full" style={{ background: c, opacity: 0.55 }} />
           ))}
@@ -245,12 +246,8 @@ export const DomainsSection: React.FC = () => {
 
       </div>
 
-      {/* Wave divider: light → dark */}
-      <div className="relative mt-24 -mb-px">
-        <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" className="w-full block" preserveAspectRatio="none">
-          <path d="M0,20 C360,80 1080,0 1440,60 L1440,80 L0,80 Z" fill="#0D1117" />
-        </svg>
-      </div>
+      {/* Fluid GDG Wave transition: Light (#F5F7FA) -> Dark (#0D1117) */}
+      <GDGWaveStrip />
 
     </section>
   );
