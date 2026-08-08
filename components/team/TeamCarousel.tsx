@@ -12,41 +12,35 @@ interface TeamCarouselProps {
 export const TeamCarousel: React.FC<TeamCarouselProps> = ({ members }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Hover and scroll state
+  // Hover state
   const [isHovered, setIsHovered] = useState<boolean>(false);
-  const [canScrollLeft, setCanScrollLeft] = useState<boolean>(false);
-  const [canScrollRight, setCanScrollRight] = useState<boolean>(true);
 
   // Mouse drag state
   const isDraggingRef = useRef<boolean>(false);
   const startXRef = useRef<number>(0);
   const scrollLeftRef = useRef<number>(0);
 
-  // Check scroll boundary state
-  const checkScrollBounds = useCallback(() => {
-    const el = containerRef.current;
-    if (!el) return;
-    const { scrollLeft, scrollWidth, clientWidth } = el;
-    setCanScrollLeft(scrollLeft > 5);
-    setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 5);
-  }, []);
+  // Duplicate members for a seamless 100% smooth infinite loop
+  const displayItems = React.useMemo(() => {
+    if (!members || members.length === 0) return [];
+    return [...members, ...members];
+  }, [members]);
 
-  // Smooth Left-to-Right Continuous Auto Loop when cursor is NOT hovering
+  // Infinite Seamless Left-to-Right Continuous Auto Loop when cursor is NOT hovering
   useEffect(() => {
     let animationFrameId: number;
 
     const loopStep = () => {
       const el = containerRef.current;
       if (el && !isHovered && !isDraggingRef.current) {
-        const speed = 1.0;
-        const maxScroll = el.scrollWidth - el.clientWidth;
+        const speed = 0.8; // smooth buttery glide
+        const singleSetWidth = el.scrollWidth / 2;
 
-        if (el.scrollLeft >= maxScroll - 2) {
-          el.scrollLeft = 0;
+        if (singleSetWidth > 0 && el.scrollLeft >= singleSetWidth) {
+          el.scrollLeft -= singleSetWidth;
         } else {
           el.scrollLeft += speed;
         }
-        checkScrollBounds();
       }
       animationFrameId = requestAnimationFrame(loopStep);
     };
@@ -56,17 +50,7 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({ members }) => {
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
-  }, [isHovered, checkScrollBounds]);
-
-  // Handle scroll events
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-    const handleScroll = () => checkScrollBounds();
-    el.addEventListener('scroll', handleScroll, { passive: true });
-    checkScrollBounds();
-    return () => el.removeEventListener('scroll', handleScroll);
-  }, [checkScrollBounds, members]);
+  }, [isHovered]);
 
   // Manual scroll by card width / container page width
   const handleManualScroll = (direction: 'left' | 'right') => {
@@ -96,7 +80,6 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({ members }) => {
     const x = e.pageX - el.offsetLeft;
     const walk = (x - startXRef.current) * 1.5;
     el.scrollLeft = scrollLeftRef.current - walk;
-    checkScrollBounds();
   };
 
   const handleMouseUpOrLeave = () => {
@@ -132,7 +115,7 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({ members }) => {
         </h2>
       </div>
 
-      {/* Carousel Container Wrapper - Full Width, No Extra Side Padding */}
+      {/* Carousel Container Wrapper - Full Width */}
       <div
         className="relative w-full group"
         onMouseEnter={() => setIsHovered(true)}
@@ -144,12 +127,7 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({ members }) => {
         {/* Left Side Scroll Button */}
         <button
           onClick={() => handleManualScroll('left')}
-          disabled={!canScrollLeft}
-          className={`absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white text-slate-800 shadow-xl border border-slate-200/90 backdrop-blur-md transition-all duration-300 ${
-            canScrollLeft
-              ? 'hover:bg-blue-600 hover:text-white hover:border-blue-600 opacity-90 group-hover:opacity-100 cursor-pointer shadow-blue-500/10'
-              : 'opacity-30 cursor-not-allowed'
-          }`}
+          className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white text-slate-800 shadow-xl border border-slate-200/90 backdrop-blur-md transition-all duration-300 hover:bg-blue-600 hover:text-white hover:border-blue-600 opacity-90 group-hover:opacity-100 cursor-pointer shadow-blue-500/10 active:scale-95"
           aria-label="Scroll Left"
           title="Scroll Left"
         >
@@ -159,19 +137,14 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({ members }) => {
         {/* Right Side Scroll Button */}
         <button
           onClick={() => handleManualScroll('right')}
-          disabled={!canScrollRight}
-          className={`absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white text-slate-800 shadow-xl border border-slate-200/90 backdrop-blur-md transition-all duration-300 ${
-            canScrollRight
-              ? 'hover:bg-blue-600 hover:text-white hover:border-blue-600 opacity-90 group-hover:opacity-100 cursor-pointer shadow-blue-500/10'
-              : 'opacity-30 cursor-not-allowed'
-          }`}
+          className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white text-slate-800 shadow-xl border border-slate-200/90 backdrop-blur-md transition-all duration-300 hover:bg-blue-600 hover:text-white hover:border-blue-600 opacity-90 group-hover:opacity-100 cursor-pointer shadow-blue-500/10 active:scale-95"
           aria-label="Scroll Right"
           title="Scroll Right"
         >
           <ChevronRight className="h-6 w-6" />
         </button>
 
-        {/* Horizontal Track - Full width spanning without large side padding */}
+        {/* Horizontal Track - Seamless Infinite Scrolling */}
         <div
           ref={containerRef}
           onMouseDown={handleMouseDown}
@@ -180,9 +153,9 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({ members }) => {
           className="flex gap-6 overflow-x-auto hide-scrollbar py-4 items-stretch select-none cursor-grab active:cursor-grabbing scroll-smooth"
           style={{ WebkitOverflowScrolling: 'touch' }}
         >
-          {members.map((member) => (
+          {displayItems.map((member, index) => (
             <div
-              key={member.id}
+              key={`${member.id}-${index}`}
               className="w-full md:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 flex flex-col items-stretch"
             >
               <MemberCard member={member} />
