@@ -239,7 +239,7 @@ export const teamData: TeamMember[] = [
     domain: 'HR',
     teamCategory: 'HR Team',
     bio: 'Organizing community feedback channels and event attendee relations.',
-    avatarUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80',
+    avatarUrl: '/images/family/J Prathesha.jpg',
     socials: {
       linkedin: 'https://linkedin.com',
     },
