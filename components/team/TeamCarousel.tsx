@@ -20,10 +20,15 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({ members }) => {
   const startXRef = useRef<number>(0);
   const scrollLeftRef = useRef<number>(0);
 
-  // Duplicate members for a seamless 100% smooth infinite loop
+  const memberCount = members?.length || 0;
+
+  // Duplicate members for a seamless 100% smooth infinite loop only if > 4 members
   const displayItems = React.useMemo(() => {
     if (!members || members.length === 0) return [];
-    return [...members, ...members];
+    if (members.length > 4) {
+      return [...members, ...members];
+    }
+    return members;
   }, [members]);
 
   // Infinite Seamless Left-to-Right Continuous Auto Loop when cursor is NOT hovering
@@ -32,7 +37,7 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({ members }) => {
 
     const loopStep = () => {
       const el = containerRef.current;
-      if (el && !isHovered && !isDraggingRef.current) {
+      if (el && !isHovered && !isDraggingRef.current && memberCount > 4) {
         const speed = 0.8; // smooth buttery glide
         const singleSetWidth = el.scrollWidth / 2;
 
@@ -50,7 +55,7 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({ members }) => {
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
-  }, [isHovered]);
+  }, [isHovered, memberCount]);
 
   // Manual scroll by card width / container page width
   const handleManualScroll = (direction: 'left' | 'right') => {

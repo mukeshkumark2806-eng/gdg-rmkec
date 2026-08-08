@@ -19,7 +19,7 @@ export const teamData: TeamMember[] = [
     domain: 'Faculty',
     teamCategory: 'Faculty Coordinator',
     bio: 'Faculty Coordinator at RMK Engineering College. Guiding GDG student developers towards innovation, technical excellence, and industry readiness.',
-    avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
+    avatarUrl: '/images/family/Dr.Darwin-Nesakumar-A.png',
     socials: {
       linkedin: 'https://linkedin.com',
     },
