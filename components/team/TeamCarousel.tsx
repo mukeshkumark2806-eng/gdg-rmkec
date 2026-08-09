@@ -12,8 +12,10 @@ interface TeamCarouselProps {
 export const TeamCarousel: React.FC<TeamCarouselProps> = ({ members }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Hover state
+  // Hover state ref to avoid resetting scroll position on hover/unhover
   const [isHovered, setIsHovered] = useState<boolean>(false);
+  const isHoveredRef = useRef<boolean>(false);
+  isHoveredRef.current = isHovered;
 
   // Mouse drag state
   const isDraggingRef = useRef<boolean>(false);
@@ -31,14 +33,20 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({ members }) => {
     return members;
   }, [members]);
 
-  // Infinite Seamless Left-to-Right Continuous Auto Loop when cursor is NOT hovering
+  // Infinite Seamless Left-to-Right Continuous Auto Loop with 2s initial delay
   useEffect(() => {
     let animationFrameId: number;
+    let delayTimerId: NodeJS.Timeout;
+
+    // Reset scroll position to 0 ONLY when members list changes
+    if (containerRef.current) {
+      containerRef.current.scrollLeft = 0;
+    }
 
     const loopStep = () => {
       const el = containerRef.current;
-      if (el && !isHovered && !isDraggingRef.current && memberCount > 4) {
-        const speed = 0.8; // smooth buttery glide
+      if (el && !isHoveredRef.current && !isDraggingRef.current && memberCount > 4) {
+        const speed = 0.8; // smooth glide
         const singleSetWidth = el.scrollWidth / 2;
 
         if (singleSetWidth > 0 && el.scrollLeft >= singleSetWidth) {
@@ -50,12 +58,18 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({ members }) => {
       animationFrameId = requestAnimationFrame(loopStep);
     };
 
-    animationFrameId = requestAnimationFrame(loopStep);
+    // 2 second initial delay for visibility before movement starts
+    delayTimerId = setTimeout(() => {
+      animationFrameId = requestAnimationFrame(loopStep);
+    }, 2000);
 
     return () => {
-      cancelAnimationFrame(animationFrameId);
+      clearTimeout(delayTimerId);
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
     };
-  }, [isHovered, memberCount]);
+  }, [memberCount, members]);
 
   // Manual scroll by card width / container page width
   const handleManualScroll = (direction: 'left' | 'right') => {
