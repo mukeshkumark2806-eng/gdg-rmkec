@@ -58,8 +58,8 @@ export default function AboutPage() {
             Our Mission & Identity
           </Badge>
           <h1 className="text-4xl sm:text-6xl font-black text-[#1A1A2E] tracking-tight leading-tight">
-            Pioneering Innovation @ <br />
-            <SparklesText sparklesCount={24} className="text-gradient-google">RMK Engineering College</SparklesText>
+            Pioneering Innovation <br />
+            <SparklesText sparklesCount={24} className="text-gradient-google">@ RMK Engineering College</SparklesText>
           </h1>
           <p className="mt-6 text-lg text-slate-600 leading-relaxed font-medium">
             Google Developer Group (GDG) RMKEC is a university-based community for students passionate about Google developer technologies and modern software engineering.
