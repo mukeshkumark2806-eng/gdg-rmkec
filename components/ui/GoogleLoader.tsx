@@ -37,6 +37,9 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
   const runAnimationSequence = useCallback(() => {
     setStage('dots');
     setProgress(0);
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('gdg-loader-start'));
+    }
 
     const baseDuration = 600 / speed;
 
@@ -69,6 +72,9 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
     // Stage 3: Complete / Auto close (2900ms) - Gives time to enjoy the assembled logo
     const tComplete = setTimeout(() => {
       setStage('complete');
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('gdg-loader-complete'));
+      }
       if (onComplete) onComplete();
       if (autoClose) {
         setTimeout(() => setActive(false), 350 / speed);
@@ -145,7 +151,7 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
           <motion.div
             initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0, scale: 1.05, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } }}
+            exit={{ opacity: 0, transition: { duration: 0.35, ease: 'easeOut' } }}
             className={`fixed inset-0 z-[99999] flex flex-col items-center justify-center select-none overflow-hidden ${
               theme === 'dark' ? 'bg-[#0B0F19] text-white' : 'bg-white text-[#1A1A2E]'
             }`}

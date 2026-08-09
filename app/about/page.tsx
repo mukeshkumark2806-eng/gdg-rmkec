@@ -6,6 +6,7 @@ import { FadeIn } from '@/components/animations/FadeIn';
 import { StaggerText } from '@/components/animations/StaggerText';
 import { siteConfig } from '@/data/site';
 import { Globe, Users, Code, Sparkles, Target, Rocket, Award, ShieldCheck } from 'lucide-react';
+import { SparklesText } from '@/registry/magicui/sparkles-text';
 
 export const metadata: Metadata = {
   title: 'About Us',
@@ -58,7 +59,7 @@ export default function AboutPage() {
           </Badge>
           <h1 className="text-4xl sm:text-6xl font-black text-[#1A1A2E] tracking-tight leading-tight">
             Pioneering Innovation @ <br />
-            <span className="text-gradient-google">RMK Engineering College</span>
+            <SparklesText sparklesCount={24} className="text-gradient-google">RMK Engineering College</SparklesText>
           </h1>
           <p className="mt-6 text-lg text-slate-600 leading-relaxed font-medium">
             Google Developer Group (GDG) RMKEC is a university-based community for students passionate about Google developer technologies and modern software engineering.
@@ -98,38 +99,39 @@ export default function AboutPage() {
               </Badge>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-snug">
                 From Campus Club to <br />
-                <span className="text-gradient-google">Developer Ecosystem</span>
+                <span className="text-gradient-google">Premier Tech Chapter</span>
               </h2>
-              <p className="mt-4 text-sm text-slate-200 leading-relaxed">
-                Founded with a mission to bridge academia and global tech trends, GDG RMKEC has evolved into one of Tamil Nadu's premier university developer chapters.
+              <p className="mt-4 text-sm sm:text-base text-slate-200 leading-relaxed">
+                Founded with a mission to bridge academia and global industry benchmarks, GDG RMKEC has grown from a handful of enthusiastic developers to one of Tamil Nadu's most active student developer communities.
               </p>
-              <p className="mt-3 text-sm text-slate-200 leading-relaxed">
-                We empower students across all branches—from First Year coders to Final Year researchers—by providing hands-on mentorship, Google Cloud lab credits, and hackathon incubation.
+              <p className="mt-4 text-sm sm:text-base text-slate-200 leading-relaxed">
+                We organize hands-on hackathons, technical workshops, study jams, open-source sprints, and peer-to-peer code reviews — empowering students to turn creative concepts into production-grade software.
               </p>
+
+              <div className="mt-8 grid grid-cols-2 gap-4">
+                <div className="p-4 rounded-xl bg-zinc-900 border border-white/15">
+                  <div className="text-2xl font-black text-blue-400">1,200+</div>
+                  <div className="text-xs text-slate-300 mt-0.5">Students Trained</div>
+                </div>
+                <div className="p-4 rounded-xl bg-zinc-900 border border-white/15">
+                  <div className="text-2xl font-black text-green-400">25+</div>
+                  <div className="text-xs text-slate-300 mt-0.5">Workshops & Events</div>
+                </div>
+              </div>
             </div>
           </FadeIn>
 
           <FadeIn direction="left">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="rounded-2xl border border-white/15 bg-zinc-950 p-6 text-center shadow-lg hover:border-blue-500/40 transition-colors">
-                <Target className="h-8 w-8 text-blue-400 mx-auto mb-2" />
-                <span className="text-2xl font-black text-white block">100%</span>
-                <span className="text-xs text-slate-300 font-medium">Practical Hands-on Jams</span>
-              </div>
-              <div className="rounded-2xl border border-white/15 bg-zinc-950 p-6 text-center shadow-lg hover:border-amber-500/40 transition-colors">
-                <Award className="h-8 w-8 text-amber-400 mx-auto mb-2" />
-                <span className="text-2xl font-black text-white block">15+</span>
-                <span className="text-xs text-slate-300 font-medium">National Podium Wins</span>
-              </div>
-              <div className="rounded-2xl border border-white/15 bg-zinc-950 p-6 text-center shadow-lg hover:border-red-500/40 transition-colors">
-                <Sparkles className="h-8 w-8 text-red-400 mx-auto mb-2" />
-                <span className="text-2xl font-black text-white block">1,200+</span>
-                <span className="text-xs text-slate-300 font-medium">Student Community</span>
-              </div>
-              <div className="rounded-2xl border border-white/15 bg-zinc-950 p-6 text-center shadow-lg hover:border-green-500/40 transition-colors">
-                <ShieldCheck className="h-8 w-8 text-green-400 mx-auto mb-2" />
-                <span className="text-2xl font-black text-white block">Zero</span>
-                <span className="text-xs text-slate-300 font-medium">Fee Membership</span>
+            <div className="relative rounded-2xl overflow-hidden border border-white/15 shadow-2xl aspect-video bg-zinc-900 group">
+              <img
+                src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=80"
+                alt="GDG RMKEC Community Workshop"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-6">
+                <p className="text-xs text-slate-200 font-medium">
+                  Annual GDG Hackfest &amp; Cloud Workshop Series at RMKEC Campus
+                </p>
               </div>
             </div>
           </FadeIn>

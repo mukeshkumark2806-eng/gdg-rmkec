@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight, ArrowDown, Sparkles, Users, Code2, Cloud, Globe, Zap } from 'lucide-react';
 import { GDGWaveStrip } from '@/components/GDGWaveStrip';
+import { SparklesText } from '@/registry/magicui/sparkles-text';
 
 /* ── Fade-in-up helper ─────────────────────────────── */
 const fadeUp = (delay = 0) => ({
@@ -192,7 +193,7 @@ export const HeroSection: React.FC = () => {
                 Build. Learn.
                 <br />
                 Grow.{' '}
-                <span className="text-gradient-google">Together.</span>
+                <SparklesText sparklesCount={8} className="text-gradient-google">Together.</SparklesText>
               </h1>
             </motion.div>
 
