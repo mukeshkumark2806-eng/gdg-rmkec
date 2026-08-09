@@ -175,7 +175,7 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({ members }) => {
           {displayItems.map((member, index) => (
             <div
               key={`${member.id}-${index}`}
-              className="w-full md:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 flex flex-col items-stretch"
+              className="w-[240px] sm:w-[260px] md:w-[270px] shrink-0 flex flex-col items-stretch"
             >
               <MemberCard member={member} />
             </div>

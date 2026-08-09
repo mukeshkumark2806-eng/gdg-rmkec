@@ -3,7 +3,7 @@ import { Space_Grotesk, Inter } from 'next/font/google';
 import './globals.css';
 import '@/styles/gdg-wave.css';
 import { SmoothScroll } from '@/components/layout/SmoothScroll';
-import { CustomCursor } from '@/components/ui/CustomCursor';
+import { SmoothCursor } from '@/registry/magicui/smooth-cursor';
 import { GoogleLoader } from '@/components/ui/GoogleLoader';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
@@ -62,7 +62,7 @@ export default function RootLayout({
     <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable} scroll-smooth`}>
       <body className="bg-[#F5F7FA] text-[#1A1A2E] flex min-h-screen flex-col selection:bg-blue-100 selection:text-blue-900">
         <SmoothScroll>
-          <CustomCursor />
+          <SmoothCursor />
           <GoogleLoader isOpen={true} showControls={true} />
           <Navbar />
           <main className="flex-grow relative">{children}</main>

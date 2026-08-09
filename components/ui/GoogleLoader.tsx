@@ -16,7 +16,7 @@ interface GoogleLoaderProps {
   showControls?: boolean;
 }
 
-export type LoaderStage = 'dots' | 'circle' | 'logo' | 'complete';
+export type LoaderStage = 'dots' | 'converge' | 'complete';
 export type LoaderTheme = 'dark' | 'light';
 
 export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
@@ -30,7 +30,7 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
   const [active, setActive] = useState(isOpen);
   const [stage, setStage] = useState<LoaderStage>('dots');
   const [theme, setTheme] = useState<LoaderTheme>('dark');
-  const [speed, setSpeed] = useState<number>(1); // 1x, 0.5x, 1.5x
+  const [speed, setSpeed] = useState<number>(1);
   const [progress, setProgress] = useState(0);
 
   // Main animation timeline sequence
@@ -40,52 +40,45 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
 
     const baseDuration = 600 / speed;
 
-    // Stage 1: 4 Dots Wave & Orbit (0ms to 900ms)
+    // Stage 1: 4 Dots Pulse & Orbit (0ms to 800ms)
     const p1 = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 40) {
           clearInterval(p1);
           return 40;
         }
-        return prev + 4;
+        return prev + 5;
       });
-    }, baseDuration / 20);
+    }, baseDuration / 15);
 
-    // Stage 2: Morph into Circle (900ms)
-    const tCircle = setTimeout(() => {
-      setStage('circle');
-    }, 900 / speed);
+    // Stage 2: Two Pieces Converge from opposite sides and snap in center (800ms)
+    const tConverge = setTimeout(() => {
+      setStage('converge');
+    }, 800 / speed);
 
     const p2 = setInterval(() => {
       setProgress((prev) => {
-        if (prev >= 80) {
+        if (prev >= 100) {
           clearInterval(p2);
-          return 80;
+          return 100;
         }
-        return Math.min(80, prev + 3);
+        return Math.min(100, prev + 4);
       });
     }, baseDuration / 20);
 
-    // Stage 3: Reveal Google Logo (1800ms)
-    const tLogo = setTimeout(() => {
-      setStage('logo');
-      setProgress(100);
-    }, 1800 / speed);
-
-    // Stage 4: Complete / Auto close (3600ms) - Gives 1.8s display time for Google Logo
+    // Stage 3: Complete / Auto close (2900ms) - Gives time to enjoy the assembled logo
     const tComplete = setTimeout(() => {
       setStage('complete');
       if (onComplete) onComplete();
       if (autoClose) {
-        setTimeout(() => setActive(false), 300 / speed);
+        setTimeout(() => setActive(false), 350 / speed);
       }
-    }, 3600 / speed);
+    }, 2900 / speed);
 
     return () => {
       clearInterval(p1);
       clearInterval(p2);
-      clearTimeout(tCircle);
-      clearTimeout(tLogo);
+      clearTimeout(tConverge);
       clearTimeout(tComplete);
     };
   }, [speed, autoClose, onComplete]);
@@ -136,8 +129,7 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
   const jumpToStage = (targetStage: LoaderStage) => {
     setStage(targetStage);
     if (targetStage === 'dots') setProgress(25);
-    if (targetStage === 'circle') setProgress(65);
-    if (targetStage === 'logo') setProgress(100);
+    if (targetStage === 'converge') setProgress(85);
     if (targetStage === 'complete') {
       setProgress(100);
       if (autoClose) setActive(false);
@@ -153,50 +145,48 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
           <motion.div
             initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0, transition: { duration: 0.3, ease: 'easeOut' } }}
+            exit={{ opacity: 0, scale: 1.05, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } }}
             className={`fixed inset-0 z-[99999] flex flex-col items-center justify-center select-none overflow-hidden ${
               theme === 'dark' ? 'bg-[#0B0F19] text-white' : 'bg-white text-[#1A1A2E]'
             }`}
           >
-            {/* Ambient Background Gradient Mesh */}
-            <div className="absolute inset-0 pointer-events-none opacity-40">
-              <div
-                className={`absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[140px] transition-all duration-700 ${
-                  stage === 'dots'
-                    ? 'bg-gradient-to-tr from-[#4285F4]/30 via-[#EA4335]/20 to-[#FBBC05]/30'
-                    : stage === 'circle'
-                    ? 'bg-gradient-to-r from-[#34A853]/30 via-[#4285F4]/30 to-[#EA4335]/30'
-                    : 'bg-gradient-to-b from-[#4285F4]/35 via-[#EA4335]/25 to-[#FBBC05]/30'
-                }`}
+            {/* Ambient Dynamic Background Glow */}
+            <div className="absolute inset-0 pointer-events-none opacity-50">
+              <motion.div
+                animate={{
+                  scale: stage === 'converge' ? [1, 1.4, 1.2] : [0.9, 1.1, 0.9],
+                  opacity: stage === 'converge' ? [0.4, 0.8, 0.5] : 0.35,
+                }}
+                transition={{ duration: 1.5, repeat: Infinity, repeatType: 'reverse' }}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-[150px] bg-gradient-to-tr from-[#4285F4]/30 via-[#EA4335]/25 to-[#34A853]/30 pointer-events-none"
               />
-              <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:24px_24px]" />
+              <div className="absolute inset-0 bg-[radial-gradient(#ffffff08_1px,transparent_1px)] [background-size:24px_24px]" />
             </div>
 
-            {/* Central Animation Sandbox Container */}
-            <div className="relative z-10 flex flex-col items-center justify-center min-h-[320px] w-full max-w-md px-6">
+            {/* Central Animation Container */}
+            <div className="relative z-10 flex flex-col items-center justify-center min-h-[320px] w-full max-w-lg px-6">
               <AnimatePresence mode="wait">
                 {/* ============================================================ */}
-                {/* STAGE 1: 4 GOOGLE COLORED DOTS (Bounce & Orbit)             */}
+                {/* STAGE 1: 4 GOOGLE COLORED INTRO DOTS                        */}
                 {/* ============================================================ */}
                 {stage === 'dots' && (
                   <motion.div
                     key="stage-dots"
-                    initial={{ opacity: 1, scale: 1 }}
+                    initial={{ opacity: 1, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
-                    className="flex flex-col items-center gap-10"
+                    exit={{ opacity: 0, scale: 1.4, transition: { duration: 0.25 } }}
+                    className="flex flex-col items-center gap-8"
                   >
-                    {/* 4 Dots Container */}
                     <div className="flex items-center justify-center gap-4 h-24">
                       {/* Dot 1: Blue */}
                       <motion.div
-                        className="w-5 h-5 rounded-full bg-[#4285F4] shadow-[0_0_20px_rgba(66,133,244,0.6)]"
+                        className="w-5 h-5 rounded-full bg-[#4285F4] shadow-[0_0_25px_rgba(66,133,244,0.8)]"
                         animate={{
-                          y: [-16, 16, -16],
-                          scale: [1, 1.2, 1],
+                          y: [-14, 14, -14],
+                          scale: [1, 1.25, 1],
                         }}
                         transition={{
-                          duration: 1.1 / speed,
+                          duration: 0.9 / speed,
                           repeat: Infinity,
                           ease: 'easeInOut',
                           delay: 0,
@@ -204,44 +194,44 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
                       />
                       {/* Dot 2: Red */}
                       <motion.div
-                        className="w-5 h-5 rounded-full bg-[#EA4335] shadow-[0_0_20px_rgba(234,67,53,0.6)]"
+                        className="w-5 h-5 rounded-full bg-[#EA4335] shadow-[0_0_25px_rgba(234,67,53,0.8)]"
                         animate={{
-                          y: [-16, 16, -16],
-                          scale: [1, 1.2, 1],
+                          y: [-14, 14, -14],
+                          scale: [1, 1.25, 1],
                         }}
                         transition={{
-                          duration: 1.1 / speed,
+                          duration: 0.9 / speed,
                           repeat: Infinity,
                           ease: 'easeInOut',
-                          delay: 0.15,
+                          delay: 0.12,
                         }}
                       />
                       {/* Dot 3: Yellow */}
                       <motion.div
-                        className="w-5 h-5 rounded-full bg-[#FBBC05] shadow-[0_0_20px_rgba(251,188,5,0.6)]"
+                        className="w-5 h-5 rounded-full bg-[#FBBC05] shadow-[0_0_25px_rgba(251,188,5,0.8)]"
                         animate={{
-                          y: [-16, 16, -16],
-                          scale: [1, 1.2, 1],
+                          y: [-14, 14, -14],
+                          scale: [1, 1.25, 1],
                         }}
                         transition={{
-                          duration: 1.1 / speed,
+                          duration: 0.9 / speed,
                           repeat: Infinity,
                           ease: 'easeInOut',
-                          delay: 0.3,
+                          delay: 0.24,
                         }}
                       />
                       {/* Dot 4: Green */}
                       <motion.div
-                        className="w-5 h-5 rounded-full bg-[#34A853] shadow-[0_0_20px_rgba(52,168,83,0.6)]"
+                        className="w-5 h-5 rounded-full bg-[#34A853] shadow-[0_0_25px_rgba(52,168,83,0.8)]"
                         animate={{
-                          y: [-16, 16, -16],
-                          scale: [1, 1.2, 1],
+                          y: [-14, 14, -14],
+                          scale: [1, 1.25, 1],
                         }}
                         transition={{
-                          duration: 1.1 / speed,
+                          duration: 0.9 / speed,
                           repeat: Infinity,
                           ease: 'easeInOut',
-                          delay: 0.45,
+                          delay: 0.36,
                         }}
                       />
                     </div>
@@ -249,203 +239,124 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
                 )}
 
                 {/* ============================================================ */}
-                {/* STAGE 2: ROTATING CIRCLE SPINNER                              */}
+                {/* STAGE 2: 2 PIECES CONVERGING FROM OPPOSITE DIRECTIONS & SNAP */}
                 {/* ============================================================ */}
-                {stage === 'circle' && (
+                {(stage === 'converge' || stage === 'complete') && (
                   <motion.div
-                    key="stage-circle"
-                    initial={{ opacity: 0, scale: 0.6, rotate: -90 }}
-                    animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                    exit={{ opacity: 0, scale: 1.3, transition: { duration: 0.4 } }}
-                    transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-                    className="flex flex-col items-center gap-8"
+                    key="stage-converge"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0, scale: 1.15, transition: { duration: 0.35 } }}
+                    className="relative flex items-center justify-center"
                   >
-                    {/* SVG Multi-Color Circle Spinner */}
-                    <div className="relative w-28 h-28 flex items-center justify-center">
-                      {/* Outer Glow Ring */}
-                      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#4285F4] via-[#EA4335] to-[#34A853] opacity-30 blur-xl animate-pulse" />
+                    {/* Shockwave Burst upon impact in the center */}
+                    <motion.div
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{
+                        scale: [0, 1.6, 2.2],
+                        opacity: [0, 0.9, 0],
+                      }}
+                      transition={{
+                        delay: 0.45 / speed,
+                        duration: 0.75 / speed,
+                        ease: 'easeOut',
+                      }}
+                      className="absolute w-52 h-52 rounded-full bg-gradient-to-r from-[#4285F4]/40 via-[#EA4335]/40 to-[#34A853]/40 blur-2xl pointer-events-none"
+                    />
 
-                      {/* Rotating Multi-Color Arc Spinner */}
-                      <motion.svg
-                        className="w-full h-full"
-                        viewBox="0 0 100 100"
-                        animate={{ rotate: 360 }}
-                        transition={{
-                          duration: 1.6 / speed,
-                          repeat: Infinity,
-                          ease: 'linear',
-                        }}
+                    {/* Central Energy Glow Aura */}
+                    <motion.div
+                      animate={{
+                        scale: [1, 1.15, 1],
+                        opacity: [0.3, 0.6, 0.4],
+                      }}
+                      transition={{
+                        duration: 1.8 / speed,
+                        repeat: Infinity,
+                        repeatType: 'reverse',
+                      }}
+                      className="absolute w-44 h-44 rounded-full bg-gradient-to-tr from-[#4285F4] via-[#FBBC05] to-[#34A853] blur-3xl pointer-events-none opacity-40"
+                    />
+
+                    {/* Split GDG Logo SVG Container */}
+                    <div className="relative z-10 flex items-center justify-center">
+                      <svg
+                        viewBox="2.586 66.379 250.828 124.639"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-36 h-18 sm:w-52 sm:h-26 overflow-visible shrink-0 drop-shadow-[0_0_35px_rgba(66,133,244,0.5)]"
+                        aria-hidden="true"
                       >
-                        {/* Blue Arc */}
-                        <motion.circle
-                          cx="50"
-                          cy="50"
-                          r="40"
-                          fill="none"
-                          stroke="#4285F4"
-                          strokeWidth="8"
-                          strokeLinecap="round"
-                          strokeDasharray="60 190"
-                          strokeDashoffset="0"
-                        />
-                        {/* Red Arc */}
-                        <motion.circle
-                          cx="50"
-                          cy="50"
-                          r="40"
-                          fill="none"
-                          stroke="#EA4335"
-                          strokeWidth="8"
-                          strokeLinecap="round"
-                          strokeDasharray="60 190"
-                          strokeDashoffset="-62"
-                        />
-                        {/* Yellow Arc */}
-                        <motion.circle
-                          cx="50"
-                          cy="50"
-                          r="40"
-                          fill="none"
-                          stroke="#FBBC05"
-                          strokeWidth="8"
-                          strokeLinecap="round"
-                          strokeDasharray="60 190"
-                          strokeDashoffset="-124"
-                        />
-                        {/* Green Arc */}
-                        <motion.circle
-                          cx="50"
-                          cy="50"
-                          r="40"
-                          fill="none"
-                          stroke="#34A853"
-                          strokeWidth="8"
-                          strokeLinecap="round"
-                          strokeDasharray="60 190"
-                          strokeDashoffset="-186"
-                        />
-                      </motion.svg>
+                        {/* ======================================================= */}
+                        {/* PIECE 1: LEFT CHEVRON (<) (Red Top + Blue Bottom)       */}
+                        {/* Flies in from left (-350px) to meet at center (0)       */}
+                        {/* ======================================================= */}
+                        <motion.g
+                          initial={{ x: -350, opacity: 0, rotate: -35, scale: 0.7 }}
+                          animate={{ x: 0, opacity: 1, rotate: 0, scale: 1 }}
+                          transition={{
+                            type: 'spring',
+                            stiffness: 140 * speed,
+                            damping: 15,
+                            mass: 0.9,
+                            delay: 0.05 / speed,
+                          }}
+                        >
+                          {/* Red Top Left Arm */}
+                          <path
+                            d="m102.907 106.981-66.897 40.034c-9.6 5.83-22.009 2.773-27.716-6.83-5.708-9.601-2.552-22.112 7.048-27.942l66.897-40.034c9.6-5.83 22.009-2.773 27.716 6.83s2.552 22.112-7.048 27.942z"
+                            fill="#EA4335"
+                          />
+                          {/* Blue Bottom Left Arm */}
+                          <path
+                            d="m82.153 185.617-66.182-38.053c-9.742-5.4-13.214-17.764-7.754-27.614s17.784-13.457 27.527-8.057l66.182 38.054c9.743 5.4 13.214 17.763 7.754 27.613s-17.784 13.458-27.527 8.057z"
+                            fill="#4285F4"
+                          />
+                        </motion.g>
 
-                      {/* Center Pulsing Nucleus */}
-                      <motion.div
-                        animate={{ scale: [0.8, 1.2, 0.8] }}
-                        transition={{ duration: 1 / speed, repeat: Infinity }}
-                        className="absolute w-4 h-4 rounded-full bg-[#4285F4] shadow-[0_0_12px_#4285F4]"
-                      />
-                    </div>
-                  </motion.div>
-                )}
-
-                {/* ============================================================ */}
-                {/* STAGE 3: GOOGLE LOGO REVEAL                                  */}
-                {/* ============================================================ */}
-                {(stage === 'logo' || stage === 'complete') && (
-                  <motion.div
-                    key="stage-logo"
-                    initial={{ opacity: 0, scale: 0.3 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{
-                      type: 'spring',
-                      stiffness: 260,
-                      damping: 18,
-                    }}
-                    className="flex flex-col items-center gap-8"
-                  >
-                    {/* Glowing Burst Aura behind Logo */}
-                    <div className="relative flex items-center justify-center">
-                      <motion.div
-                        initial={{ scale: 0, opacity: 0.8 }}
-                        animate={{ scale: [0, 1.8, 1.4], opacity: [0.9, 0.3, 0.15] }}
-                        transition={{ duration: 1.2 / speed, ease: 'easeOut' }}
-                        className="absolute w-40 h-40 rounded-full bg-gradient-to-tr from-[#4285F4] via-[#EA4335] to-[#FBBC05] blur-2xl pointer-events-none"
-                      />
-
-                        {/* Official High-Res GDG Logo Mark & Text */}
-                        <div className="relative z-10 flex flex-col items-center gap-5">
-                          <motion.div
-                            initial={{ rotate: -180, scale: 0 }}
-                            animate={{ rotate: 0, scale: 1 }}
-                            transition={{
-                              type: 'spring',
-                              stiffness: 280,
-                              damping: 16,
-                              delay: 0.1,
-                            }}
-                            className="p-5 rounded-3xl backdrop-blur-xl border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)] bg-white/05 flex items-center justify-center"
-                          >
-                            <svg
-                              viewBox="2.586 66.379 250.828 124.639"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="w-24 h-12 sm:w-28 sm:h-14 shrink-0"
-                              aria-hidden="true"
-                            >
-                              <g fill="none" fillRule="evenodd">
-                                <path
-                                  d="m102.907 106.981-66.897 40.034c-9.6 5.83-22.009 2.773-27.716-6.83-5.708-9.601-2.552-22.112 7.048-27.942l66.897-40.034c9.6-5.83 22.009-2.773 27.716 6.83s2.552 22.112-7.048 27.942z"
-                                  fill="#EA4335"
-                                />
-                                <path
-                                  d="m82.153 185.617-66.182-38.053c-9.742-5.4-13.214-17.764-7.754-27.614s17.784-13.457 27.527-8.057l66.182 38.054c9.743 5.4 13.214 17.763 7.754 27.613s-17.784 13.458-27.527 8.057z"
-                                  fill="#4285F4"
-                                />
-                                <path
-                                  d="m173.847 185.617 66.182-38.053c9.742-5.4 13.214-17.764 7.754-27.614s-17.784-13.457-27.527-8.057l-66.182 38.054c-9.743 5.4-13.214 17.763-7.754 27.613s17.784 13.458 27.527 8.057z"
-                                  fill="#FBBC04"
-                                />
-                                <path
-                                  d="m153.093 106.981 66.897 40.034c9.6 5.83 22.009 2.773 27.716-6.83 5.708-9.601 2.552-22.112-7.048-27.942l-66.897-40.034c-9.6-5.83-22.009-2.773-27.716 6.83s-2.552 22.112 7.048 27.942z"
-                                  fill="#0F9D58"
-                                />
-                              </g>
-                            </svg>
-                          </motion.div>
-
-                          {/* GDG Brand Colored Typography */}
-                          <div className="flex items-center gap-1.5 text-4xl sm:text-5xl font-bold tracking-tight select-none">
-                            <motion.span
-                              initial={{ y: 16, opacity: 0 }}
-                              animate={{ y: 0, opacity: 1 }}
-                              transition={{ delay: 0.1, duration: 0.3 }}
-                              className="text-[#4285F4]"
-                            >
-                              G
-                            </motion.span>
-                            <motion.span
-                              initial={{ y: 16, opacity: 0 }}
-                              animate={{ y: 0, opacity: 1 }}
-                              transition={{ delay: 0.2, duration: 0.3 }}
-                              className="text-[#EA4335]"
-                            >
-                              D
-                            </motion.span>
-                            <motion.span
-                              initial={{ y: 16, opacity: 0 }}
-                              animate={{ y: 0, opacity: 1 }}
-                              transition={{ delay: 0.3, duration: 0.3 }}
-                              className="text-[#34A853]"
-                            >
-                              G
-                            </motion.span>
-                          </div>
-                        </div>
+                        {/* ======================================================= */}
+                        {/* PIECE 2: RIGHT CHEVRON (>) (Green Top + Yellow Bottom)  */}
+                        {/* Flies in from right (+350px) to meet at center (0)      */}
+                        {/* ======================================================= */}
+                        <motion.g
+                          initial={{ x: 350, opacity: 0, rotate: 35, scale: 0.7 }}
+                          animate={{ x: 0, opacity: 1, rotate: 0, scale: 1 }}
+                          transition={{
+                            type: 'spring',
+                            stiffness: 140 * speed,
+                            damping: 15,
+                            mass: 0.9,
+                            delay: 0.05 / speed,
+                          }}
+                        >
+                          {/* Yellow Bottom Right Arm */}
+                          <path
+                            d="m173.847 185.617 66.182-38.053c9.742-5.4 13.214-17.764 7.754-27.614s-17.784-13.457-27.527-8.057l-66.182 38.054c-9.743 5.4-13.214 17.763-7.754 27.613s17.784 13.458 27.527 8.057z"
+                            fill="#FBBC04"
+                          />
+                          {/* Green Top Right Arm */}
+                          <path
+                            d="m153.093 106.981 66.897 40.034c9.6 5.83 22.009 2.773 27.716-6.83 5.708-9.601 2.552-22.112-7.048-27.942l-66.897-40.034c-9.6-5.83-22.009-2.773-27.716 6.83s-2.552 22.112 7.048 27.942z"
+                            fill="#0F9D58"
+                          />
+                        </motion.g>
+                      </svg>
                     </div>
                   </motion.div>
                 )}
               </AnimatePresence>
             </div>
 
-            {/* Bottom Progress Bar */}
-            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 w-64 flex flex-col items-center gap-2">
+            {/* Bottom Subtle Progress Indicator */}
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 w-56 flex flex-col items-center gap-2">
               <div className="w-full h-1.5 rounded-full bg-white/10 overflow-hidden relative">
                 <motion.div
                   className="h-full bg-gradient-to-r from-[#4285F4] via-[#EA4335] to-[#34A853] rounded-full"
                   animate={{ width: `${progress}%` }}
-                  transition={{ duration: 0.3, ease: 'easeOut' }}
+                  transition={{ duration: 0.25, ease: 'easeOut' }}
                 />
               </div>
-              <div className="text-xs font-mono font-medium opacity-75">
+              <div className="text-[11px] font-mono font-medium opacity-60">
                 {progress}%
               </div>
             </div>
@@ -462,51 +373,41 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
             {/* Replay Button */}
             <button
               onClick={restartAnimation}
-              className="flex items-center gap-2 px-3 py-2 rounded-xl bg-[#4285F4] hover:bg-[#3367D6] text-white text-xs font-semibold transition-all shadow-lg active:scale-95"
+              className="flex items-center gap-2 px-3 py-2 rounded-xl bg-[#4285F4] hover:bg-[#3367D6] text-white text-xs font-semibold transition-all shadow-lg active:scale-95 cursor-pointer"
               title="Replay Loading Effect"
             >
               <RotateCcw className="w-3.5 h-3.5" />
-              <span>Replay Google Effect</span>
+              <span>Replay Convergence</span>
             </button>
 
             {/* Stage Selector Dropdown/Buttons */}
             <div className="hidden sm:flex items-center gap-1 bg-white/06 p-1 rounded-xl border border-white/10">
               <button
                 onClick={() => jumpToStage('dots')}
-                className={`px-2 py-1 rounded-lg text-[11px] font-medium transition-all ${
+                className={`px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all cursor-pointer ${
                   active && stage === 'dots'
                     ? 'bg-[#4285F4] text-white'
                     : 'text-white/70 hover:text-white hover:bg-white/10'
                 }`}
               >
-                1. Dots
+                1. Intro
               </button>
               <button
-                onClick={() => jumpToStage('circle')}
-                className={`px-2 py-1 rounded-lg text-[11px] font-medium transition-all ${
-                  active && stage === 'circle'
-                    ? 'bg-[#EA4335] text-white'
-                    : 'text-white/70 hover:text-white hover:bg-white/10'
-                }`}
-              >
-                2. Circle
-              </button>
-              <button
-                onClick={() => jumpToStage('logo')}
-                className={`px-2 py-1 rounded-lg text-[11px] font-medium transition-all ${
-                  active && stage === 'logo'
+                onClick={() => jumpToStage('converge')}
+                className={`px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all cursor-pointer ${
+                  active && stage === 'converge'
                     ? 'bg-[#34A853] text-white'
                     : 'text-white/70 hover:text-white hover:bg-white/10'
                 }`}
               >
-                3. Logo
+                2. 2-Piece Snap
               </button>
             </div>
 
             {/* Theme Toggle */}
             <button
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="p-2 rounded-xl bg-white/08 hover:bg-white/15 text-white/80 transition-colors"
+              className="p-2 rounded-xl bg-white/08 hover:bg-white/15 text-white/80 transition-colors cursor-pointer"
               title="Toggle Theme"
             >
               {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -515,7 +416,7 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
             {/* Speed Switcher */}
             <button
               onClick={() => setSpeed(speed === 1 ? 0.5 : speed === 0.5 ? 1.5 : 1)}
-              className="px-2.5 py-1.5 rounded-xl bg-white/08 hover:bg-white/15 text-white/90 text-xs font-mono font-semibold transition-colors flex items-center gap-1"
+              className="px-2.5 py-1.5 rounded-xl bg-white/08 hover:bg-white/15 text-white/90 text-xs font-mono font-semibold transition-colors flex items-center gap-1 cursor-pointer"
               title="Change Speed"
             >
               <FastForward className="w-3 h-3 text-[#FBBC05]" />
@@ -525,7 +426,7 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
             {/* Toggle Visibility */}
             <button
               onClick={() => setActive(!active)}
-              className={`p-2 rounded-xl transition-colors ${
+              className={`p-2 rounded-xl transition-colors cursor-pointer ${
                 active ? 'bg-red-500/20 text-red-400 hover:bg-red-500/30' : 'bg-green-500/20 text-green-400 hover:bg-green-500/30'
               }`}
               title={active ? 'Close Overlay' : 'Open Overlay'}

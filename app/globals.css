@@ -62,17 +62,21 @@
   }
 }
 
-/* ─── GDG Custom Cursor Pointer ───────────────────── */
-body.gdg-custom-cursor-active,
-body.gdg-custom-cursor-active *,
-body.gdg-custom-cursor-active a,
-body.gdg-custom-cursor-active button,
-body.gdg-custom-cursor-active input,
-body.gdg-custom-cursor-active select,
-body.gdg-custom-cursor-active textarea,
-body.gdg-custom-cursor-active [role="button"] {
-  cursor: none !important;
+/* ─── Smooth Custom Cursor ────────────────────────── */
+@media (hover: hover) and (pointer: fine) {
+  *,
+  *::before,
+  *::after {
+    cursor: none !important;
+  }
+
+  input,
+  textarea,
+  [contenteditable="true"] {
+    cursor: text !important;
+  }
 }
+
 
 /* ─── Section Containers ──────────────────────────── */
 .section-light {
