@@ -99,7 +99,7 @@ export default function CommunityGalleryPage() {
             Moments &amp; Memories
           </Badge>
           <h1 className="text-4xl sm:text-6xl font-black text-[#1A1A2E] tracking-tight leading-tight">
-            Community <span className="text-gradient-google">Gallery</span>
+            Community <span className="text-gradient-google">Showcase</span>
           </h1>
           <p className="mt-4 text-base sm:text-lg text-slate-600 font-medium leading-relaxed">
             Relive the high-energy hackathons, technical workshops, campus meetups, and devfests captured through our lens at RMKEC.
