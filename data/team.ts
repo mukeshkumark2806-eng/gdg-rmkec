@@ -34,7 +34,7 @@ export const teamData: TeamMember[] = [
     domain: 'Core Lead',
     teamCategory: 'Core Lead',
     bio: 'Spearheading GDG RMKEC chapter operations, developer initiatives, and student mentorship.',
-    avatarUrl: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=400&q=80',
+    avatarUrl: '/images/family/Vishal Rajesh Kumar Jayalakshmi.png',
     socials: {
       github: 'https://github.com',
       linkedin: 'https://linkedin.com',
