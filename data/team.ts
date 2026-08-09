@@ -338,7 +338,7 @@ export const teamData: TeamMember[] = [
     domain: 'Design',
     teamCategory: 'Design Team',
     bio: 'Creating visual storyboards and brand collateral for developer summits.',
-    avatarUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80',
+    avatarUrl: '/images/family/Shree Shreya P.jpeg',
     socials: {
       linkedin: 'https://linkedin.com',
     },
