@@ -1,133 +1,119 @@
-import React from 'react';
-import { Metadata } from 'next';
-import { teamData } from '@/data/team';
-import { Badge } from '@/components/ui/Badge';
-import { Github, Linkedin, Twitter, Globe, Sparkles } from 'lucide-react';
+'use client';
 
-export const metadata: Metadata = {
-  title: 'Family Wall & Team',
-  description: 'Meet the faculty advisors, core chapter leads, domain heads, and alumni of GDG RMKEC.',
-};
+import React, { useState, useEffect, useMemo } from 'react';
+import { teamData, TEAM_SECTIONS_ORDER } from '@/data/team';
+import { Badge } from '@/components/ui/Badge';
+import { TeamSection } from '@/components/team/TeamSection';
 
 export default function FamilyPage() {
-  const leads = teamData.filter((t) => t.domain !== 'Alumni');
-  const alumni = teamData.filter((t) => t.domain === 'Alumni');
+  const [activeCategory, setActiveCategory] = useState<string>('All');
+
+  useEffect(() => {
+    // Load dotlottie-wc web component script if not already present
+    if (!document.querySelector('script[src*="dotlottie-wc"]')) {
+      const script = document.createElement('script');
+      script.src = 'https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.4/dist/dotlottie-wc.js';
+      script.type = 'module';
+      document.head.appendChild(script);
+    }
+  }, []);
+
+  // Guarantee strict order:
+  // 1. Dr. Darwin — Faculty Coordinator
+  // 2. Core Leads
+  // 3. Technical Team
+  // 4. HR Team
+  // 5. Design Team
+  // 6. PR Team
+  // 7. Event Management
+  const orderedMembers = useMemo(() => {
+    return TEAM_SECTIONS_ORDER.flatMap((category) =>
+      teamData.filter((member) => member.teamCategory === category)
+    );
+  }, []);
+
+  const displayMembers = useMemo(() => {
+    if (activeCategory === 'All') return orderedMembers;
+    return orderedMembers.filter((m) => m.teamCategory === activeCategory);
+  }, [activeCategory, orderedMembers]);
 
   return (
-    <div className="pt-32 pb-24 relative overflow-hidden">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+    <div className="pt-32 pb-24 relative overflow-hidden bg-[#F5F7FA]">
+      {/* Background Blobs like Home Page */}
+      <div className="blob" style={{ width: 700, height: 600, background: 'radial-gradient(ellipse, #4285F4 0%, #34A853 55%, transparent 100%)', top: -200, right: -150, opacity: 0.13 }} />
+      <div className="blob" style={{ width: 500, height: 400, background: 'radial-gradient(ellipse, #FBBC05 0%, #EA4335 55%, transparent 100%)', bottom: 40, left: -120, opacity: 0.09, animationDelay: '4s' }} />
+      <div className="blob" style={{ width: 600, height: 400, background: 'radial-gradient(ellipse, #4285F4 0%, transparent 70%)', top: '30%', left: '25%', opacity: 0.05, animationDelay: '8s' }} />
+
+      {/* Dot Grid Texture like Home Page */}
+      <div className="absolute inset-0 bg-dot-grid pointer-events-none" />
+
+      {/* Top Left DotLottie Animation below Navbar */}
+      <div className="absolute top-20 left-2 sm:left-6 md:left-12 z-0 pointer-events-none opacity-85 lg:opacity-100">
+        <dotlottie-wc
+          src="https://lottie.host/e06e6375-0cd0-456c-83da-f71380ba0f37/oiab0MZhHC.lottie"
+          style={{ width: '360px', height: '360px' }}
+          autoplay
+          loop
+        />
+      </div>
+
+      {/* Top Right DotLottie Animation below Navbar */}
+      <div className="absolute top-20 right-2 sm:right-6 md:right-12 z-0 pointer-events-none opacity-85 lg:opacity-100">
+        <dotlottie-wc
+          src="https://lottie.host/08caeb60-a827-4280-aee6-603f19d00b3c/qNbz8leWyQ.lottie"
+          style={{ width: '360px', height: '360px' }}
+          autoplay
+          loop
+        />
+      </div>
+
+      <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 relative z-10 w-full">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-20">
+        <div className="text-center max-w-3xl mx-auto mb-10">
           <Badge variant="blue" className="mb-4">
             People Behind GDG RMKEC
           </Badge>
-          <h1 className="text-4xl sm:text-6xl font-black text-white tracking-tight leading-tight">
+          <h1 className="text-4xl sm:text-6xl font-black text-[#1A1A2E] tracking-tight leading-tight">
             Our <span className="text-gradient-google">Family Wall</span>
           </h1>
-          <p className="mt-4 text-base sm:text-lg text-slate-300">
-            Meet the faculty advisors, student chapter leads, domain heads, and alumni building the GDG RMKEC chapter.
+          <p className="mt-4 text-base sm:text-lg text-slate-600 font-medium">
+            Meet the faculty advisors, student chapter leads, domain teams, and volunteers building the GDG RMKEC chapter.
           </p>
         </div>
 
-        {/* Core Team & Leads */}
-        <div className="mb-24">
-          <h2 className="text-2xl font-extrabold text-white mb-8 border-b border-white/10 pb-4">
-            Faculty Advisors & Core Leads
-          </h2>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {leads.map((member) => (
-              <div
-                key={member.id}
-                className="group relative flex flex-col justify-between rounded-2xl border border-white/10 bg-slate-900/70 p-6 backdrop-blur-xl hover:border-blue-500/40 transition-all duration-300"
+        {/* Category Filter Pills */}
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-12">
+          <button
+            onClick={() => setActiveCategory('All')}
+            className={`px-4 py-2 text-xs sm:text-sm font-semibold rounded-full border transition-all duration-200 ${
+              activeCategory === 'All'
+                ? 'bg-[#1A1A2E] text-white border-[#1A1A2E] shadow-md'
+                : 'bg-white/80 text-slate-700 hover:bg-white border-slate-300/80 hover:border-blue-400 shadow-sm'
+            }`}
+          >
+            All Members ({orderedMembers.length})
+          </button>
+          {TEAM_SECTIONS_ORDER.map((category) => {
+            const count = orderedMembers.filter((m) => m.teamCategory === category).length;
+            const isActive = activeCategory === category;
+            return (
+              <button
+                key={category}
+                onClick={() => setActiveCategory(category)}
+                className={`px-4 py-2 text-xs sm:text-sm font-semibold rounded-full border transition-all duration-200 ${
+                  isActive
+                    ? 'bg-[#1A1A2E] text-white border-[#1A1A2E] shadow-md'
+                    : 'bg-white/80 text-slate-700 hover:bg-white border-slate-300/80 hover:border-blue-400 shadow-sm'
+                }`}
               >
-                <div>
-                  <div className="relative mb-6 overflow-hidden rounded-xl aspect-square border border-white/10">
-                    <img
-                      src={member.avatarUrl}
-                      alt={member.name}
-                      className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute top-3 left-3">
-                      <Badge variant="glass">{member.domain}</Badge>
-                    </div>
-                  </div>
-
-                  <h3 className="text-xl font-bold text-white tracking-tight">{member.name}</h3>
-                  <p className="text-xs font-semibold text-blue-400 mt-1">{member.role}</p>
-                  <p className="text-xs text-slate-300 leading-relaxed mt-3">{member.bio}</p>
-                </div>
-
-                <div className="mt-6 pt-4 border-t border-white/10 flex items-center gap-3">
-                  {member.socials.github && (
-                    <a
-                      href={member.socials.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="rounded-lg bg-slate-800 p-2 text-slate-400 hover:text-white transition-colors"
-                      aria-label="GitHub"
-                    >
-                      <Github className="h-4 w-4" />
-                    </a>
-                  )}
-                  {member.socials.linkedin && (
-                    <a
-                      href={member.socials.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="rounded-lg bg-slate-800 p-2 text-slate-400 hover:text-white transition-colors"
-                      aria-label="LinkedIn"
-                    >
-                      <Linkedin className="h-4 w-4" />
-                    </a>
-                  )}
-                  {member.socials.twitter && (
-                    <a
-                      href={member.socials.twitter}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="rounded-lg bg-slate-800 p-2 text-slate-400 hover:text-white transition-colors"
-                      aria-label="Twitter"
-                    >
-                      <Twitter className="h-4 w-4" />
-                    </a>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
+                {category} ({count})
+              </button>
+            );
+          })}
         </div>
 
-        {/* Alumni Network */}
-        <div>
-          <h2 className="text-2xl font-extrabold text-white mb-8 border-b border-white/10 pb-4">
-            Alumni Wall
-          </h2>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {alumni.map((member) => (
-              <div
-                key={member.id}
-                className="group relative flex flex-col justify-between rounded-2xl border border-white/10 bg-slate-900/60 p-6 backdrop-blur-xl"
-              >
-                <div>
-                  <div className="flex items-center gap-4 mb-4">
-                    <img
-                      src={member.avatarUrl}
-                      alt={member.name}
-                      className="h-14 w-14 rounded-full object-cover border border-white/10"
-                    />
-                    <div>
-                      <h3 className="text-lg font-bold text-white">{member.name}</h3>
-                      <p className="text-xs text-yellow-400 font-semibold">{member.role}</p>
-                    </div>
-                  </div>
-                  <p className="text-xs text-slate-300 leading-relaxed">{member.bio}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        {/* Single Continuous 3-Column Responsive Grid */}
+        <TeamSection members={displayMembers} />
       </div>
     </div>
   );

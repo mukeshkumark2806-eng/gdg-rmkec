@@ -64,15 +64,25 @@ export interface TeamMember {
   id: string;
   name: string;
   role: string;
-  domain: 'Lead' | 'Technical' | 'Design' | 'Management' | 'Alumni' | 'Faculty';
+  domain: string;
+  teamCategory:
+    | 'Faculty Coordinator'
+    | 'Core Leads'
+    | 'Technical Team'
+    | 'HR Team'
+    | 'Design Team'
+    | 'PR Team'
+    | 'Event Management'
+    | string;
   subDomain?: string;
-  bio: string;
+  bio?: string;
   avatarUrl: string;
-  socials: {
+  socials?: {
     github?: string;
     linkedin?: string;
     twitter?: string;
     portfolio?: string;
+    email?: string;
   };
   featured?: boolean;
 }

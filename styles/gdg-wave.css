@@ -1,0 +1,108 @@
+/* ══════════════════════════════════════════════════════════════════════════════
+   GDG 4-LAYER COLOR WAVE STYLES — VERCEL / STRIPE / LINEAR SAAS AESTHETIC
+   4-layer dark transition (180–220px tall) with individual GDG color layers
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.gdg-wave-strip-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: clamp(180px, 20vh, 220px);
+  min-height: 180px;
+  max-height: 220px;
+  background-color: transparent;
+  overflow: hidden;
+  display: block;
+  z-index: 5;
+  margin-bottom: -1px;
+  user-select: none;
+  pointer-events: none;
+}
+
+.gdg-wave-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: visible;
+}
+
+/* ── Hardware Accelerated Compositor Layer ────────────────────────────────── */
+.gdg-gpu-layer {
+  will-change: transform;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* ── Horizontal Scrolling Animations (Seamless 1440px loop) ───────────────── */
+@keyframes gdg-scroll-left {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-1440px, 0, 0);
+  }
+}
+
+@keyframes gdg-scroll-right {
+  0% {
+    transform: translate3d(-1440px, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Speeds: 14s to 22s for 4 independent layers */
+.gdg-scroll-left-22s  { animation: gdg-scroll-left  22s linear infinite; }
+.gdg-scroll-right-19s { animation: gdg-scroll-right 19s linear infinite; }
+.gdg-scroll-left-16s  { animation: gdg-scroll-left  16s linear infinite; }
+.gdg-scroll-right-14s { animation: gdg-scroll-right 14s linear infinite; }
+
+/* ── Subtle Vertical Morphing & Breathing (15-20s ease-in-out infinite) ───── */
+@keyframes gdg-morph-1 {
+  0%, 100% { transform: scaleY(1) translateY(0px) skewX(0deg); }
+  50%      { transform: scaleY(1.08) translateY(-4px) skewX(0.8deg); }
+}
+
+@keyframes gdg-morph-2 {
+  0%, 100% { transform: scaleY(1) translateY(0px) skewX(0deg); }
+  50%      { transform: scaleY(0.94) translateY(3px) skewX(-0.8deg); }
+}
+
+@keyframes gdg-morph-3 {
+  0%, 100% { transform: scaleY(1) translateY(0px); }
+  50%      { transform: scaleY(1.06) translateY(-3px); }
+}
+
+@keyframes gdg-morph-4 {
+  0%, 100% { transform: scaleY(1) translateY(0px) skewX(0deg); }
+  50%      { transform: scaleY(0.96) translateY(2px) skewX(0.5deg); }
+}
+
+.gdg-morph-layer-1 { animation: gdg-morph-1 18s ease-in-out infinite; transform-origin: 1440px 100px; }
+.gdg-morph-layer-2 { animation: gdg-morph-2 16s ease-in-out infinite; transform-origin: 1440px 100px; }
+.gdg-morph-layer-3 { animation: gdg-morph-3 19s ease-in-out infinite; transform-origin: 1440px 100px; }
+.gdg-morph-layer-4 { animation: gdg-morph-4 15s ease-in-out infinite; transform-origin: 1440px 100px; }
+
+/* ── Depth-of-Field Blurs for Shadow Layers ───────────────────────────────── */
+.gdg-blur-mid {
+  filter: blur(2px);
+}
+
+.gdg-blur-soft {
+  filter: blur(1px);
+}
+
+/* ── Accessibility & Reduced Motion ───────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .gdg-gpu-layer,
+  .gdg-morph-layer-1, .gdg-morph-layer-2, .gdg-morph-layer-3, .gdg-morph-layer-4 {
+    animation-duration: 60s !important;
+  }
+}
