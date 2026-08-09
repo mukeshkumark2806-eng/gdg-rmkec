@@ -6,7 +6,7 @@ export const mainNav: NavItem[] = [
   { label: 'Journey', href: '/journey' },
   { label: 'Events', href: '/events' },
   { label: 'Projects', href: '/projects' },
-  { label: 'Community', href: '/community' },
+  { label: 'Gallery', href: '/community' },
   { label: 'Family', href: '/family' },
   { label: 'Join Us', href: '/join' },
   { label: 'Contact', href: '/contact' },

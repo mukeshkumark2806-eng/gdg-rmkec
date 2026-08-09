@@ -83,7 +83,7 @@ export const CTASection: React.FC = () => (
       ))}
     </div>
 
-    <div className="relative z-10 mx-auto max-w-[1280px] px-6 sm:px-8 text-center pb-20">
+    <div className="relative z-10 mx-auto max-w-[1280px] px-6 sm:px-8 text-center pb-36">
       <div className="max-w-2xl mx-auto space-y-8">
 
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
@@ -122,13 +122,7 @@ export const CTASection: React.FC = () => (
           <Link href="/about" className="btn-ghost">Learn About Us</Link>
         </motion.div>
 
-        {/* Perks row */}
-        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.32 }}
-          className="flex flex-wrap items-center justify-center gap-3 pt-2">
-          {['Free Events', 'Cloud Credits', 'Mentorship', 'Hackathon Teams', 'Career Network'].map((p, i) => (
-            <span key={p} className={`chip ${ ['chip-blue', 'chip-red', 'chip-green', 'chip-yellow', 'chip-blue'][i]} text-xs`}>{p}</span>
-          ))}
-        </motion.div>
+
 
       </div>
     </div>

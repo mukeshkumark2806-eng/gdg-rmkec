@@ -14,7 +14,7 @@ const desktopNav = [
   { label: 'About', href: '/about' },
   { label: 'Events', href: '/events' },
   { label: 'Projects', href: '/projects' },
-  { label: 'Community', href: '/community' },
+  { label: 'Gallery', href: '/community' },
   { label: 'Family', href: '/family' },
 ];
 
