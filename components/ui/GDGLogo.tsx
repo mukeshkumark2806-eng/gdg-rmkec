@@ -55,13 +55,13 @@ export const GDGLogo: React.FC<GDGLogoProps> = ({
             className="text-sm sm:text-[15px] font-bold tracking-tight"
             style={{ color: primaryText, fontFamily: 'var(--font-heading)', lineHeight: 1.25 }}
           >
-            GDG RMKEC
+            Google Developer Group
           </span>
           <span
             className="text-[10px] font-medium tracking-wide mt-0.5"
             style={{ color: secondaryText, letterSpacing: '0.03em' }}
           >
-            Google Developer Group
+            R.M.K. Engineering College
           </span>
         </div>
       )}

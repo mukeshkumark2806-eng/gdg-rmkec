@@ -55,10 +55,10 @@ export default function EventsPage() {
       {/* Dot Grid Texture like Home Page */}
       <div className="absolute inset-0 bg-dot-grid pointer-events-none" />
       {/* Top Left DotLottie Animation below Navbar */}
-      <div className="absolute top-20 left-2 sm:left-6 md:left-12 z-0 pointer-events-none opacity-85 lg:opacity-100">
+      <div className="absolute top-4 left-0 sm:left-4 md:left-8 z-0 pointer-events-none opacity-90 lg:opacity-100">
         <dotlottie-wc
           src="https://lottie.host/15fb94bb-ad03-4ae3-baec-ee1492599330/pKuLjHKXhA.lottie"
-          style={{ width: '280px', height: '280px' }}
+          style={{ width: '320px', height: '320px' }}
           autoplay
           loop
         />

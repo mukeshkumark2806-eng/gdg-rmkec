@@ -16,7 +16,7 @@ interface GoogleLoaderProps {
   showControls?: boolean;
 }
 
-export type LoaderStage = 'dots' | 'converge' | 'complete';
+export type LoaderStage = 'dots' | 'circle' | 'converge' | 'complete';
 export type LoaderTheme = 'dark' | 'light';
 
 export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
@@ -33,57 +33,71 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
   const [speed, setSpeed] = useState<number>(1);
   const [progress, setProgress] = useState(0);
 
-  // Main animation timeline sequence
+  // Main 3-Step Animation Sequence:
+  // Step 1: 4 Google Dots (0ms - 750ms)
+  // Step 2: Multi-color Rotating Circle Spinner (750ms - 1650ms)
+  // Step 3: Two Pieces Converge & Snap at Center (1650ms - 3200ms)
   const runAnimationSequence = useCallback(() => {
     setStage('dots');
     setProgress(0);
-    if (typeof window !== 'undefined') {
-      window.dispatchEvent(new CustomEvent('gdg-loader-start'));
-    }
 
     const baseDuration = 600 / speed;
 
-    // Stage 1: 4 Dots Pulse & Orbit (0ms to 800ms)
+    // Stage 1: 4 Dots Pulse & Orbit (0ms to 750ms)
     const p1 = setInterval(() => {
       setProgress((prev) => {
-        if (prev >= 40) {
+        if (prev >= 35) {
           clearInterval(p1);
-          return 40;
+          return 35;
         }
         return prev + 5;
       });
     }, baseDuration / 15);
 
-    // Stage 2: Two Pieces Converge from opposite sides and snap in center (800ms)
-    const tConverge = setTimeout(() => {
-      setStage('converge');
-    }, 800 / speed);
+    // Stage 2: Rotating Multi-Color Circle Spinner (750ms)
+    const tCircle = setTimeout(() => {
+      setStage('circle');
+    }, 750 / speed);
 
     const p2 = setInterval(() => {
       setProgress((prev) => {
-        if (prev >= 100) {
+        if (prev >= 70) {
           clearInterval(p2);
+          return 70;
+        }
+        return Math.min(70, prev + 4);
+      });
+    }, baseDuration / 20);
+
+    // Stage 3: Two GDG Pieces Converge from opposite sides and snap in center (1650ms)
+    const tConverge = setTimeout(() => {
+      setStage('converge');
+    }, 1650 / speed);
+
+    const p3 = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(p3);
           return 100;
         }
         return Math.min(100, prev + 4);
       });
     }, baseDuration / 20);
 
-    // Stage 3: Complete / Auto close (2900ms) - Gives time to enjoy the assembled logo
+    // Complete / Auto close (3200ms)
     const tComplete = setTimeout(() => {
       setStage('complete');
-      if (typeof window !== 'undefined') {
-        window.dispatchEvent(new CustomEvent('gdg-loader-complete'));
-      }
       if (onComplete) onComplete();
       if (autoClose) {
         setTimeout(() => setActive(false), 350 / speed);
       }
-    }, 2900 / speed);
+    }, 3200 / speed);
 
     return () => {
       clearInterval(p1);
       clearInterval(p2);
+      clearInterval(p3);
+      clearTimeout(tCircle);
       clearTimeout(tConverge);
       clearTimeout(tComplete);
     };
@@ -135,6 +149,7 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
   const jumpToStage = (targetStage: LoaderStage) => {
     setStage(targetStage);
     if (targetStage === 'dots') setProgress(25);
+    if (targetStage === 'circle') setProgress(55);
     if (targetStage === 'converge') setProgress(85);
     if (targetStage === 'complete') {
       setProgress(100);
@@ -180,7 +195,7 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
                     key="stage-dots"
                     initial={{ opacity: 1, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 1.4, transition: { duration: 0.25 } }}
+                    exit={{ opacity: 0, scale: 1.3, transition: { duration: 0.25 } }}
                     className="flex flex-col items-center gap-8"
                   >
                     <div className="flex items-center justify-center gap-4 h-24">
@@ -245,7 +260,95 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
                 )}
 
                 {/* ============================================================ */}
-                {/* STAGE 2: 2 PIECES CONVERGING FROM OPPOSITE DIRECTIONS & SNAP */}
+                {/* STAGE 2: MULTI-COLOR CIRCLE SPINNER                         */}
+                {/* ============================================================ */}
+                {stage === 'circle' && (
+                  <motion.div
+                    key="stage-circle"
+                    initial={{ opacity: 0, scale: 0.7, rotate: -60 }}
+                    animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                    exit={{ opacity: 0, scale: 1.3, transition: { duration: 0.3 } }}
+                    transition={{ type: 'spring', stiffness: 220, damping: 20 }}
+                    className="flex flex-col items-center gap-8"
+                  >
+                    {/* SVG Multi-Color Circle Spinner */}
+                    <div className="relative w-28 h-28 flex items-center justify-center">
+                      {/* Outer Glow Ring */}
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#4285F4] via-[#EA4335] to-[#34A853] opacity-35 blur-xl animate-pulse" />
+
+                      {/* Rotating Multi-Color Arc Spinner */}
+                      <motion.svg
+                        className="w-full h-full"
+                        viewBox="0 0 100 100"
+                        animate={{ rotate: 360 }}
+                        transition={{
+                          duration: 1.5 / speed,
+                          repeat: Infinity,
+                          ease: 'linear',
+                        }}
+                      >
+                        {/* Blue Arc */}
+                        <circle
+                          cx="50"
+                          cy="50"
+                          r="40"
+                          fill="none"
+                          stroke="#4285F4"
+                          strokeWidth="8"
+                          strokeLinecap="round"
+                          strokeDasharray="56 195"
+                          strokeDashoffset="0"
+                        />
+                        {/* Red Arc */}
+                        <circle
+                          cx="50"
+                          cy="50"
+                          r="40"
+                          fill="none"
+                          stroke="#EA4335"
+                          strokeWidth="8"
+                          strokeLinecap="round"
+                          strokeDasharray="56 195"
+                          strokeDashoffset="-63"
+                        />
+                        {/* Yellow Arc */}
+                        <circle
+                          cx="50"
+                          cy="50"
+                          r="40"
+                          fill="none"
+                          stroke="#FBBC05"
+                          strokeWidth="8"
+                          strokeLinecap="round"
+                          strokeDasharray="56 195"
+                          strokeDashoffset="-126"
+                        />
+                        {/* Green Arc */}
+                        <circle
+                          cx="50"
+                          cy="50"
+                          r="40"
+                          fill="none"
+                          stroke="#34A853"
+                          strokeWidth="8"
+                          strokeLinecap="round"
+                          strokeDasharray="56 195"
+                          strokeDashoffset="-189"
+                        />
+                      </motion.svg>
+
+                      {/* Center Pulsing Nucleus */}
+                      <motion.div
+                        animate={{ scale: [0.8, 1.25, 0.8] }}
+                        transition={{ duration: 1 / speed, repeat: Infinity }}
+                        className="absolute w-4 h-4 rounded-full bg-[#4285F4] shadow-[0_0_15px_#4285F4]"
+                      />
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* ============================================================ */}
+                {/* STAGE 3: 2 PIECES CONVERGING FROM OPPOSITE DIRECTIONS & SNAP */}
                 {/* ============================================================ */}
                 {(stage === 'converge' || stage === 'complete') && (
                   <motion.div
@@ -383,7 +486,7 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
               title="Replay Loading Effect"
             >
               <RotateCcw className="w-3.5 h-3.5" />
-              <span>Replay Convergence</span>
+              <span>Replay 3-Step</span>
             </button>
 
             {/* Stage Selector Dropdown/Buttons */}
@@ -396,7 +499,17 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
                     : 'text-white/70 hover:text-white hover:bg-white/10'
                 }`}
               >
-                1. Intro
+                1. Dots
+              </button>
+              <button
+                onClick={() => jumpToStage('circle')}
+                className={`px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all cursor-pointer ${
+                  active && stage === 'circle'
+                    ? 'bg-[#EA4335] text-white'
+                    : 'text-white/70 hover:text-white hover:bg-white/10'
+                }`}
+              >
+                2. Circle
               </button>
               <button
                 onClick={() => jumpToStage('converge')}
@@ -406,7 +519,7 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
                     : 'text-white/70 hover:text-white hover:bg-white/10'
                 }`}
               >
-                2. 2-Piece Snap
+                3. 2-Piece Snap
               </button>
             </div>
 
