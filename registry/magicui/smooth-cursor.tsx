@@ -39,7 +39,7 @@ export interface SmoothCursorProps {
 
 export function SmoothCursor({
   cursor,
-  springConfig = { damping: 24, stiffness: 850, mass: 0.12 },
+  springConfig = { damping: 30, stiffness: 450, mass: 0.1 },
   showTrail = true,
   className = '',
 }: SmoothCursorProps) {
@@ -68,16 +68,16 @@ export function SmoothCursor({
     const vx = Number(values[0]) || 0;
     const vy = Number(values[1]) || 0;
     const speed = Math.hypot(vx, vy);
-    if (speed < 10) return 0;
+    if (speed < 25) return 0;
     const angle = (Math.atan2(vy, vx) * 180) / Math.PI;
-    return Math.min(Math.max(angle - 90, -45), 45) * 0.25;
+    return Math.min(Math.max(angle - 90, -35), 35) * 0.2;
   });
 
   const speedScale = useTransform([velocityX, velocityY], (values: (number | string)[]) => {
     const vx = Number(values[0]) || 0;
     const vy = Number(values[1]) || 0;
     const speed = Math.hypot(vx, vy);
-    return Math.min(1 + speed / 4000, 1.2);
+    return Math.min(1 + speed / 4000, 1.15);
   });
 
   useEffect(() => {
@@ -287,8 +287,8 @@ export function SmoothCursor({
           x: smoothX,
           y: smoothY,
           opacity: isVisible ? 1 : 0,
-          rotate: rotation,
-          scale: isPressed ? 0.85 : speedScale,
+          rotate: isHovered ? 0 : rotation,
+          scale: isPressed ? 0.85 : isHovered ? 1.12 : speedScale,
         }}
       >
         {cursor || (
@@ -299,17 +299,16 @@ export function SmoothCursor({
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              className={`h-8.5 w-8.5 transform transition-transform duration-150 ${
-                isHovered ? 'scale-115 text-blue-500' : ''
+              className={`h-8.5 w-8.5 transition-colors duration-200 ${
+                isHovered ? 'text-blue-500' : ''
               }`}
             >
               <path
                 d="M5.65376 12.3673H5.46026L5.31717 12.4976L0.500002 16.8829L0.500002 1.19841L11.7841 12.3673H5.65376Z"
-                fill="#1A1A2E"
+                fill={isHovered ? '#4285F4' : '#1A1A2E'}
                 stroke="#ffffff"
                 strokeWidth="1.6"
                 strokeLinejoin="round"
-                className="drop-shadow-[0_3px_10px_rgba(0,0,0,0.4)]"
               />
             </svg>
           </div>
