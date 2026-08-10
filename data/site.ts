@@ -17,7 +17,7 @@ export const siteConfig = {
     discord: 'https://discord.gg/gdgrmkec',
     gdgCommunityPage: 'https://gdg.community.dev/rmk-engineering-college/',
   },
-  contactEmail: 'gdg@rmkec.ac.in',
+  contactEmail: 'gdgocrmk@gmail.com',
   address: 'R.M.K. Engineering College, RSM Nagar, Kavaraipettai, Tiruvallur Dist, Tamil Nadu 601206',
   stats: {
     activeMembers: 1200,
