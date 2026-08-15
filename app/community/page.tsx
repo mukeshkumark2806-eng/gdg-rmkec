@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { galleryData, galleryCategories, GalleryItem } from '@/data/gallery';
@@ -19,6 +19,8 @@ import {
   ArrowRight,
   Maximize2,
   X,
+  ChevronLeft,
+  ChevronRight,
   Layers,
   Heart,
 } from 'lucide-react';
@@ -33,10 +35,124 @@ const perks = [
   'Certificates of Recognition Verified by GDG Leads',
 ];
 
+function GalleryCard({ 
+  item, 
+  idx, 
+  setActivePhotoIndex 
+}: { 
+  item: GalleryItem; 
+  idx: number; 
+  setActivePhotoIndex: (idx: number) => void 
+}) {
+  const images = item.images && item.images.length > 0 ? item.images : [item.image];
+  const [currentImageIdx, setCurrentImageIdx] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isHovered && images.length > 1) {
+      interval = setInterval(() => {
+        setCurrentImageIdx((prev) => (prev + 1) % images.length);
+      }, 2000);
+    }
+    return () => clearInterval(interval);
+  }, [isHovered, images.length]);
+
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, scale: 0.92, y: 20 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.92 }}
+      transition={{ duration: 0.4, delay: idx * 0.05 }}
+      onClick={() => setActivePhotoIndex(idx)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        setCurrentImageIdx(0);
+      }}
+      className="group relative rounded-3xl overflow-hidden bg-black border border-white/15 shadow-xl hover:border-blue-500/60 hover:shadow-[0_0_30px_rgba(66,133,244,0.3)] transition-all duration-500 cursor-pointer flex flex-col justify-between"
+    >
+      {/* Image Container */}
+      <div className="relative h-64 sm:h-72 w-full overflow-hidden">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentImageIdx}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="absolute inset-0"
+          >
+            <Image
+              src={images[currentImageIdx]}
+              alt={item.title}
+              fill
+              className="object-cover transition-transform duration-[2000ms] ease-out brightness-90 group-hover:brightness-100 group-hover:scale-110"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+          </motion.div>
+        </AnimatePresence>
+        
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent opacity-90 group-hover:opacity-80 transition-opacity" />
+
+        {/* Slideshow Progress Dots */}
+        {images.length > 1 && (
+          <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1.5 z-20">
+            {images.map((_, i) => (
+              <div 
+                key={i} 
+                className={`h-1.5 rounded-full transition-all duration-300 ${i === currentImageIdx ? 'w-4 bg-blue-500' : 'w-1.5 bg-white/40'}`} 
+              />
+            ))}
+          </div>
+        )}
+
+        {/* Top Badges */}
+        <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10">
+          <span className="px-3 py-1 text-[11px] font-bold rounded-full bg-blue-600/90 text-white backdrop-blur-md border border-blue-400/40 shadow-md">
+            {item.category}
+          </span>
+          <span className="flex items-center gap-1 text-[11px] font-medium text-white/90 bg-black/60 px-2.5 py-1 rounded-full backdrop-blur-md border border-white/10">
+            <Users className="w-3 h-3 text-blue-400" />
+            {item.attendees}
+          </span>
+        </div>
+
+        {/* Expand icon hover badge */}
+        <div className="absolute bottom-4 right-4 z-10 w-9 h-9 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur-md flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+          <Maximize2 className="w-4 h-4" />
+        </div>
+      </div>
+
+      {/* Bottom Content */}
+      <div className="p-6 relative z-10 bg-black">
+        <h3 className="text-xl font-bold text-white tracking-tight group-hover:text-blue-400 transition-colors mb-2">
+          {item.title}
+        </h3>
+        <p className="text-xs text-slate-300 font-normal leading-relaxed line-clamp-2 mb-4">
+          {item.description}
+        </p>
+
+        <div className="flex items-center justify-between text-xs text-slate-400 pt-3 border-t border-white/10">
+          <span className="flex items-center gap-1.5 font-medium">
+            <Calendar className="w-3.5 h-3.5 text-blue-400" />
+            {item.date}
+          </span>
+          <span className="flex items-center gap-1.5 font-medium truncate max-w-[140px]">
+            <MapPin className="w-3.5 h-3.5 text-red-400 shrink-0" />
+            <span className="truncate">{item.location}</span>
+          </span>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function CommunityGalleryPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState('');
-  const [activePhoto, setActivePhoto] = useState<GalleryItem | null>(null);
+  const [activePhotoIndex, setActivePhotoIndex] = useState<number | null>(null);
 
   const filteredItems = galleryData.filter((item) => {
     const matchesCategory =
@@ -49,6 +165,61 @@ export default function CommunityGalleryPage() {
 
     return matchesCategory && matchesSearch;
   });
+
+  const isLightboxOpen = activePhotoIndex !== null && filteredItems.length > 0;
+
+  const closeLightbox = useCallback(() => {
+    setActivePhotoIndex(null);
+  }, []);
+
+  const goToPrev = useCallback(() => {
+    setActivePhotoIndex((curr) => {
+      if (curr === null || filteredItems.length === 0) return null;
+      return (curr - 1 + filteredItems.length) % filteredItems.length;
+    });
+  }, [filteredItems.length]);
+
+  const goToNext = useCallback(() => {
+    setActivePhotoIndex((curr) => {
+      if (curr === null || filteredItems.length === 0) return null;
+      return (curr + 1) % filteredItems.length;
+    });
+  }, [filteredItems.length]);
+
+  // Lock body scroll and disable header interactivity when slideshow is open
+  useEffect(() => {
+    if (!isLightboxOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closeLightbox();
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        goToPrev();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        goToNext();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const headers = document.querySelectorAll('header, nav');
+    headers.forEach((h) => {
+      (h as HTMLElement).style.pointerEvents = 'none';
+    });
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = originalOverflow;
+      headers.forEach((h) => {
+        (h as HTMLElement).style.pointerEvents = '';
+      });
+    };
+  }, [isLightboxOpen, closeLightbox, goToPrev, goToNext]);
 
   return (
     <div className="pt-32 pb-24 relative overflow-hidden bg-[#F5F7FA]">
@@ -158,123 +329,96 @@ export default function CommunityGalleryPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
           <AnimatePresence mode="popLayout">
             {filteredItems.map((item, idx) => (
-              <motion.div
-                key={item.id}
-                layout
-                initial={{ opacity: 0, scale: 0.92, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.92 }}
-                transition={{ duration: 0.4, delay: idx * 0.05 }}
-                onClick={() => setActivePhoto(item)}
-                className="group relative rounded-3xl overflow-hidden bg-black border border-white/15 shadow-xl hover:border-blue-500/60 hover:shadow-[0_0_30px_rgba(66,133,244,0.3)] transition-all duration-500 cursor-pointer flex flex-col justify-between"
-              >
-                {/* Image Container */}
-                <div className="relative h-64 sm:h-72 w-full overflow-hidden">
-                  <Image
-                    src={item.image}
-                    alt={item.title}
-                    fill
-                    className="object-cover group-hover:scale-108 transition-transform duration-700 ease-out brightness-90 group-hover:brightness-100"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent opacity-90 group-hover:opacity-80 transition-opacity" />
-
-                  {/* Top Badges */}
-                  <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10">
-                    <span className="px-3 py-1 text-[11px] font-bold rounded-full bg-blue-600/90 text-white backdrop-blur-md border border-blue-400/40 shadow-md">
-                      {item.category}
-                    </span>
-                    <span className="flex items-center gap-1 text-[11px] font-medium text-white/90 bg-black/60 px-2.5 py-1 rounded-full backdrop-blur-md border border-white/10">
-                      <Users className="w-3 h-3 text-blue-400" />
-                      {item.attendees}
-                    </span>
-                  </div>
-
-                  {/* Expand icon hover badge */}
-                  <div className="absolute bottom-4 right-4 z-10 w-9 h-9 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur-md flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                    <Maximize2 className="w-4 h-4" />
-                  </div>
-                </div>
-
-                {/* Bottom Content */}
-                <div className="p-6 relative z-10 bg-black">
-                  <h3 className="text-xl font-bold text-white tracking-tight group-hover:text-blue-400 transition-colors mb-2">
-                    {item.title}
-                  </h3>
-                  <p className="text-xs text-slate-300 font-normal leading-relaxed line-clamp-2 mb-4">
-                    {item.description}
-                  </p>
-
-                  <div className="flex items-center justify-between text-xs text-slate-400 pt-3 border-t border-white/10">
-                    <span className="flex items-center gap-1.5 font-medium">
-                      <Calendar className="w-3.5 h-3.5 text-blue-400" />
-                      {item.date}
-                    </span>
-                    <span className="flex items-center gap-1.5 font-medium truncate max-w-[140px]">
-                      <MapPin className="w-3.5 h-3.5 text-red-400 shrink-0" />
-                      <span className="truncate">{item.location}</span>
-                    </span>
-                  </div>
-                </div>
-              </motion.div>
+              <GalleryCard 
+                key={item.id} 
+                item={item} 
+                idx={idx} 
+                setActivePhotoIndex={setActivePhotoIndex} 
+              />
             ))}
           </AnimatePresence>
         </div>
 
-        {/* Lightbox Modal for Full View */}
-        {activePhoto && (
-          <Modal isOpen={!!activePhoto} onClose={() => setActivePhoto(null)} title={activePhoto.title}>
-            <div className="flex flex-col gap-6">
-              <div className="relative w-full h-80 sm:h-96 rounded-2xl overflow-hidden border border-white/15 bg-black">
-                <Image
-                  src={activePhoto.image}
-                  alt={activePhoto.title}
-                  fill
-                  className="object-cover"
-                  sizes="100vw"
-                />
-                <div className="absolute top-4 left-4 z-10">
-                  <Badge variant="blue">{activePhoto.category}</Badge>
-                </div>
+        {/* Full-Screen Image Slideshow Lightbox */}
+        <AnimatePresence>
+          {isLightboxOpen && activePhotoIndex !== null && (
+            <div
+              className="fixed inset-0 z-[999999] flex items-center justify-center bg-black/95 backdrop-blur-xl p-4 sm:p-8 select-none"
+              onClick={closeLightbox}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Gallery Slideshow"
+            >
+              {/* Top Bar */}
+              <div
+                className="absolute top-0 inset-x-0 z-20 flex items-center justify-between px-6 sm:px-10 py-5"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <span className="px-3.5 py-1.5 text-xs font-mono font-bold rounded-full bg-white/10 text-white border border-white/20 backdrop-blur-md tracking-wider">
+                  {activePhotoIndex + 1} / {filteredItems.length}
+                </span>
+
+                <button
+                  type="button"
+                  onClick={closeLightbox}
+                  className="rounded-full p-2.5 text-white/90 hover:text-white bg-white/10 hover:bg-white/20 border border-white/20 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 cursor-pointer shadow-lg active:scale-95"
+                  aria-label="Close slideshow (Escape)"
+                >
+                  <X className="h-5 w-5" />
+                </button>
               </div>
 
-              <div>
-                <h2 className="text-2xl font-black text-white tracking-tight mb-2">
-                  {activePhoto.title}
-                </h2>
-                <p className="text-sm text-slate-300 leading-relaxed mb-6">
-                  {activePhoto.description}
-                </p>
+              {/* Prev Navigation Arrow */}
+              {filteredItems.length > 1 && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    goToPrev();
+                  }}
+                  className="absolute left-3 sm:left-8 top-1/2 -translate-y-1/2 z-20 rounded-full p-3 sm:p-4 text-white bg-white/10 hover:bg-white/25 border border-white/20 hover:border-blue-400/60 backdrop-blur-md transition-all duration-200 shadow-2xl focus:outline-none focus:ring-2 focus:ring-blue-400 cursor-pointer active:scale-90"
+                  aria-label="Previous photo (Left arrow key)"
+                >
+                  <ChevronLeft className="h-6 w-6 sm:h-7 sm:w-7" />
+                </button>
+              )}
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 rounded-xl bg-zinc-900 border border-white/10 mb-6">
-                  <div className="flex items-center gap-2 text-xs text-slate-300">
-                    <Calendar className="w-4 h-4 text-blue-400" />
-                    <span>{activePhoto.date}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs text-slate-300">
-                    <MapPin className="w-4 h-4 text-red-400" />
-                    <span className="truncate">{activePhoto.location}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs text-slate-300">
-                    <Users className="w-4 h-4 text-green-400" />
-                    <span>{activePhoto.attendees} Attendees</span>
-                  </div>
-                </div>
+              {/* Next Navigation Arrow */}
+              {filteredItems.length > 1 && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    goToNext();
+                  }}
+                  className="absolute right-3 sm:right-8 top-1/2 -translate-y-1/2 z-20 rounded-full p-3 sm:p-4 text-white bg-white/10 hover:bg-white/25 border border-white/20 hover:border-blue-400/60 backdrop-blur-md transition-all duration-200 shadow-2xl focus:outline-none focus:ring-2 focus:ring-blue-400 cursor-pointer active:scale-90"
+                  aria-label="Next photo (Right arrow key)"
+                >
+                  <ChevronRight className="h-6 w-6 sm:h-7 sm:w-7" />
+                </button>
+              )}
 
-                <div className="flex flex-wrap gap-2">
-                  {activePhoto.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-3 py-1 rounded-full text-xs font-mono font-medium bg-blue-950/80 border border-blue-500/30 text-blue-300"
-                    >
-                      #{tag}
-                    </span>
-                  ))}
+              {/* Image Container (Pure Image, No Descriptions) */}
+              <motion.div
+                key={activePhotoIndex}
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.96 }}
+                transition={{ duration: 0.22, ease: 'easeOut' }}
+                onClick={(e) => e.stopPropagation()}
+                className="relative max-w-5xl max-h-[82vh] w-full flex items-center justify-center p-2 z-10"
+              >
+                <div className="relative overflow-hidden rounded-2xl border border-white/20 bg-black/60 shadow-[0_0_50px_rgba(0,0,0,0.8)] max-h-[80vh] w-auto max-w-full flex items-center justify-center">
+                  <img
+                    src={filteredItems[activePhotoIndex].image}
+                    alt={filteredItems[activePhotoIndex].title}
+                    className="max-h-[78vh] max-w-[88vw] w-auto h-auto object-contain rounded-xl select-none"
+                  />
                 </div>
-              </div>
+              </motion.div>
             </div>
-          </Modal>
-        )}
+          )}
+        </AnimatePresence>
 
         {/* Member Perks & Benefits Section */}
         <div className="mb-20 rounded-3xl border border-white/15 bg-black text-white p-8 sm:p-12 shadow-2xl backdrop-blur-xl">
