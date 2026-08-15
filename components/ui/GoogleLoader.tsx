@@ -103,42 +103,46 @@ export const GoogleLoader: React.FC<GoogleLoaderProps> = ({
     };
   }, [speed, autoClose, onComplete]);
 
+  const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
+  if (isOpen !== prevIsOpen) {
+    setPrevIsOpen(isOpen);
+    setActive(isOpen);
+  }
+
   // Trigger loader when navigating to home page
   useEffect(() => {
     if (prevPathname.current !== pathname) {
-      if (pathname === '/') {
-        setActive(true);
-        runAnimationSequence();
-      }
       prevPathname.current = pathname;
+      if (pathname === '/') {
+        const timer = setTimeout(() => {
+          setActive(true);
+        }, 0);
+        return () => clearTimeout(timer);
+      }
     }
-  }, [pathname, runAnimationSequence]);
-
-  // Sync external isOpen prop
-  useEffect(() => {
-    setActive(isOpen);
-    if (isOpen) {
-      runAnimationSequence();
-    }
-  }, [isOpen, runAnimationSequence]);
+  }, [pathname]);
 
   // Listen for custom trigger events from anywhere in the app
   useEffect(() => {
     const handleTrigger = () => {
       setActive(true);
-      runAnimationSequence();
     };
 
     window.addEventListener('trigger-google-loader', handleTrigger);
     return () => window.removeEventListener('trigger-google-loader', handleTrigger);
-  }, [runAnimationSequence]);
+  }, []);
 
-  // Trigger sequence on initial mount
+  // Trigger sequence when active
   useEffect(() => {
-    if (active) {
-      const cleanup = runAnimationSequence();
-      return cleanup;
-    }
+    if (!active) return;
+    let cleanupFn: (() => void) | undefined;
+    const timer = setTimeout(() => {
+      cleanupFn = runAnimationSequence();
+    }, 0);
+    return () => {
+      clearTimeout(timer);
+      if (cleanupFn) cleanupFn();
+    };
   }, [active, runAnimationSequence]);
 
   const restartAnimation = () => {

@@ -86,8 +86,6 @@ export const HeroCanvas: React.FC = () => {
         const endX = W * (0.78 + Math.random() * 0.18);
         const endY = H * (0.03 + frac * 0.94) + (Math.random() - 0.5) * H * 0.02;
 
-        const dx = endX - OX, dy = endY - OY;
-
         /* CP seeds – random offsets baked in so each curve is truly unique */
         const sx1 = Math.random() * 6.28;
         const sy1 = Math.random() * 6.28;
@@ -224,7 +222,7 @@ export const HeroCanvas: React.FC = () => {
       });
 
       /* ══ LAYER 2 – Shadow/depth ghost curves (drawn first, darker) ══ */
-      streams.forEach((s, i) => {
+      streams.forEach((s) => {
         const T = time * s.speedMult;
 
         // CP1 – organic harmonic drift

@@ -37,6 +37,24 @@ export interface SmoothCursorProps {
   className?: string;
 }
 
+const subscribeTouch = (callback: () => void) => {
+  if (typeof window === 'undefined') return () => {};
+  const mql = window.matchMedia('(pointer: coarse)');
+  mql.addEventListener('change', callback);
+  return () => mql.removeEventListener('change', callback);
+};
+
+const getTouchSnapshot = () => {
+  if (typeof window === 'undefined') return false;
+  return (
+    'ontouchstart' in window ||
+    navigator.maxTouchPoints > 0 ||
+    window.matchMedia('(pointer: coarse)').matches
+  );
+};
+
+const getTouchServerSnapshot = () => false;
+
 export function SmoothCursor({
   cursor,
   springConfig = { damping: 30, stiffness: 450, mass: 0.1 },
@@ -44,7 +62,7 @@ export function SmoothCursor({
   className = '',
 }: SmoothCursorProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const isTouchDevice = React.useSyncExternalStore(subscribeTouch, getTouchSnapshot, getTouchServerSnapshot);
   const [isVisible, setIsVisible] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
@@ -55,14 +73,14 @@ export function SmoothCursor({
   const colorIndexRef = useRef(0);
   const animFrameRef = useRef<number | null>(null);
 
-  const mouseX = useMotionValue(-100);
-  const mouseY = useMotionValue(-100);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
 
   const smoothX = useSpring(mouseX, springConfig);
   const smoothY = useSpring(mouseY, springConfig);
 
-  const velocityX = useVelocity(mouseX);
-  const velocityY = useVelocity(mouseY);
+  const velocityX = useVelocity(smoothX);
+  const velocityY = useVelocity(smoothY);
 
   const rotation = useTransform([velocityX, velocityY], (values: (number | string)[]) => {
     const vx = Number(values[0]) || 0;
@@ -81,19 +99,7 @@ export function SmoothCursor({
   });
 
   useEffect(() => {
-    // Check if touch device
-    const checkTouch = () => {
-      return (
-        'ontouchstart' in window ||
-        navigator.maxTouchPoints > 0 ||
-        window.matchMedia('(pointer: coarse)').matches
-      );
-    };
-
-    if (checkTouch()) {
-      setIsTouchDevice(true);
-      return;
-    }
+    if (isTouchDevice) return;
 
     const canvas = canvasRef.current;
     if (canvas) {
@@ -265,7 +271,7 @@ export function SmoothCursor({
       document.removeEventListener('mouseenter', handleMouseEnter);
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
     };
-  }, [mouseX, mouseY, isVisible, showTrail]);
+  }, [mouseX, mouseY, isVisible, showTrail, isTouchDevice]);
 
   if (isTouchDevice) return null;
 
@@ -314,18 +320,6 @@ export function SmoothCursor({
           </div>
         )}
       </motion.div>
-    </>
-  );
-}
-
-export function SmoothCursorDemo() {
-  return (
-    <>
-      <span className="hidden md:block">Move your mouse around</span>
-      <span className="block md:hidden">
-        SmoothCursor is disabled on touch devices
-      </span>
-      <SmoothCursor />
     </>
   );
 }

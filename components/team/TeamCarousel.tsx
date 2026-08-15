@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { TeamMember } from '@/types';
 import { MemberCard } from './MemberCard';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -13,9 +13,7 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({ members }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Hover state ref to avoid resetting scroll position on hover/unhover
-  const [isHovered, setIsHovered] = useState<boolean>(false);
   const isHoveredRef = useRef<boolean>(false);
-  isHoveredRef.current = isHovered;
 
   // Mouse drag state
   const isDraggingRef = useRef<boolean>(false);
@@ -36,7 +34,6 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({ members }) => {
   // Infinite Seamless Left-to-Right Continuous Auto Loop with 2s initial delay
   useEffect(() => {
     let animationFrameId: number;
-    let delayTimerId: NodeJS.Timeout;
 
     // Reset scroll position to 0 ONLY when members list changes
     if (containerRef.current) {
@@ -59,7 +56,7 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({ members }) => {
     };
 
     // 2 second initial delay for visibility before movement starts
-    delayTimerId = setTimeout(() => {
+    const delayTimerId = setTimeout(() => {
       animationFrameId = requestAnimationFrame(loopStep);
     }, 2000);
 
@@ -137,9 +134,11 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({ members }) => {
       {/* Carousel Container Wrapper - Full Width */}
       <div
         className="relative w-full group"
-        onMouseEnter={() => setIsHovered(true)}
+        onMouseEnter={() => {
+          isHoveredRef.current = true;
+        }}
         onMouseLeave={() => {
-          setIsHovered(false);
+          isHoveredRef.current = false;
           handleMouseUpOrLeave();
         }}
       >

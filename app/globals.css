@@ -330,9 +330,6 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
-/* legacy alias */
-.glass-card { }
-
 /* ─── Scroll Animations ───────────────────────────── */
 @keyframes fade-in-up {
   from { opacity: 0; transform: translateY(28px); }

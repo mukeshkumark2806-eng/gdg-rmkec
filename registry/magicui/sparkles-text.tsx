@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 
 interface SparkleType {
@@ -11,6 +11,7 @@ interface SparkleType {
   delay: number;
   scale: number;
   duration: number;
+  repeatDelay: number;
 }
 
 export interface SparklesTextProps {
@@ -38,8 +39,9 @@ const SparkleIcon: React.FC<{
   size: number;
   delay: number;
   duration: number;
+  repeatDelay: number;
   style: React.CSSProperties;
-}> = ({ color, size, delay, duration, style }) => {
+}> = ({ color, size, delay, duration, repeatDelay, style }) => {
   return (
     <motion.svg
       width={size}
@@ -58,7 +60,7 @@ const SparkleIcon: React.FC<{
       transition={{
         duration,
         repeat: Infinity,
-        repeatDelay: Math.random() * 0.6 + 0.2,
+        repeatDelay,
         delay,
         ease: 'easeInOut',
       }}
@@ -71,6 +73,29 @@ const SparkleIcon: React.FC<{
   );
 };
 
+function generateSparkles(count: number, colors: { first: string; second: string }): SparkleType[] {
+  const palette = ['#4285F4', '#FBBC05', '#EA4335', '#34A853', colors.first, colors.second];
+  return Array.from({ length: count }).map((_, i) => {
+    const seedX = Math.abs(Math.sin(i * 12.9898 + 1) * 100) % 1;
+    const seedY = Math.abs(Math.cos(i * 78.233 + 2) * 100) % 1;
+    const seedDelay = Math.abs(Math.sin(i * 45.164 + 3) * 100) % 1;
+    const seedScale = Math.abs(Math.cos(i * 93.371 + 4) * 100) % 1;
+    const seedDur = Math.abs(Math.sin(i * 61.829 + 5) * 100) % 1;
+    const seedRepeat = Math.abs(Math.cos(i * 37.492 + 6) * 100) % 1;
+
+    return {
+      id: `sparkle-${i}`,
+      x: `${seedX * 110 - 5}%`,
+      y: `${seedY * 110 - 5}%`,
+      color: palette[i % palette.length],
+      delay: seedDelay * 1.5,
+      scale: seedScale * 0.7 + 0.65,
+      duration: seedDur * 1.1 + 1.1,
+      repeatDelay: seedRepeat * 0.6 + 0.2,
+    };
+  });
+}
+
 export function SparklesText({
   children,
   text,
@@ -78,22 +103,11 @@ export function SparklesText({
   sparklesCount = 8,
   colors = DEFAULT_COLORS,
 }: SparklesTextProps) {
-  const [sparkles, setSparkles] = useState<SparkleType[]>([]);
+  const sparkles = React.useMemo(
+    () => generateSparkles(sparklesCount, colors),
+    [sparklesCount, colors]
+  );
   const content = text || children;
-
-  useEffect(() => {
-    const palette = ['#4285F4', '#FBBC05', '#EA4335', '#34A853', colors.first, colors.second];
-    const generated: SparkleType[] = Array.from({ length: sparklesCount }).map((_, i) => ({
-      id: `sparkle-${i}-${Math.random()}`,
-      x: `${Math.random() * 110 - 5}%`,
-      y: `${Math.random() * 110 - 5}%`,
-      color: palette[i % palette.length],
-      delay: Math.random() * 1.5,
-      scale: Math.random() * 0.7 + 0.65,
-      duration: Math.random() * 1.1 + 1.1,
-    }));
-    setSparkles(generated);
-  }, [sparklesCount, colors.first, colors.second]);
 
   return (
     <span className={`relative inline-block overflow-visible ${className}`}>
@@ -104,6 +118,7 @@ export function SparklesText({
           size={Math.round(20 * sparkle.scale)}
           delay={sparkle.delay}
           duration={sparkle.duration}
+          repeatDelay={sparkle.repeatDelay}
           style={{
             left: sparkle.x,
             top: sparkle.y,
@@ -115,7 +130,4 @@ export function SparklesText({
   );
 }
 
-export function SparklesTextDemo() {
-  return <SparklesText>Magic UI</SparklesText>;
-}
 export default SparklesText;

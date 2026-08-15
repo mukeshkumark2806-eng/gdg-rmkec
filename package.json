@@ -9,7 +9,6 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@gsap/react": "^2.1.1",
     "canvas-confetti": "^1.9.4",
     "clsx": "^2.1.1",
     "framer-motion": "^12.4.7",

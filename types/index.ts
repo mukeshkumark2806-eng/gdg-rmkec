@@ -93,16 +93,3 @@ export interface FAQItem {
   answer: string;
   category: 'General' | 'Membership' | 'Events' | 'Tracks';
 }
-
-export interface TrackDomain {
-  id: string;
-  title: string;
-  icon: string;
-  color: string; // Tailwind color or hex
-  glowColor: string;
-  description: string;
-  skills: string[];
-  leadName: string;
-  leadRole: string;
-  projectsCount: number;
-}

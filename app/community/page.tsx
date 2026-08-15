@@ -6,23 +6,18 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { galleryData, galleryCategories, GalleryItem } from '@/data/gallery';
 import { Badge } from '@/components/ui/Badge';
 import { Input } from '@/components/ui/Input';
-import { Modal } from '@/components/ui/Modal';
 import { MagneticButton } from '@/components/ui/MagneticButton';
 import {
   Search,
   Calendar,
   MapPin,
   Users,
-  Sparkles,
-  ExternalLink,
   CheckCircle2,
   ArrowRight,
   Maximize2,
   X,
   ChevronLeft,
   ChevronRight,
-  Layers,
-  Heart,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -409,10 +404,13 @@ export default function CommunityGalleryPage() {
                 className="relative max-w-5xl max-h-[82vh] w-full flex items-center justify-center p-2 z-10"
               >
                 <div className="relative overflow-hidden rounded-2xl border border-white/20 bg-black/60 shadow-[0_0_50px_rgba(0,0,0,0.8)] max-h-[80vh] w-auto max-w-full flex items-center justify-center">
-                  <img
+                  <Image
                     src={filteredItems[activePhotoIndex].image}
                     alt={filteredItems[activePhotoIndex].title}
+                    width={1200}
+                    height={800}
                     className="max-h-[78vh] max-w-[88vw] w-auto h-auto object-contain rounded-xl select-none"
+                    priority
                   />
                 </div>
               </motion.div>

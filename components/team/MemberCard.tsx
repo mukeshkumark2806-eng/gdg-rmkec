@@ -1,13 +1,13 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { TeamMember } from '@/types';
 import { Badge } from '@/components/ui/Badge';
 import { Linkedin, Mail, Github, Twitter, Globe } from 'lucide-react';
 
 interface MemberCardProps {
   member: TeamMember;
-  featured?: boolean;
 }
 
 export const MemberCard: React.FC<MemberCardProps> = ({ member }) => {
@@ -40,12 +40,14 @@ export const MemberCard: React.FC<MemberCardProps> = ({ member }) => {
       <div>
         {/* Compact Portrait Image */}
         <div className="relative mb-3 overflow-hidden rounded-xl aspect-[4/4.5] w-full border border-white/10 shadow-sm bg-zinc-900">
-          <img
+          <Image
             src={member.avatarUrl}
             alt={member.name}
-            className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
+            sizes="(max-width: 640px) 240px, (max-width: 768px) 260px, 270px"
           />
-          <div className="absolute top-2.5 left-2.5">
+          <div className="absolute top-2.5 left-2.5 z-10">
             <Badge variant={badgeVariant} className="text-[10px] px-2 py-0.5 font-medium">{badgeText}</Badge>
           </div>
         </div>

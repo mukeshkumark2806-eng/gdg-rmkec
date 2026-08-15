@@ -1,12 +1,10 @@
 import React from 'react';
 import { Metadata } from 'next';
+import Image from 'next/image';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { Badge } from '@/components/ui/Badge';
 import { FadeIn } from '@/components/animations/FadeIn';
-import { StaggerText } from '@/components/animations/StaggerText';
-import { siteConfig } from '@/data/site';
-import { Globe, Users, Code, Sparkles, Target, Rocket, Award, ShieldCheck } from 'lucide-react';
-import { SparklesText } from '@/registry/magicui/sparkles-text';
+import { Globe, Users, Code, Rocket } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'About Us',
@@ -58,8 +56,8 @@ export default function AboutPage() {
             Our Mission & Identity
           </Badge>
           <h1 className="text-4xl sm:text-6xl font-black text-[#1A1A2E] tracking-tight leading-tight">
-            Pioneering Innovation <br />
-            <SparklesText sparklesCount={24} className="text-gradient-google">@ RMK Engineering College</SparklesText>
+            Pioneering Innovation @ <br />
+            <span className="text-gradient-google">RMK Engineering College</span>
           </h1>
           <p className="mt-6 text-lg text-slate-600 leading-relaxed font-medium">
             Google Developer Group (GDG) RMKEC is a university-based community for students passionate about Google developer technologies and modern software engineering.
@@ -99,13 +97,13 @@ export default function AboutPage() {
               </Badge>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-snug">
                 From Campus Club to <br />
-                <span className="text-gradient-google">Premier Tech Chapter</span>
+                <span className="text-gradient-google">Developer Ecosystem</span>
               </h2>
               <p className="mt-4 text-sm sm:text-base text-slate-200 leading-relaxed">
-                Founded with a mission to bridge academia and global industry benchmarks, GDG RMKEC has grown from a handful of enthusiastic developers to one of Tamil Nadu's most active student developer communities.
+                Founded with a mission to bridge academia and global industry benchmarks, GDG RMKEC has grown from a handful of enthusiastic developers to one of Tamil Nadu&apos;s most active student developer communities.
               </p>
-              <p className="mt-4 text-sm sm:text-base text-slate-200 leading-relaxed">
-                We organize hands-on hackathons, technical workshops, study jams, open-source sprints, and peer-to-peer code reviews — empowering students to turn creative concepts into production-grade software.
+              <p className="mt-3 text-sm text-slate-200 leading-relaxed">
+                We empower students across all branches—from First Year coders to Final Year researchers—by providing hands-on mentorship, Google Cloud lab credits, and hackathon incubation.
               </p>
 
               <div className="mt-8 grid grid-cols-2 gap-4">
@@ -123,13 +121,15 @@ export default function AboutPage() {
 
           <FadeIn direction="left">
             <div className="relative rounded-2xl overflow-hidden border border-white/15 shadow-2xl aspect-video bg-zinc-900 group">
-              <img
+              <Image
                 src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=80"
                 alt="GDG RMKEC Community Workshop"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-700"
+                sizes="(max-width: 1024px) 100vw, 50vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-6">
-                <p className="text-xs text-slate-200 font-medium">
+                <p className="text-xs text-slate-200 font-medium z-10">
                   Annual GDG Hackfest &amp; Cloud Workshop Series at RMKEC Campus
                 </p>
               </div>

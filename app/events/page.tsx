@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Input } from '@/components/ui/Input';
 import { Modal } from '@/components/ui/Modal';
 import { MagneticButton } from '@/components/ui/MagneticButton';
-import { Search, Calendar, MapPin, ExternalLink, Sparkles, Filter } from 'lucide-react';
+import { Search, Calendar, MapPin, ExternalLink } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const categories = ['All', 'Upcoming', 'Workshop', 'Hackathon', 'Bootcamp', 'Past'];

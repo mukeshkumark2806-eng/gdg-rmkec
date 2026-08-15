@@ -8,13 +8,10 @@ import { MagneticButton } from '@/components/ui/MagneticButton';
 import {
   Sparkles,
   CheckCircle,
-  ArrowRight,
   User,
   Mail,
-  GraduationCap,
   Github,
   Code,
-  Globe,
   Award,
   Users,
 } from 'lucide-react';

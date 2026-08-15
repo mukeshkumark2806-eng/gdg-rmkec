@@ -1,9 +1,8 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { SectionHeader } from '@/components/ui/SectionHeader';
 import { Badge } from '@/components/ui/Badge';
 import { FadeIn } from '@/components/animations/FadeIn';
-import { Calendar, Trophy, Rocket, Sparkles, Star, Users } from 'lucide-react';
+import { Trophy, Rocket, Sparkles, Star, Users } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Journey & Milestones',

@@ -4,8 +4,7 @@ import React, { useState } from 'react';
 import { projectsData } from '@/data/projects';
 import { Badge } from '@/components/ui/Badge';
 import { Input } from '@/components/ui/Input';
-import { MagneticButton } from '@/components/ui/MagneticButton';
-import { Search, Github, Star, GitFork, ExternalLink, Code2 } from 'lucide-react';
+import { Search, Github, Star, GitFork, ExternalLink } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const domains = ['All', 'AI/ML', 'Web', 'Mobile', 'Cloud', 'Open Source'];
