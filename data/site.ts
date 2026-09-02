@@ -1,13 +1,16 @@
 export const siteConfig = {
-  name: 'GDG RMKEC',
-  fullName: 'Google Developer Group - RMK Engineering College',
-  tagline: 'Connect. Learn. Innovate. Build for Everyone.',
+  name: 'GDG on Campus RMKEC',
+  fullName: 'Google Developer Group on Campus – R.M.K. Engineering College',
+  tagline: 'Building the Future of Technology at RMKEC',
+  subtitle:
+    'A community of innovators, builders, problem solvers, and future technology leaders working together to learn, create, and impact the college ecosystem through technology.',
   description:
-    'The official Google Developer Group student chapter at RMK Engineering College. A community of passionate student developers, designers, and innovators building tech solutions, mastering cloud/AI, and growing together.',
+    'Google Developer Group on Campus – R.M.K. Engineering College is a student-led technology community that empowers students to learn, build, collaborate, and innovate. Through workshops, hackathons, study jams, technical projects, and community initiatives, we create opportunities for students to grow their technical and leadership skills while solving real-world challenges within the college ecosystem.',
   url: 'https://gdg-rmkec.dev',
   chapterCity: 'Kavaraipettai, Chennai, Tamil Nadu',
   institution: 'R.M.K. Engineering College',
-  establishedYear: 2022,
+  establishedDate: 'September 2025',
+  establishedYear: 2025,
   socials: {
     github: 'https://github.com/gdg-rmkec',
     linkedin: 'https://linkedin.com/company/gdg-rmkec',
@@ -19,11 +22,13 @@ export const siteConfig = {
   },
   contactEmail: 'gdg@rmkec.ac.in',
   address: 'R.M.K. Engineering College, RSM Nagar, Kavaraipettai, Tiruvallur Dist, Tamil Nadu 601206',
-  stats: {
-    activeMembers: 1200,
-    eventsOrganized: 48,
-    openSourceProjects: 26,
-    hackathonWins: 15,
+  impact: {
+    hackathonTeams: '650+',
+    qualifiedTeams: '250+',
+    studyJamParticipants: '100+',
+    cloudCompleters: '40+',
+    projects: 'Multiple',
+    teams: 'Dedicated Technical & Community Teams',
   },
   colors: {
     blue: '#4285F4',

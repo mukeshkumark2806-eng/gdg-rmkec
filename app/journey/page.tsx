@@ -1,100 +1,130 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { SectionHeader } from '@/components/ui/SectionHeader';
-import { Badge } from '@/components/ui/Badge';
-import { FadeIn } from '@/components/animations/FadeIn';
-import { Calendar, Trophy, Rocket, Sparkles, Star, Users } from 'lucide-react';
+import { Sparkles, History, Clock, Compass, CheckCircle2, Rocket } from 'lucide-react';
+import { GlowButton } from '@/components/ui/GlowButton';
 
 export const metadata: Metadata = {
-  title: 'Journey & Milestones',
-  description: 'Explore the timeline and growth story of GDG RMKEC from 2022 to the present.',
+  title: 'Our Journey | GDG on Campus RMKEC',
+  description: 'Explore the past, present, and future roadmap of GDG on Campus RMKEC.',
 };
 
-const timelineEvents = [
-  {
-    year: '2026',
-    title: 'Generative AI & Solution Challenge Expansion',
-    tagline: 'Leading multimodal Gemini integration across student projects.',
-    description: 'Surpassed 1,200 active student members. Launched dedicated GenAI RAG pipelines and hosted campus hackathons with 250+ coders.',
-    icon: <Sparkles className="h-5 w-5 text-yellow-400" />,
-    badgeColor: 'yellow' as const,
-  },
-  {
-    year: '2025',
-    title: 'Google Cloud Jam Victory & Smart India Hackathon',
-    tagline: 'Securing top podium finishes nationally.',
-    description: '150+ students earned official Google Cloud skill badges. Team EcoRoute AI secured top recognition at Google Solution Challenge.',
-    icon: <Trophy className="h-5 w-5 text-red-400" />,
-    badgeColor: 'red' as const,
-  },
-  {
-    year: '2024',
-    title: 'Android DevFest & Open Source Drive',
-    tagline: 'Over 200 open-source pull requests merged.',
-    description: 'Conducted inaugural Android DevFest with Jetpack Compose. Partnered with regional chapters for statewide Hacktoberfest sprint.',
-    icon: <Rocket className="h-5 w-5 text-blue-400" />,
-    badgeColor: 'blue' as const,
-  },
-  {
-    year: '2023',
-    title: 'First Google Cloud Bootcamp',
-    tagline: 'Hands-on Kubernetes and Docker training.',
-    description: 'Expanded domain tracks to include Cloud & DevOps. Trained 300+ students on Google Cloud infrastructure and GCP Console.',
-    icon: <Users className="h-5 w-5 text-green-400" />,
-    badgeColor: 'green' as const,
-  },
-  {
-    year: '2022',
-    title: 'Official Chapter Inception',
-    tagline: 'Founded at R.M.K. Engineering College.',
-    description: 'Inauguration of GDSC / GDG RMKEC under faculty advisement, kicking off inaugural Web & Mobile developer cohorts.',
-    icon: <Star className="h-5 w-5 text-purple-400" />,
-    badgeColor: 'glass' as const,
-  },
+const futureRoadmap = [
+  'More campus-wide initiatives & technical bootcamps',
+  'Larger hackathons connecting regional student innovators',
+  'Deep industry collaborations & Google mentor sessions',
+  'Open-source contributions across university repositories',
+  'AI-driven campus solutions and student tooling',
+  'Scalable products for students, faculty, and administration',
 ];
 
 export default function JourneyPage() {
   return (
-    <div className="pt-32 pb-24 relative overflow-hidden">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center max-w-3xl mx-auto mb-20">
-          <Badge variant="yellow" className="mb-4">
-            Chapter Timeline
-          </Badge>
-          <h1 className="text-4xl sm:text-6xl font-black text-white tracking-tight leading-tight">
-            Our Journey of <br />
-            <span className="text-gradient-google">Growth & Impact</span>
+    <div className="pt-28 pb-24 relative overflow-hidden text-paper">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 relative z-10">
+        {/* Header */}
+        <div className="text-center max-w-3xl mx-auto mb-20 pt-8">
+          <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[#FBBC05] px-4 py-1.5 rounded-full border border-white/10 bg-[#121216]/60 backdrop-blur-md mb-4">
+            <Sparkles className="h-3.5 w-3.5" />
+            <span>Chapter Timeline & Vision</span>
+          </div>
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold text-white tracking-tight leading-tight">
+            Our Journey
           </h1>
-          <p className="mt-6 text-lg text-slate-300 leading-relaxed font-normal">
-            From our founding days to national hackathon podiums, follow the major milestones that shaped GDG RMKEC.
+          <p className="mt-4 text-base sm:text-lg text-white/70">
+            From our founding in September 2025 to our active present and ambitious future roadmap.
           </p>
         </div>
 
-        {/* Timeline Line */}
-        <div className="relative border-l-2 border-white/15 pl-6 sm:pl-10 space-y-12 ml-4 sm:ml-8">
-          {timelineEvents.map((item, idx) => (
-            <FadeIn key={item.year + item.title} delay={idx * 0.1}>
-              <div className="relative group">
-                {/* Timeline Dot */}
-                <div className="absolute -left-[31px] sm:-left-[47px] top-1.5 flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 border-2 border-blue-500 shadow-[0_0_15px_rgba(66,133,244,0.4)] group-hover:scale-110 transition-transform">
-                  {item.icon}
-                </div>
-
-                <div className="rounded-2xl border border-white/10 bg-slate-900/60 p-6 sm:p-8 backdrop-blur-xl hover:border-blue-500/40 transition-all duration-300">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-sm font-mono font-bold text-blue-400 tracking-wider">
-                      {item.year}
-                    </span>
-                    <Badge variant={item.badgeColor}>{item.title.split(' ')[0]}</Badge>
-                  </div>
-
-                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-1">{item.title}</h3>
-                  <p className="text-xs font-semibold text-slate-400 mb-3">{item.tagline}</p>
-                  <p className="text-sm text-slate-300 leading-relaxed">{item.description}</p>
-                </div>
+        {/* 3 Main Stages: Past, Present, Future */}
+        <div className="space-y-8">
+          {/* 1. The Past */}
+          <div className="rounded-3xl border border-white/15 bg-[#121216]/80 p-8 sm:p-10 backdrop-blur-xl transition-all duration-300 hover:border-white/30">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-3 rounded-2xl bg-black border border-white/10 text-[#4285F4]">
+                <History className="h-6 w-6" />
               </div>
-            </FadeIn>
-          ))}
+              <div>
+                <span className="font-mono text-xs uppercase tracking-widest text-[#4285F4] font-semibold">
+                  Inception · September 2025
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-bold text-white">The Past</h2>
+              </div>
+            </div>
+            <p className="text-sm sm:text-base text-white/80 leading-relaxed">
+              Our journey began with a shared passion for technology and community building. Founded
+              in September 2025 at R.M.K. Engineering College, passionate student leaders and faculty
+              advisors united to build an open, collaborative home for developers.
+            </p>
+          </div>
+
+          {/* 2. The Present */}
+          <div className="rounded-3xl border border-white/15 bg-black p-8 sm:p-10 backdrop-blur-xl shadow-2xl transition-all duration-300 hover:border-white/30">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-3 rounded-2xl bg-[#121216] border border-white/10 text-[#34A853]">
+                <Clock className="h-6 w-6" />
+              </div>
+              <div>
+                <span className="font-mono text-xs uppercase tracking-widest text-[#34A853] font-semibold">
+                  Active Community
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-bold text-white">The Present</h2>
+              </div>
+            </div>
+            <p className="text-sm sm:text-base text-white/80 leading-relaxed mb-4">
+              An active community conducting events, building projects, and nurturing future leaders.
+              With landmark achievements including the <strong>Google Cloud Campaign Study Jam</strong> (100+
+              learners, 40 completers), the flagship <strong>HackNEXA&apos;26 Hackathon</strong> (650+ participating
+              teams), and ongoing development of the <strong>Real-Time College Bus Tracking System</strong>.
+            </p>
+            <div className="flex flex-wrap gap-2 pt-2">
+              <span className="px-3 py-1 rounded-full bg-white/10 text-xs font-mono text-white/90">
+                HackNEXA 650+ Teams
+              </span>
+              <span className="px-3 py-1 rounded-full bg-white/10 text-xs font-mono text-white/90">
+                40+ Cloud Completers
+              </span>
+              <span className="px-3 py-1 rounded-full bg-white/10 text-xs font-mono text-white/90">
+                5 Technical Wings
+              </span>
+            </div>
+          </div>
+
+          {/* 3. The Future */}
+          <div className="rounded-3xl border border-white/15 bg-[#121216]/80 p-8 sm:p-10 backdrop-blur-xl transition-all duration-300 hover:border-white/30">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-3 rounded-2xl bg-black border border-white/10 text-[#FBBC05]">
+                <Compass className="h-6 w-6" />
+              </div>
+              <div>
+                <span className="font-mono text-xs uppercase tracking-widest text-[#FBBC05] font-semibold">
+                  Upcoming Horizons
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-bold text-white">The Future</h2>
+              </div>
+            </div>
+
+            <p className="text-sm text-white/70 mb-6">
+              Expanding our reach, tooling, and ecosystem impact across the institution:
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {futureRoadmap.map((item, i) => (
+                <div
+                  key={i}
+                  className="flex items-start gap-3 p-4 rounded-2xl bg-black/60 border border-white/10"
+                >
+                  <CheckCircle2 className="h-4 w-4 text-[#FBBC05] shrink-0 mt-0.5" />
+                  <span className="text-xs sm:text-sm text-white/90 font-medium">{item}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-8 pt-6 border-t border-white/10 flex justify-end">
+              <GlowButton href="/join" shape="pill" size="md">
+                Shape the Future with Us →
+              </GlowButton>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -46,7 +46,7 @@ export interface ProjectItem {
   slug: string;
   tagline: string;
   description: string;
-  domain: 'AI/ML' | 'Web' | 'Mobile' | 'Cloud' | 'Open Source';
+  domain: 'AI/ML' | 'Web' | 'Mobile' | 'Cloud' | 'Open Source' | 'Campus Solutions' | 'UI/UX';
   stars?: number;
   forks?: number;
   githubUrl?: string;
@@ -98,7 +98,7 @@ export interface TrackDomain {
   id: string;
   title: string;
   icon: string;
-  color: string; // Tailwind color or hex
+  color: string;
   glowColor: string;
   description: string;
   skills: string[];

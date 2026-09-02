@@ -1,134 +1,176 @@
 'use client';
 
 import React, { useState } from 'react';
-import { faqData } from '@/data/contact';
 import { siteConfig } from '@/data/site';
-import { Badge } from '@/components/ui/Badge';
-import { Input, Textarea } from '@/components/ui/Input';
-import { MagneticButton } from '@/components/ui/MagneticButton';
-import { Mail, MapPin, Send, ChevronDown, CheckCircle, HelpCircle } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { GlowButton } from '@/components/ui/GlowButton';
+import { Mail, MapPin, Send, CheckCircle, Sparkles, MessageSquare } from 'lucide-react';
 
 export default function ContactPage() {
-  const [openFaq, setOpenFaq] = useState<string | null>(faqData[0].id);
   const [submitted, setSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: 'General Inquiry',
+    message: '',
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitted(true);
+  };
 
   return (
-    <div className="pt-32 pb-24 relative overflow-hidden">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+    <div className="pt-28 pb-24 relative overflow-hidden text-paper">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 relative z-10">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-20">
-          <Badge variant="blue" className="mb-4">
+        <div className="text-center max-w-3xl mx-auto mb-16 pt-8">
+          <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[#4285F4] px-4 py-1.5 rounded-full border border-white/10 bg-[#121216]/60 backdrop-blur-md mb-4">
+            <MessageSquare className="h-3.5 w-3.5" />
+            <span>Connect with Us</span>
+          </div>
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold text-white tracking-tight leading-tight">
             Get in Touch
-          </Badge>
-          <h1 className="text-4xl sm:text-6xl font-black text-white tracking-tight leading-tight">
-            Contact & <span className="text-gradient-google">Support</span>
           </h1>
-          <p className="mt-4 text-base sm:text-lg text-slate-300">
-            Have questions about workshops, events, or membership? We are here to help.
+          <p className="mt-4 text-base sm:text-lg text-white/70">
+            Have questions about workshops, HackNEXA&apos;26 hackathon, study jams, or community
+            collaborations? We are here to help.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
           {/* Contact Form */}
-          <div className="rounded-3xl border border-white/10 bg-slate-900/70 p-6 sm:p-10 backdrop-blur-2xl">
+          <div className="rounded-3xl border border-white/15 bg-[#121216]/80 p-6 sm:p-10 backdrop-blur-xl">
             <h2 className="text-2xl font-bold text-white mb-6">Send Us a Message</h2>
 
             {submitted ? (
               <div className="text-center py-12">
-                <CheckCircle className="h-12 w-12 text-green-400 mx-auto mb-4" />
-                <h3 className="text-xl font-bold text-white">Message Sent!</h3>
-                <p className="text-xs text-slate-300 mt-2">Thank you. Our leads will respond via email shortly.</p>
+                <CheckCircle className="h-12 w-12 text-[#34A853] mx-auto mb-4" />
+                <h3 className="text-xl font-bold text-white">Message Received!</h3>
+                <p className="text-xs text-white/70 mt-2">
+                  Thank you, <span className="text-white font-medium">{formData.name}</span>. Our
+                  team will respond to <span className="text-[#4285F4]">{formData.email}</span> shortly.
+                </p>
+                <div className="mt-6">
+                  <GlowButton onClick={() => setSubmitted(false)} shape="pill" size="sm">
+                    Send Another Note
+                  </GlowButton>
+                </div>
               </div>
             ) : (
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setSubmitted(true);
-                }}
-                className="space-y-4"
-              >
-                <Input label="Your Name" placeholder="Full Name" required />
-                <Input label="Email Address" type="email" placeholder="email@domain.com" required />
-                <Textarea label="Message" placeholder="How can we assist you?" required rows={4} />
-                <MagneticButton type="submit" variant="google" className="w-full">
-                  <span>Send Message</span>
-                  <Send className="h-4 w-4" />
-                </MagneticButton>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label className="text-xs font-mono uppercase tracking-wider text-white/70 block mb-2">
+                    Your Name
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Full Name"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    className="w-full px-4 py-3 text-xs rounded-xl bg-black border border-white/15 text-white placeholder-white/40 focus:outline-none focus:border-[#4285F4]"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-xs font-mono uppercase tracking-wider text-white/70 block mb-2">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="email@rmkec.ac.in"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="w-full px-4 py-3 text-xs rounded-xl bg-black border border-white/15 text-white placeholder-white/40 focus:outline-none focus:border-[#4285F4]"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-xs font-mono uppercase tracking-wider text-white/70 block mb-2">
+                    Inquiry Topic
+                  </label>
+                  <select
+                    value={formData.subject}
+                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                    className="w-full px-4 py-3 text-xs rounded-xl bg-black border border-white/15 text-white focus:outline-none focus:border-[#4285F4]"
+                  >
+                    <option value="General Inquiry">General Inquiry</option>
+                    <option value="HackNEXA Hackathon">HackNEXA Hackathon Inquiry</option>
+                    <option value="Technical Workshops">Workshops & Study Jams</option>
+                    <option value="Industry Collaboration">Industry Partnership / Sponsorship</option>
+                    <option value="Membership & Volunteering">Membership & Volunteering</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="text-xs font-mono uppercase tracking-wider text-white/70 block mb-2">
+                    Message
+                  </label>
+                  <textarea
+                    required
+                    rows={4}
+                    placeholder="How can our community team assist you?"
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    className="w-full p-4 text-xs rounded-xl bg-black border border-white/15 text-white placeholder-white/40 focus:outline-none focus:border-[#4285F4]"
+                  />
+                </div>
+
+                <div className="pt-2">
+                  <GlowButton
+                    type="submit"
+                    shape="pill"
+                    size="md"
+                    className="w-full"
+                    surfaceClassName="w-full justify-center"
+                  >
+                    Send Message →
+                  </GlowButton>
+                </div>
               </form>
             )}
           </div>
 
-          {/* Location & Details Card */}
-          <div className="flex flex-col justify-between rounded-3xl border border-white/10 bg-slate-900/70 p-6 sm:p-10 backdrop-blur-2xl">
+          {/* Chapter Headquarters Details */}
+          <div className="flex flex-col justify-between rounded-3xl border border-white/15 bg-[#121216]/80 p-6 sm:p-10 backdrop-blur-xl">
             <div>
               <h2 className="text-2xl font-bold text-white mb-6">Chapter Headquarters</h2>
-              <div className="space-y-4 text-sm text-slate-300">
+              <div className="space-y-6 text-xs sm:text-sm text-white/80">
                 <div className="flex items-start gap-3">
-                  <MapPin className="h-5 w-5 text-red-400 shrink-0 mt-0.5" />
+                  <MapPin className="h-5 w-5 text-[#EA4335] shrink-0 mt-0.5" />
                   <div>
                     <span className="font-bold text-white block">R.M.K. Engineering College</span>
-                    <span className="text-xs text-slate-400">{siteConfig.address}</span>
+                    <span className="text-white/60 leading-relaxed block mt-1">
+                      RSM Nagar, Kavaraipettai, Gummidipoondi Taluk, Tiruvallur District, Tamil Nadu – 601206
+                    </span>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <Mail className="h-5 w-5 text-blue-400 shrink-0" />
-                  <span className="font-semibold text-white">{siteConfig.contactEmail}</span>
+                  <Mail className="h-5 w-5 text-[#4285F4] shrink-0" />
+                  <div>
+                    <span className="font-bold text-white block">Official Email</span>
+                    <a
+                      href={`mailto:${siteConfig.contactEmail}`}
+                      className="text-[#4285F4] hover:underline"
+                    >
+                      {siteConfig.contactEmail}
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Embedded Visual Map Card */}
-            <div className="mt-8 rounded-2xl border border-white/10 bg-slate-950 p-6 text-center">
-              <span className="text-xs font-mono uppercase text-blue-400 block mb-1">Campus Location</span>
-              <p className="text-xs text-slate-400">RSM Nagar, Kavaraipettai, Tiruvallur District, Tamil Nadu - 601206</p>
+            {/* Visual Location Card */}
+            <div className="mt-8 rounded-2xl border border-white/10 bg-black p-6 text-center">
+              <span className="text-xs font-mono uppercase text-[#34A853] block mb-1">
+                College Campus
+              </span>
+              <p className="text-xs text-white/70">
+                Main Computer Center & Innovation Lab · RMKEC Campus
+              </p>
             </div>
-          </div>
-        </div>
-
-        {/* FAQs Accordion */}
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-extrabold text-white">Frequently Asked Questions</h2>
-          </div>
-
-          <div className="space-y-4">
-            {faqData.map((faq) => {
-              const isOpen = openFaq === faq.id;
-              return (
-                <div
-                  key={faq.id}
-                  className="rounded-2xl border border-white/10 bg-slate-900/60 overflow-hidden transition-colors"
-                >
-                  <button
-                    onClick={() => setOpenFaq(isOpen ? null : faq.id)}
-                    className="w-full flex items-center justify-between p-5 text-left text-base font-bold text-white hover:text-blue-400 transition-colors"
-                  >
-                    <span>{faq.question}</span>
-                    <ChevronDown
-                      className={`h-5 w-5 text-slate-400 transition-transform duration-300 ${
-                        isOpen ? 'rotate-180 text-blue-400' : ''
-                      }`}
-                    />
-                  </button>
-
-                  <AnimatePresence>
-                    {isOpen && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="px-5 pb-5 text-xs sm:text-sm text-slate-300 leading-relaxed border-t border-white/5 pt-3"
-                      >
-                        {faq.answer}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              );
-            })}
           </div>
         </div>
       </div>

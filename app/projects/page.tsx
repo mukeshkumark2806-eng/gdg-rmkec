@@ -1,157 +1,174 @@
 'use client';
 
-import React, { useState } from 'react';
-import { projectsData } from '@/data/projects';
-import { Badge } from '@/components/ui/Badge';
-import { Input } from '@/components/ui/Input';
-import { MagneticButton } from '@/components/ui/MagneticButton';
-import { Search, Github, Star, GitFork, ExternalLink, Code2 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import React from 'react';
+import { GlowButton } from '@/components/ui/GlowButton';
+import { Bus, MapPin, Radio, Compass, Shield, Clock, CheckCircle2, Sparkles, Code2 } from 'lucide-react';
 
-const domains = ['All', 'AI/ML', 'Web', 'Mobile', 'Cloud', 'Open Source'];
+const busObjectives = [
+  {
+    title: 'Real-time location visibility',
+    desc: 'Live GPS telemetry streaming bus locations directly to student mobile phones and campus kiosks.',
+    icon: <Radio className="h-5 w-5 text-[#4285F4]" />,
+  },
+  {
+    title: 'Improved travel planning',
+    desc: 'Accurate ETA calculations and route visualizations to eliminate waiting times during peak college hours.',
+    icon: <Clock className="h-5 w-5 text-[#EA4335]" />,
+  },
+  {
+    title: 'Better transportation management',
+    desc: 'Centralized administrator dashboard for the transport department to oversee fleet operations and routes.',
+    icon: <Compass className="h-5 w-5 text-[#FBBC05]" />,
+  },
+  {
+    title: 'Enhanced user convenience',
+    desc: 'Automated delay alerts, pickup point notifications, and unified access for students and faculty.',
+    icon: <CheckCircle2 className="h-5 w-5 text-[#34A853]" />,
+  },
+];
+
+const futurePlaceholders = [
+  {
+    title: 'Autonomous Campus AI Scheduler',
+    desc: 'Agentic scheduling tool optimizing lab reservations, seminar slots, and student study groups.',
+    tag: 'In Research',
+  },
+  {
+    title: 'RMK Open Cloud Lab Platform',
+    desc: 'Unified student sandbox for spinning up development containers and deploying open-source projects.',
+    tag: 'Prototyping',
+  },
+  {
+    title: 'Student Hackathon Judging Engine',
+    desc: 'Real-time evaluation platform used to evaluate 650+ teams at HackNEXA with live leaderboard.',
+    tag: 'Testing',
+  },
+];
 
 export default function ProjectsPage() {
-  const [selectedDomain, setSelectedDomain] = useState('All');
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const filteredProjects = projectsData.filter((proj) => {
-    const matchesDomain = selectedDomain === 'All' || proj.domain === selectedDomain;
-    const matchesSearch =
-      proj.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      proj.tagline.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      proj.techStack.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()));
-
-    return matchesDomain && matchesSearch;
-  });
-
   return (
-    <div className="pt-32 pb-24 relative overflow-hidden bg-[#F5F7FA]">
-      {/* Background Blobs like Home Page */}
-      <div className="blob" style={{ width: 700, height: 600, background: 'radial-gradient(ellipse, #4285F4 0%, #34A853 55%, transparent 100%)', top: -200, right: -150, opacity: 0.13 }} />
-      <div className="blob" style={{ width: 500, height: 400, background: 'radial-gradient(ellipse, #FBBC05 0%, #EA4335 55%, transparent 100%)', bottom: 40, left: -120, opacity: 0.09, animationDelay: '4s' }} />
-      <div className="blob" style={{ width: 600, height: 400, background: 'radial-gradient(ellipse, #4285F4 0%, transparent 70%)', top: '30%', left: '25%', opacity: 0.05, animationDelay: '8s' }} />
-
-      {/* Dot Grid Texture like Home Page */}
-      <div className="absolute inset-0 bg-dot-grid pointer-events-none" />
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+    <div className="pt-28 pb-24 relative overflow-hidden text-paper">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 relative z-10">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <Badge variant="blue" className="mb-4">
-            Built by RMKEC Coders
-          </Badge>
-          <h1 className="text-4xl sm:text-6xl font-black text-[#1A1A2E] tracking-tight leading-tight">
-            Open Source <span className="text-gradient-google">Projects</span>
+        <div className="text-center max-w-3xl mx-auto mb-16 pt-8">
+          <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[#4285F4] px-4 py-1.5 rounded-full border border-white/10 bg-[#121216]/60 backdrop-blur-md mb-4">
+            <Sparkles className="h-3.5 w-3.5" />
+            <span>Campus Innovation Labs</span>
+          </div>
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold text-white tracking-tight leading-tight">
+            Building Solutions for the Campus
           </h1>
-          <p className="mt-4 text-base sm:text-lg text-slate-600 font-medium">
-            Explore innovative software applications, AI models, and mobile apps created by GDG RMKEC members.
+          <p className="mt-4 text-base sm:text-lg text-white/70">
+            Student-engineered applications, real-time IoT systems, and infrastructure tools solving
+            day-to-day challenges within the college ecosystem.
           </p>
         </div>
 
-        {/* Filter Bar Box - Black Box */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-12 bg-black text-white p-4 rounded-2xl border border-white/15 shadow-2xl backdrop-blur-xl">
-          <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
-            {domains.map((dom) => (
-              <button
-                key={dom}
-                onClick={() => setSelectedDomain(dom)}
-                className={`px-4 py-2 text-xs font-semibold rounded-full transition-all duration-300 ${
-                  selectedDomain === dom
-                    ? 'bg-blue-600 text-white shadow-[0_0_15px_rgba(66,133,244,0.5)] border border-blue-400/50'
-                    : 'bg-zinc-900 text-slate-300 hover:text-white border border-white/10 hover:border-white/30'
-                }`}
-              >
-                {dom}
-              </button>
-            ))}
+        {/* 1. Flagship Project: Real-Time College Bus Tracking System */}
+        <div className="mb-20 rounded-3xl border border-white/15 bg-black p-8 sm:p-12 shadow-2xl backdrop-blur-2xl">
+          <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+            <div className="flex items-center gap-2.5">
+              <span className="p-3 rounded-2xl bg-[#121216] border border-white/10 text-[#4285F4]">
+                <Bus className="h-6 w-6" />
+              </span>
+              <div>
+                <span className="font-mono text-xs uppercase tracking-widest text-[#4285F4] font-semibold">
+                  Flagship Campus Solution
+                </span>
+                <h2 className="text-2xl sm:text-4xl font-bold text-white">
+                  Real-Time College Bus Tracking System
+                </h2>
+              </div>
+            </div>
+            <span className="font-mono text-xs uppercase tracking-wider font-semibold px-3 py-1 rounded-full bg-[#FBBC05]/20 text-[#FBBC05] border border-[#FBBC05]/40">
+              Status: Ongoing Development
+            </span>
           </div>
 
-          <div className="w-full md:w-72">
-            <Input
-              placeholder="Search projects..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              icon={<Search className="h-4 w-4 text-blue-400" />}
-            />
+          <div className="mb-8">
+            <h3 className="font-mono text-xs uppercase tracking-widest text-white/50 mb-2 font-semibold">
+              Overview
+            </h3>
+            <p className="text-sm sm:text-base text-white/85 leading-relaxed">
+              A transportation solution designed to provide real-time bus tracking for students,
+              faculty members, and college administration. It eliminates transit uncertainties by
+              combining on-vehicle GPS telemetry with real-time map interfaces and push alerts.
+            </p>
+          </div>
+
+          {/* Objectives Grid */}
+          <div className="pt-6 border-t border-white/10">
+            <h3 className="font-mono text-xs uppercase tracking-widest text-white/50 mb-6 font-semibold">
+              Key Objectives
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {busObjectives.map((obj, i) => (
+                <div
+                  key={i}
+                  className="rounded-2xl border border-white/10 bg-[#121216] p-5 transition-all hover:border-white/25"
+                >
+                  <div className="flex items-center gap-3 mb-2">
+                    {obj.icon}
+                    <h4 className="text-base font-bold text-white">{obj.title}</h4>
+                  </div>
+                  <p className="text-xs text-white/70 leading-relaxed">{obj.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Tech Stack Bar */}
+          <div className="mt-8 pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
+            <div className="flex flex-wrap gap-2">
+              {['GPS IoT Telemetry', 'Next.js 15', 'WebSockets', 'Node.js Backend', 'Google Maps API'].map(
+                (tech) => (
+                  <span
+                    key={tech}
+                    className="px-3 py-1 rounded-full bg-white/06 border border-white/10 text-xs font-mono text-white/80"
+                  >
+                    {tech}
+                  </span>
+                )
+              )}
+            </div>
+            <GlowButton href="/join" shape="pill" size="sm">
+              Contribute to Tech Wings →
+            </GlowButton>
           </div>
         </div>
 
-        {/* Projects Grid - Black Boxes with White Text */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProjects.map((project, idx) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: idx * 0.05 }}
-              className="group relative flex flex-col justify-between rounded-2xl border border-white/15 bg-black p-6 shadow-xl hover:border-blue-500/60 hover:shadow-[0_0_25px_rgba(66,133,244,0.25)] transition-all duration-300"
-            >
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <Badge variant="blue">{project.domain}</Badge>
-                  <div className="flex items-center gap-3 text-xs text-slate-200 font-mono">
-                    {project.stars && (
-                      <span className="flex items-center gap-1 bg-amber-950/80 px-2 py-0.5 rounded-full border border-amber-500/30 text-amber-300">
-                        <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-                        {project.stars}
-                      </span>
-                    )}
-                    {project.forks && (
-                      <span className="flex items-center gap-1 bg-blue-950/80 px-2 py-0.5 rounded-full border border-blue-500/30 text-blue-300">
-                        <GitFork className="h-3.5 w-3.5 text-blue-400" />
-                        {project.forks}
-                      </span>
-                    )}
-                  </div>
+        {/* 2. Future Projects Section */}
+        <div>
+          <div className="text-center mb-10">
+            <span className="font-mono text-xs uppercase tracking-widest text-[#FBBC05] font-semibold block mb-1">
+              Pipeline
+            </span>
+            <h2 className="text-2xl sm:text-4xl font-bold text-white">Upcoming Community Innovations</h2>
+            <p className="mt-2 text-xs sm:text-sm text-white/70">
+              Future projects currently in research, prototyping, and ideation phases across student
+              wings.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {futurePlaceholders.map((p, i) => (
+              <div
+                key={i}
+                className="rounded-3xl border border-white/15 bg-[#121216]/80 p-6 backdrop-blur-xl flex flex-col justify-between"
+              >
+                <div>
+                  <span className="font-mono text-[10px] uppercase tracking-wider font-semibold px-2.5 py-0.5 rounded-full bg-white/10 text-white/70 mb-3 inline-block">
+                    {p.tag}
+                  </span>
+                  <h3 className="text-lg font-bold text-white mb-2">{p.title}</h3>
+                  <p className="text-xs text-white/70 leading-relaxed">{p.desc}</p>
                 </div>
-
-                <h3 className="text-xl font-bold text-white tracking-tight group-hover:text-blue-400 transition-colors mb-2">
-                  {project.title}
-                </h3>
-                <p className="text-xs text-slate-200 font-medium leading-relaxed mb-3">{project.tagline}</p>
-                <p className="text-xs text-slate-300 leading-relaxed mb-4">{project.description}</p>
-
-                {/* Tech Stack Pills (Small Accent Pieces) */}
-                <div className="flex flex-wrap gap-1.5">
-                  {project.techStack.map((tech) => (
-                    <span
-                      key={tech}
-                      className="rounded-md bg-cyan-950/80 border border-cyan-500/30 px-2 py-0.5 text-[10px] text-cyan-300 font-mono font-medium"
-                    >
-                      {tech}
-                    </span>
-                  ))}
+                <div className="mt-6 pt-4 border-t border-white/08 text-xs text-white/40 font-mono">
+                  GDG RMKEC Technical Wings
                 </div>
               </div>
-
-              <div className="mt-6 pt-4 border-t border-white/15 flex items-center justify-between text-xs">
-                <span className="text-slate-300 font-semibold">By <span className="text-white">{project.author.name}</span></span>
-                <div className="flex items-center gap-3">
-                  {project.githubUrl && (
-                    <a
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-white font-semibold border border-white/10 transition-colors"
-                    >
-                      <Github className="h-3.5 w-3.5 text-cyan-400" />
-                      <span>Code</span>
-                    </a>
-                  )}
-                  {project.liveUrl && (
-                    <a
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-colors shadow-[0_0_10px_rgba(66,133,244,0.4)]"
-                    >
-                      <span>Demo</span>
-                      <ExternalLink className="h-3.5 w-3.5" />
-                    </a>
-                  )}
-                </div>
-              </div>
-            </motion.div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>

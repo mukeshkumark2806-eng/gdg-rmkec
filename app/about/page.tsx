@@ -1,138 +1,154 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { SectionHeader } from '@/components/ui/SectionHeader';
-import { Badge } from '@/components/ui/Badge';
-import { FadeIn } from '@/components/animations/FadeIn';
-import { StaggerText } from '@/components/animations/StaggerText';
-import { siteConfig } from '@/data/site';
-import { Globe, Users, Code, Sparkles, Target, Rocket, Award, ShieldCheck } from 'lucide-react';
+import { GlowButton } from '@/components/ui/GlowButton';
+import { BookOpen, Hammer, Users2, Trophy, Target, Eye, Sparkles, CheckCircle2 } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'About Us',
-  description: 'Learn about Google Developer Group at RMK Engineering College, our mission, core values, and community leads.',
+  title: 'About Us | GDG on Campus RMKEC',
+  description:
+    'Learn about GDG on Campus RMKEC, our founding story from September 2025, mission, vision, and core pillars.',
 };
 
 const pillars = [
   {
-    icon: <Users className="h-6 w-6 text-blue-400" />,
-    title: 'Connect',
-    description: 'Bridge the gap between academic theory and real-world technology by meeting fellow student developers and industry mentors.',
-    color: 'blue' as const,
-  },
-  {
-    icon: <Globe className="h-6 w-6 text-red-400" />,
+    icon: <BookOpen className="h-6 w-6 text-[#4285F4]" />,
     title: 'Learn',
-    description: 'Master cutting-edge tech stacks from Google Cloud and GenAI to Android Compose and Next.js through hands-on workshops.',
-    color: 'red' as const,
+    description: 'Conduct workshops, study jams, and hands-on technical sessions across emerging tech domains.',
+    color: '#4285F4',
   },
   {
-    icon: <Code className="h-6 w-6 text-amber-400" />,
+    icon: <Hammer className="h-6 w-6 text-[#EA4335]" />,
     title: 'Build',
-    description: 'Collaborate in teams to create impactful open-source products solving real problems for local businesses and campus communities.',
-    color: 'yellow' as const,
+    description: 'Develop impactful software and IoT solutions for students, faculty, and college administration.',
+    color: '#EA4335',
   },
   {
-    icon: <Rocket className="h-6 w-6 text-green-400" />,
-    title: 'Grow',
-    description: 'Elevate career potential with Google Cloud credentials, hackathon accolades, public speaking opportunities, and leadership roles.',
-    color: 'green' as const,
+    icon: <Users2 className="h-6 w-6 text-[#FBBC05]" />,
+    title: 'Collaborate',
+    description: 'Bring together students from different engineering disciplines to solve real-world problems.',
+    color: '#FBBC05',
   },
+  {
+    icon: <Trophy className="h-6 w-6 text-[#34A853]" />,
+    title: 'Lead',
+    description: 'Create opportunities for leadership, stage presentation, and personal career growth.',
+    color: '#34A853',
+  },
+];
+
+const missionPoints = [
+  'Promote technical learning and innovation',
+  'Build solutions for the college ecosystem',
+  'Encourage collaboration and knowledge sharing',
+  'Provide industry-relevant exposure',
+  'Develop future technology leaders',
 ];
 
 export default function AboutPage() {
   return (
-    <div className="pt-32 pb-24 relative overflow-hidden bg-[#F5F7FA]">
-      {/* Background Blobs like Home Page */}
-      <div className="blob" style={{ width: 700, height: 600, background: 'radial-gradient(ellipse, #4285F4 0%, #34A853 55%, transparent 100%)', top: -200, right: -150, opacity: 0.13 }} />
-      <div className="blob" style={{ width: 500, height: 400, background: 'radial-gradient(ellipse, #FBBC05 0%, #EA4335 55%, transparent 100%)', bottom: 40, left: -120, opacity: 0.09, animationDelay: '4s' }} />
-      <div className="blob" style={{ width: 600, height: 400, background: 'radial-gradient(ellipse, #4285F4 0%, transparent 70%)', top: '30%', left: '25%', opacity: 0.05, animationDelay: '8s' }} />
-
-      {/* Dot Grid Texture like Home Page */}
-      <div className="absolute inset-0 bg-dot-grid pointer-events-none" />
-
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+    <div className="pt-28 pb-24 relative overflow-hidden text-paper">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 relative z-10">
         {/* Page Hero */}
-        <div className="text-center max-w-3xl mx-auto mb-20">
-          <Badge variant="blue" className="mb-4">
-            Our Mission & Identity
-          </Badge>
-          <h1 className="text-4xl sm:text-6xl font-black text-[#1A1A2E] tracking-tight leading-tight">
-            Pioneering Innovation @ <br />
-            <span className="text-gradient-google">RMK Engineering College</span>
+        <div className="text-center max-w-3xl mx-auto mb-20 pt-8">
+          <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[#4285F4] px-4 py-1.5 rounded-full border border-white/10 bg-[#121216]/60 backdrop-blur-md mb-5">
+            <Sparkles className="h-3.5 w-3.5" />
+            <span>Who We Are</span>
+          </div>
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold text-white tracking-tight leading-tight">
+            About GDG on Campus <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4285F4] via-[#EA4335] to-[#FBBC05]">
+              RMKEC
+            </span>
           </h1>
-          <p className="mt-6 text-lg text-slate-600 leading-relaxed font-medium">
-            Google Developer Group (GDG) RMKEC is a university-based community for students passionate about Google developer technologies and modern software engineering.
+          <p className="mt-6 text-base sm:text-xl text-white/90 leading-relaxed font-medium">
+            GDG on Campus RMKEC is a student-driven technology community focused on fostering
+            innovation, technical excellence, and collaborative learning.
           </p>
         </div>
 
-        {/* 4 Pillars Grid - Black Boxes */}
-        <div className="mb-24">
-          <SectionHeader
-            badgeText="Core Philosophy"
-            badgeVariant="yellow"
-            title="Built on Four Pillars of"
-            highlightText="Excellence"
-          />
+        {/* Our Story Box */}
+        <div className="mb-20 rounded-3xl border border-white/15 bg-black p-8 sm:p-12 shadow-2xl backdrop-blur-2xl">
+          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#FBBC05] mb-3 font-semibold">
+            <span>Established September 2025</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Our Story</h2>
+          <p className="text-sm sm:text-base text-white/80 leading-relaxed">
+            The community was established in <strong>September 2025</strong>, with a vision of
+            bringing together passionate students interested in technology, innovation, and
+            problem-solving. Over time, GDG on Campus RMKEC has evolved into a platform where students
+            not only learn cutting-edge technologies but also contribute to impactful projects and
+            large-scale events like HackNEXA&apos;26 and Google Cloud Study Jams.
+          </p>
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {pillars.map((pillar, idx) => (
-              <FadeIn key={pillar.title} delay={idx * 0.1}>
-                <div className="h-full rounded-2xl border border-white/15 bg-black text-white p-6 backdrop-blur-xl hover:border-blue-500/60 hover:shadow-[0_0_25px_rgba(66,133,244,0.25)] transition-all duration-300 group shadow-xl">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-zinc-900 border border-white/15 group-hover:scale-110 transition-transform mb-4">
-                    {pillar.icon}
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-2">{pillar.title}</h3>
-                  <p className="text-xs text-slate-200 leading-relaxed">{pillar.description}</p>
+        {/* Mission & Vision Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+          {/* Mission */}
+          <div className="rounded-3xl border border-white/15 bg-[#121216]/80 p-8 sm:p-10 backdrop-blur-xl">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-3 rounded-2xl bg-black border border-white/10 text-[#4285F4]">
+                <Target className="h-6 w-6" />
+              </div>
+              <h3 className="text-2xl font-bold text-white">Our Mission</h3>
+            </div>
+            <ul className="flex flex-col gap-3">
+              {missionPoints.map((point, i) => (
+                <li key={i} className="flex items-start gap-3 text-xs sm:text-sm text-white/80">
+                  <CheckCircle2 className="h-4 w-4 text-[#34A853] shrink-0 mt-0.5" />
+                  <span>{point}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Vision */}
+          <div className="rounded-3xl border border-white/15 bg-[#121216]/80 p-8 sm:p-10 backdrop-blur-xl flex flex-col justify-between">
+            <div>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-3 rounded-2xl bg-black border border-white/10 text-[#FBBC05]">
+                  <Eye className="h-6 w-6" />
                 </div>
-              </FadeIn>
-            ))}
+                <h3 className="text-2xl font-bold text-white">Our Vision</h3>
+              </div>
+              <p className="text-sm sm:text-base text-white/80 leading-relaxed">
+                To become a leading student technology community recognized for innovation, technical
+                excellence, and meaningful impact across the college ecosystem and beyond.
+              </p>
+            </div>
+
+            <div className="mt-8 pt-6 border-t border-white/10">
+              <GlowButton href="/family" shape="pill" size="md">
+                Meet the Core Team & Leads →
+              </GlowButton>
+            </div>
           </div>
         </div>
 
-        {/* Chapter Story Section - Black Box with White Text */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24 rounded-3xl border border-white/15 bg-black text-white p-8 sm:p-12 backdrop-blur-2xl shadow-2xl">
-          <FadeIn direction="right">
-            <div>
-              <Badge variant="red" className="mb-3">
-                Established 2022
-              </Badge>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-snug">
-                From Campus Club to <br />
-                <span className="text-gradient-google">Developer Ecosystem</span>
-              </h2>
-              <p className="mt-4 text-sm text-slate-200 leading-relaxed">
-                Founded with a mission to bridge academia and global tech trends, GDG RMKEC has evolved into one of Tamil Nadu's premier university developer chapters.
-              </p>
-              <p className="mt-3 text-sm text-slate-200 leading-relaxed">
-                We empower students across all branches—from First Year coders to Final Year researchers—by providing hands-on mentorship, Google Cloud lab credits, and hackathon incubation.
-              </p>
-            </div>
-          </FadeIn>
+        {/* 4 Pillars Grid (What We Do) */}
+        <div className="mb-16">
+          <div className="text-center mb-12">
+            <span className="font-mono text-xs uppercase tracking-widest text-[#EA4335] font-semibold block mb-1">
+              What We Do
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-bold text-white">Four Pillars of Action</h2>
+          </div>
 
-          <FadeIn direction="left">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="rounded-2xl border border-white/15 bg-zinc-950 p-6 text-center shadow-lg hover:border-blue-500/40 transition-colors">
-                <Target className="h-8 w-8 text-blue-400 mx-auto mb-2" />
-                <span className="text-2xl font-black text-white block">100%</span>
-                <span className="text-xs text-slate-300 font-medium">Practical Hands-on Jams</span>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {pillars.map((pillar) => (
+              <div
+                key={pillar.title}
+                className="h-full rounded-3xl border border-white/15 bg-[#121216]/80 p-7 backdrop-blur-xl hover:border-white/30 hover:-translate-y-1 transition-all duration-300 group shadow-xl"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-black border border-white/15 group-hover:scale-110 transition-transform mb-5">
+                  {pillar.icon}
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">{pillar.title}</h3>
+                <p className="text-xs sm:text-sm text-white/70 leading-relaxed">
+                  {pillar.description}
+                </p>
               </div>
-              <div className="rounded-2xl border border-white/15 bg-zinc-950 p-6 text-center shadow-lg hover:border-amber-500/40 transition-colors">
-                <Award className="h-8 w-8 text-amber-400 mx-auto mb-2" />
-                <span className="text-2xl font-black text-white block">15+</span>
-                <span className="text-xs text-slate-300 font-medium">National Podium Wins</span>
-              </div>
-              <div className="rounded-2xl border border-white/15 bg-zinc-950 p-6 text-center shadow-lg hover:border-red-500/40 transition-colors">
-                <Sparkles className="h-8 w-8 text-red-400 mx-auto mb-2" />
-                <span className="text-2xl font-black text-white block">1,200+</span>
-                <span className="text-xs text-slate-300 font-medium">Student Community</span>
-              </div>
-              <div className="rounded-2xl border border-white/15 bg-zinc-950 p-6 text-center shadow-lg hover:border-green-500/40 transition-colors">
-                <ShieldCheck className="h-8 w-8 text-green-400 mx-auto mb-2" />
-                <span className="text-2xl font-black text-white block">Zero</span>
-                <span className="text-xs text-slate-300 font-medium">Fee Membership</span>
-              </div>
-            </div>
-          </FadeIn>
+            ))}
+          </div>
         </div>
       </div>
     </div>
