@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { TeamMember } from '@/types';
-import { Github, Linkedin, Twitter, User, Hand, MoveHorizontal } from 'lucide-react';
+import { Github, Linkedin, Twitter, User } from 'lucide-react';
 
 interface SingleFrameFamilyCarouselProps {
   members: TeamMember[];
@@ -39,7 +39,7 @@ export const SingleFrameFamilyCarousel: React.FC<SingleFrameFamilyCarouselProps>
     return [...list, ...list];
   }, [filteredMembers]);
 
-  // ─── Automatic Slow Right-to-Left Glide Loop ─────────────────
+  // ─── Automatic Slow Glide Loop (Pauses on Hover or Drag) ───────────
   useEffect(() => {
     let animationFrameId: number;
     const speed = 0.55; // Calm, slow pixels per frame
@@ -61,6 +61,20 @@ export const SingleFrameFamilyCarousel: React.FC<SingleFrameFamilyCarouselProps>
     return () => cancelAnimationFrame(animationFrameId);
   }, [isHovered, isDragging]);
 
+  // ─── Mouse Wheel / Trackpad Horizontal Scrolling ─────────────
+  const handleWheel = (e: React.WheelEvent) => {
+    if (!containerRef.current) return;
+    const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+    containerRef.current.scrollLeft += delta;
+
+    const halfWidth = containerRef.current.scrollWidth / 2;
+    if (containerRef.current.scrollLeft >= halfWidth) {
+      containerRef.current.scrollLeft = 0;
+    } else if (containerRef.current.scrollLeft <= 0) {
+      containerRef.current.scrollLeft = halfWidth;
+    }
+  };
+
   // ─── Mouse Drag Handlers for Manual Movement on Hover ────────
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!containerRef.current) return;
@@ -79,7 +93,6 @@ export const SingleFrameFamilyCarousel: React.FC<SingleFrameFamilyCarouselProps>
     dragDistanceRef.current = Math.abs(walk);
     containerRef.current.scrollLeft = scrollLeftRef.current - walk;
 
-    // Seamless loop during manual drag
     const halfWidth = containerRef.current.scrollWidth / 2;
     if (containerRef.current.scrollLeft >= halfWidth) {
       containerRef.current.scrollLeft = 0;
@@ -152,9 +165,10 @@ export const SingleFrameFamilyCarousel: React.FC<SingleFrameFamilyCarouselProps>
 
   return (
     <div className="w-full flex flex-col items-center">
-      {/* ─── Filter Tabs Bar ────────────────────────────────────────── */}
+      {/* ─── Category Filter Tabs ─────────────────────────────────── */}
       <div className="w-full max-w-5xl flex flex-wrap items-center justify-center gap-2 mb-8 px-4">
         <button
+          type="button"
           onClick={() => setActiveCategory('All')}
           className={`px-4 py-2 text-xs sm:text-sm font-semibold rounded-full border transition-all duration-200 cursor-pointer ${
             activeCategory === 'All'
@@ -172,6 +186,7 @@ export const SingleFrameFamilyCarousel: React.FC<SingleFrameFamilyCarouselProps>
           return (
             <button
               key={cat}
+              type="button"
               onClick={() => setActiveCategory(cat)}
               className={`px-4 py-2 text-xs sm:text-sm font-semibold rounded-full border transition-all duration-200 cursor-pointer ${
                 isActive
@@ -185,29 +200,26 @@ export const SingleFrameFamilyCarousel: React.FC<SingleFrameFamilyCarouselProps>
         })}
       </div>
 
-      {/* ─── Single Rectangular Moving Frame Bar (Draggable on Hover) ─ */}
+      {/* ─── Moving Frame Bar (Draggable, Wheel-Scrollable, Pauses on Hover) ─ */}
       <div
-        className="relative w-full overflow-hidden border-y border-white/10 bg-black/50 py-8 select-none"
+        className="relative w-full overflow-hidden border-y border-white/10 bg-black/40 py-8 select-none"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => {
           setIsHovered(false);
           handleMouseUp();
         }}
       >
-        {/* Left & Right Edge Smooth Gradient Fades */}
-        <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-12 sm:w-28 bg-gradient-to-r from-black via-black/70 to-transparent z-20" />
-        <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-12 sm:w-28 bg-gradient-to-l from-black via-black/70 to-transparent z-20" />
-
         {/* Scrollable Container with Smooth Mouse Drag & Wheel Support */}
         <div
           ref={containerRef}
+          onWheel={handleWheel}
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
-          className={`flex gap-6 overflow-x-hidden no-scrollbar py-2 px-8 ${
+          className={`flex gap-6 overflow-x-hidden no-scrollbar py-2 px-6 sm:px-10 ${
             isDragging ? 'cursor-grabbing' : isHovered ? 'cursor-grab' : 'cursor-default'
           }`}
           style={{ scrollBehavior: 'auto' }}
@@ -219,10 +231,10 @@ export const SingleFrameFamilyCarousel: React.FC<SingleFrameFamilyCarouselProps>
             return (
               <div
                 key={`${member.id}-${index}`}
-                className="w-[280px] sm:w-[300px] h-[400px] shrink-0 rounded-3xl border border-white/15 bg-[#121216] backdrop-blur-xl overflow-hidden group hover:border-white/45 hover:scale-[1.02] transition-all duration-300 shadow-2xl flex flex-col justify-between"
+                className="w-[280px] sm:w-[310px] shrink-0 rounded-3xl border border-white/15 bg-[#121216] backdrop-blur-xl overflow-hidden group hover:border-white/45 hover:scale-[1.02] transition-all duration-300 shadow-2xl flex flex-col justify-between"
               >
-                {/* Rectangular Image with full, bright visibility */}
-                <div className="relative h-[230px] w-full overflow-hidden bg-[#181820]">
+                {/* ─── Photo Covering the Whole Box (Flush Edge-to-Edge) ─── */}
+                <div className="relative h-[290px] sm:h-[320px] w-full overflow-hidden bg-[#181820]">
                   {safeAvatarUrl ? (
                     <img
                       src={safeAvatarUrl}
@@ -235,18 +247,15 @@ export const SingleFrameFamilyCarousel: React.FC<SingleFrameFamilyCarouselProps>
                       }}
                     />
                   ) : (
-                    <div className="flex h-full w-full items-center justify-center bg-[#181820]">
-                      <User className="h-16 w-16 text-white/40" />
+                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#4285F4]/20 to-[#34A853]/20">
+                      <User className="h-20 w-20 text-white/40" />
                     </div>
                   )}
 
-                  {/* Subtle bottom gradient only */}
-                  <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#121216] to-transparent pointer-events-none" />
-
-                  {/* Category Badge */}
-                  <div className="absolute top-3 left-3 z-10">
+                  {/* Category Pill Tag */}
+                  <div className="absolute top-3.5 left-3.5 z-10">
                     <span
-                      className="font-mono text-[10px] uppercase tracking-wider font-bold px-3 py-1 rounded-full bg-black/85 backdrop-blur-md border border-white/20 shadow-md"
+                      className="font-mono text-[10px] uppercase tracking-wider font-bold px-2.5 py-1 rounded-full bg-black/80 backdrop-blur-md border border-white/20 shadow-md"
                       style={{ color: badgeColor }}
                     >
                       {member.teamCategory}
@@ -254,8 +263,8 @@ export const SingleFrameFamilyCarousel: React.FC<SingleFrameFamilyCarouselProps>
                   </div>
                 </div>
 
-                {/* Card Information */}
-                <div className="p-5 pt-1 flex flex-col justify-between flex-grow">
+                {/* ─── Details of that person BELOW the image ─── */}
+                <div className="p-5 pt-3.5 flex flex-col justify-between flex-grow">
                   <div>
                     <h4 className="text-lg font-bold text-white group-hover:text-[#4285F4] transition-colors line-clamp-1">
                       {member.name}
@@ -264,16 +273,16 @@ export const SingleFrameFamilyCarousel: React.FC<SingleFrameFamilyCarouselProps>
                       {member.role}
                     </p>
                     {member.bio && (
-                      <p className="mt-2 text-xs text-white/75 leading-relaxed line-clamp-2">
+                      <p className="mt-2 text-xs text-white/75 leading-relaxed line-clamp-3">
                         {member.bio}
                       </p>
                     )}
                   </div>
 
-                  {/* Social Links Footer */}
-                  <div className="mt-3 pt-3 border-t border-white/08 flex items-center justify-between">
+                  {/* Footer with Domain & Social Links */}
+                  <div className="mt-4 pt-3 border-t border-white/08 flex items-center justify-between">
                     <span className="font-mono text-[10px] uppercase tracking-widest text-white/40 font-medium">
-                      {member.domain || 'Core'}
+                      {member.domain || 'Member'}
                     </span>
 
                     <div className="flex items-center gap-1.5">

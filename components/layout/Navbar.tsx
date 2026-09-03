@@ -8,6 +8,7 @@ import { User, X } from 'lucide-react';
 import { GlowButton } from '@/components/ui/GlowButton';
 import { GDGLogo } from '@/components/ui/GDGLogo';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import { useLiteMode } from '@/context/LiteModeContext';
 
 const navLinks = [
   { label: 'Home', href: '/' },
@@ -15,7 +16,7 @@ const navLinks = [
   { label: 'Journey', href: '/journey' },
   { label: 'Events', href: '/events' },
   { label: 'Projects', href: '/projects' },
-  { label: 'Community', href: '/community' },
+  { label: 'Album', href: '/album' },
   { label: 'Family Wall', href: '/family' },
   { label: 'Join Us', href: '/join' },
 ];
@@ -26,7 +27,7 @@ const menuItems = [
   { label: 'Our Journey', href: '/journey' },
   { label: 'Events & Jams', href: '/events' },
   { label: 'Campus Projects', href: '/projects' },
-  { label: 'Community Structure', href: '/community' },
+  { label: 'Event Album', href: '/album' },
   { label: 'Family Wall', href: '/family' },
   { label: 'Join the Community', href: '/join' },
   { label: 'Contact & Support', href: '/contact' },
@@ -34,6 +35,7 @@ const menuItems = [
 
 export const Navbar: React.FC = () => {
   const pathname = usePathname();
+  const { isLiteMode, toggleLiteMode } = useLiteMode();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -194,10 +196,29 @@ export const Navbar: React.FC = () => {
               ))}
             </div>
 
-            {/* Footer note */}
-            <p className="font-mono text-xs uppercase tracking-widest text-white/40 mt-4">
-              GDG on Campus RMKEC · Established Sept 2025
-            </p>
+            {/* Footer note & Lite mode toggle */}
+            <div className="flex flex-col items-center gap-2 mt-4">
+              <button
+                type="button"
+                onClick={() => toggleLiteMode()}
+                className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/05 px-3 py-1.5 text-xs font-mono text-white/70 hover:text-white hover:border-white/30 transition-all cursor-pointer"
+                title={isLiteMode ? 'Disable Lite mode' : 'Enable Lite mode'}
+              >
+                <span
+                  aria-hidden="true"
+                  className={`h-2 w-2 shrink-0 rounded-full transition-colors ${
+                    isLiteMode ? 'bg-[#34A853] shadow-[0_0_8px_rgba(52,168,83,0.8)]' : 'bg-white/30'
+                  }`}
+                />
+                Lite Mode:{' '}
+                <span className={isLiteMode ? 'text-[#34A853] font-bold' : 'text-white/40'}>
+                  {isLiteMode ? 'ON' : 'OFF'}
+                </span>
+              </button>
+              <p className="font-mono text-[11px] uppercase tracking-widest text-white/40">
+                GDG on Campus RMKEC · Established Sept 2025
+              </p>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

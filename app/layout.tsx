@@ -6,6 +6,7 @@ import { BracketsField } from '@/components/ui/BracketsField';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { siteConfig } from '@/data/site';
+import { LiteModeProvider } from '@/context/LiteModeContext';
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -61,22 +62,50 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable} dark`}>
+    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable} dark`} suppressHydrationWarning>
+      <head>
+        <script
+          id="lite-mode-init"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var p = new URLSearchParams(window.location.search);
+                  var l = p.get('lite');
+                  var on = false;
+                  if (l === '1') on = true;
+                  else if (l === '0') on = false;
+                  else {
+                    var s = localStorage.getItem('gdg-lite') || localStorage.getItem('devfest-lite');
+                    if (s === '1') on = true;
+                  }
+                  if (on) {
+                    document.documentElement.classList.add('lite-mode');
+                    document.documentElement.setAttribute('data-lite', '1');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
       <body className="bg-black text-[#f0f0f2] flex min-h-screen flex-col selection:bg-[#4285F4]/30 selection:text-white">
-        {/* Google 4-Dot Bouncing Preloader */}
-        <BootPreloader />
+        <LiteModeProvider>
+          {/* Google 4-Dot Bouncing Preloader */}
+          <BootPreloader />
 
-        {/* Ambient Interactive Code Brackets Background */}
-        <BracketsField />
+          {/* Ambient Interactive Code Brackets Background */}
+          <BracketsField />
 
-        {/* Floating Capsule Navbar & Fullscreen Rolling Menu */}
-        <Navbar />
+          {/* Floating Capsule Navbar & Fullscreen Rolling Menu */}
+          <Navbar />
 
-        {/* Main Content */}
-        <main className="flex-grow relative z-10">{children}</main>
+          {/* Main Content */}
+          <main className="flex-grow relative z-10">{children}</main>
 
-        {/* Signature Yellow Brackets Footer */}
-        <Footer />
+          {/* Signature Yellow Brackets Footer */}
+          <Footer />
+        </LiteModeProvider>
       </body>
     </html>
   );

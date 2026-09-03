@@ -1,11 +1,15 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
+import { useLiteMode } from '@/context/LiteModeContext';
 
 export const BracketsField: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const { isLiteMode } = useLiteMode();
 
   useEffect(() => {
+    if (isLiteMode) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -123,13 +127,15 @@ export const BracketsField: React.FC = () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
     };
-  }, []);
+  }, [isLiteMode]);
 
   return (
     <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden="true">
       <div className="absolute inset-0 bg-page-bg opacity-90" />
       <div className="absolute inset-0 bg-devfest-grid opacity-40" />
-      <canvas ref={canvasRef} className="absolute inset-0 h-full w-full opacity-70" />
+      {!isLiteMode && (
+        <canvas ref={canvasRef} className="brackets-canvas absolute inset-0 h-full w-full opacity-70" />
+      )}
     </div>
   );
 };

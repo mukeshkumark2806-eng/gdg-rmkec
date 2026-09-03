@@ -40,6 +40,14 @@ export interface EventItem {
   bannerImage?: string;
 }
 
+export interface ProjectContributor {
+  name: string;
+  role: string;
+  team: string;
+  avatarUrl?: string;
+  bio?: string;
+}
+
 export interface ProjectItem {
   id: string;
   title: string;
@@ -47,6 +55,7 @@ export interface ProjectItem {
   tagline: string;
   description: string;
   domain: 'AI/ML' | 'Web' | 'Mobile' | 'Cloud' | 'Open Source' | 'Campus Solutions' | 'UI/UX';
+  status?: string;
   stars?: number;
   forks?: number;
   githubUrl?: string;
@@ -58,6 +67,10 @@ export interface ProjectItem {
   };
   featured?: boolean;
   image?: string;
+  contributors?: ProjectContributor[];
+  features?: string[];
+  objectives?: Array<{ title: string; desc: string }>;
+  impact?: string;
 }
 
 export interface TeamMember {

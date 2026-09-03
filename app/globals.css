@@ -56,11 +56,21 @@ html.light {
   color-scheme: light;
   background-color: #f8f9fa;
   color: #1f2328;
+  --ink: #ffffff;
+  --surface: #ffffff;
+  --surface-light: #f1f3f4;
+  --paper: #1f2328;
+  --paper-muted: rgba(31, 35, 40, 0.7);
+  --border-paper: rgba(0, 0, 0, 0.12);
 }
 
 html.light body {
   background-color: #f8f9fa;
   color: #1f2328;
+}
+
+html.light .text-paper {
+  color: #1f2328 !important;
 }
 
 html.light header nav {
@@ -86,42 +96,76 @@ html.light header nav a[aria-current="page"] {
 html.light .bg-\[\#121216\]\/90,
 html.light .bg-\[\#121216\]\/80,
 html.light .bg-\[\#121216\]\/60,
-html.light .bg-\[\#121216\] {
+html.light .bg-\[\#121216\],
+html.light .bg-\[\#181820\],
+html.light .bg-\[\#1f1f24\] {
   background-color: #ffffff !important;
   border-color: rgba(0, 0, 0, 0.12) !important;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06) !important;
+}
+
+html.light .bg-\[\#0a0a0e\],
+html.light .bg-\[\#0d0d11\] {
+  background-color: #f3f4f6 !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+html.light .bg-black,
+html.light .bg-black\/95,
+html.light .bg-black\/90,
+html.light .bg-black\/85,
+html.light .bg-black\/80,
+html.light .bg-black\/70,
+html.light .bg-black\/60,
+html.light .bg-black\/50,
+html.light .bg-black\/40 {
+  background-color: #ffffff !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
 }
 
 html.light .text-white {
   color: #1f2328 !important;
 }
 
+html.light .text-white\/95,
 html.light .text-white\/90,
 html.light .text-white\/85,
-html.light .text-white\/80,
+html.light .text-white\/80 {
+  color: #24292f !important;
+}
+
 html.light .text-white\/75,
 html.light .text-white\/70,
+html.light .text-white\/65,
 html.light .text-white\/60 {
   color: #57606a !important;
+}
+
+html.light .text-white\/50,
+html.light .text-white\/40,
+html.light .text-white\/30 {
+  color: #6e7781 !important;
 }
 
 html.light .border-white\/15,
 html.light .border-white\/10,
 html.light .border-white\/20,
+html.light .border-white\/25,
 html.light .border-white\/30,
 html.light .border-white\/40,
 html.light .border-white\/45,
-html.light .border-white\/08 {
+html.light .border-white\/08,
+html.light .border-white\/06 {
   border-color: rgba(0, 0, 0, 0.1) !important;
 }
 
-html.light .bg-black {
-  background-color: #f1f3f4 !important;
-}
-
-html.light .bg-black\/50,
-html.light .bg-black\/40 {
-  background-color: rgba(240, 242, 245, 0.7) !important;
+html.light .bg-white\/06,
+html.light .bg-white\/08,
+html.light .bg-white\/10,
+html.light .bg-white\/15,
+html.light .bg-white\/20 {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+  color: #1f2328 !important;
 }
 
 html.light .glow-btn__surface {
@@ -380,3 +424,75 @@ button:hover .text-roll-bottom {
 .animate-marquee-paused {
   animation-play-state: paused !important;
 }
+
+/* ─── Lite Mode High-Performance Engine ─────────────────────── */
+html.lite-mode,
+html[data-lite="1"] {
+  scroll-behavior: auto !important;
+}
+
+/* Instantly suppress preloader with zero flash */
+html.lite-mode #preloader,
+html[data-lite="1"] #preloader {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Eliminate continuous background particle canvas */
+html.lite-mode canvas.brackets-canvas,
+html[data-lite="1"] canvas.brackets-canvas {
+  display: none !important;
+}
+
+/* Disable expensive continuous CSS keyframe animations */
+html.lite-mode .preloader-circle,
+html.lite-mode .sonar-pulse,
+html.lite-mode .laser-bar {
+  animation: none !important;
+}
+
+/* Strip GPU-heavy backdrop-filter blurs across the app */
+html.lite-mode .backdrop-blur-sm,
+html.lite-mode .backdrop-blur-md,
+html.lite-mode .backdrop-blur-lg,
+html.lite-mode .backdrop-blur-xl,
+html.lite-mode .backdrop-blur-2xl,
+html.lite-mode [class*="backdrop-blur"] {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Provide clean solid background colors when backdrop-filter is disabled */
+html.lite-mode header nav {
+  background-color: #121216 !important;
+}
+
+html.light.lite-mode header nav {
+  background-color: #ffffff !important;
+}
+
+html.lite-mode .bg-\[\#121216\]\/60,
+html.lite-mode .bg-\[\#121216\]\/70,
+html.lite-mode .bg-\[\#121216\]\/80,
+html.lite-mode .bg-\[\#121216\]\/90 {
+  background-color: #121216 !important;
+}
+
+html.light.lite-mode .bg-\[\#121216\]\/60,
+html.light.lite-mode .bg-\[\#121216\]\/70,
+html.light.lite-mode .bg-\[\#121216\]\/80,
+html.light.lite-mode .bg-\[\#121216\]\/90 {
+  background-color: #ffffff !important;
+}
+
+/* Remove hover drop-shadow filters on buttons to avoid rasterization recalculations */
+html.lite-mode .glow-btn:hover .glow-btn__corners {
+  filter: none !important;
+}
+
+/* Avoid slow background transitions */
+html.lite-mode body {
+  transition: none !important;
+}
+

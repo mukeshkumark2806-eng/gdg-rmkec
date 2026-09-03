@@ -70,7 +70,7 @@ export default function NotFound() {
         {[
           { label: 'Home', path: '/' },
           { label: 'Tickets', path: '/tickets' },
-          { label: 'Memories', path: '/memories' },
+          { label: 'Album', path: '/album' },
           { label: 'Events', path: '/events' },
           { label: 'Projects', path: '/projects' },
           { label: 'About', path: '/about' },
@@ -94,7 +94,7 @@ export default function NotFound() {
       <div className="mt-12 h-px w-full bg-white/10" aria-hidden="true" />
 
       <Link
-        href="/memories"
+        href="/album"
         className="group mt-8 block sm:flex sm:items-center sm:gap-6 rounded-2xl border border-white/10 bg-[#121216]/60 p-4 hover:border-white/25 transition-all"
       >
         <div className="w-full sm:w-56 sm:shrink-0 aspect-[3/2] overflow-hidden rounded-xl">
@@ -107,8 +107,8 @@ export default function NotFound() {
         <div className="mt-4 sm:mt-0">
           <p className="font-bold text-white">While you’re here</p>
           <p className="mt-1 text-xs text-white/70 max-w-md">
-            The archive is the one part of this site that was never going to 404. Explore previous
-            DevFest group photos and memories →
+            The archive is the one part of this site that was never going to 404. Explore event
+            photos, hackathon highlights, and moments in our Event Album →
           </p>
         </div>
       </Link>

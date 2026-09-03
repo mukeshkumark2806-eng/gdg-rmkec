@@ -3,15 +3,29 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Code2 } from 'lucide-react';
+import { useLiteMode } from '@/context/LiteModeContext';
 
 export const BootPreloader: React.FC = () => {
+  const { isLiteMode } = useLiteMode();
   const [mounted, setMounted] = useState(true);
   const [stage, setStage] = useState<1 | 2 | 3>(1);
 
   useEffect(() => {
-    // Check if lite version is requested in URL
+    // If lite mode is enabled, immediately dismiss preloader
+    if (isLiteMode) {
+      setMounted(false);
+      return;
+    }
+
+    // Check if lite version is requested in URL or stored in localStorage
     const params = new URLSearchParams(window.location.search);
-    if (params.get('lite') === '1') {
+    const stored = localStorage.getItem('gdg-lite') || localStorage.getItem('devfest-lite');
+    if (
+      params.get('lite') === '1' ||
+      stored === '1' ||
+      document.documentElement.classList.contains('lite-mode') ||
+      document.documentElement.getAttribute('data-lite') === '1'
+    ) {
       setMounted(false);
       return;
     }
@@ -34,9 +48,9 @@ export const BootPreloader: React.FC = () => {
       clearTimeout(stage3Timer);
       clearTimeout(dismissTimer);
     };
-  }, []);
+  }, [isLiteMode]);
 
-  if (!mounted) return null;
+  if (isLiteMode || !mounted) return null;
 
   return (
     <AnimatePresence>

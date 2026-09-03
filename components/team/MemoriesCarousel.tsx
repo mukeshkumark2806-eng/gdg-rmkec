@@ -156,7 +156,7 @@ export const MemoriesCarousel: React.FC = () => {
           alt={current.title}
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 via-black/30 to-transparent pointer-events-none" />
 
         {/* Slide Content */}
         <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10 flex flex-col justify-end">
@@ -194,10 +194,10 @@ export const MemoriesCarousel: React.FC = () => {
         </div>
 
         <Link
-          href="/memories"
+          href="/album"
           className="text-xs font-semibold text-[#4285F4] hover:text-white transition-colors"
         >
-          View Full Archive Gallery →
+          View Full Event Album →
         </Link>
       </div>
     </div>

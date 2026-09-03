@@ -1,25 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { GlowButton } from '@/components/ui/GlowButton';
 import { siteConfig } from '@/data/site';
+import { useLiteMode } from '@/context/LiteModeContext';
 
 export const Footer: React.FC = () => {
-  const [liteMode, setLiteMode] = useState(false);
-
-  const toggleLite = () => {
-    const next = !liteMode;
-    setLiteMode(next);
-    localStorage.setItem('devfest-lite', next ? '1' : '0');
-    const u = new URL(window.location.href);
-    if (next) {
-      u.searchParams.set('lite', '1');
-    } else {
-      u.searchParams.delete('lite');
-    }
-    window.location.href = u.href;
-  };
+  const { isLiteMode, toggleLiteMode } = useLiteMode();
 
   return (
     <footer className="relative z-10 mt-auto px-4 py-16 sm:px-8 text-paper select-none overflow-hidden border-t border-white/08 bg-black">
@@ -170,14 +158,21 @@ export const Footer: React.FC = () => {
             </a>
             <button
               type="button"
-              onClick={toggleLite}
-              className="inline-flex items-center gap-2 text-xs text-white/70 underline-offset-4 hover:text-white hover:underline cursor-pointer"
+              onClick={() => toggleLiteMode()}
+              className="inline-flex items-center gap-2 text-xs text-white/70 underline-offset-4 hover:text-white hover:underline cursor-pointer transition-colors"
+              aria-pressed={isLiteMode}
+              title={isLiteMode ? 'Disable Lite version (enable full visual effects)' : 'Enable Lite version (optimized battery & performance)'}
             >
               <span
                 aria-hidden="true"
-                className={`h-2 w-2 shrink-0 rounded-full ${liteMode ? 'bg-[#34A853]' : 'bg-white/30'}`}
+                className={`h-2 w-2 shrink-0 rounded-full transition-all duration-300 ${
+                  isLiteMode ? 'bg-[#34A853] shadow-[0_0_8px_rgba(52,168,83,0.8)]' : 'bg-white/30'
+                }`}
               />
-              Lite version <span className="text-white/40">{liteMode ? 'on' : 'off'}</span>
+              Lite version{' '}
+              <span className={isLiteMode ? 'text-[#34A853] font-medium' : 'text-white/40'}>
+                {isLiteMode ? 'on' : 'off'}
+              </span>
             </button>
           </div>
 
