@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { MapPin, Navigation, Bus, Car, Wifi, ShieldCheck } from 'lucide-react';
+import { MapPin, Navigation, Bus, Wifi, ShieldCheck } from 'lucide-react';
 import { GlowButton } from '@/components/ui/GlowButton';
 
 export const VenueSection: React.FC = () => {
@@ -42,7 +42,7 @@ export const VenueSection: React.FC = () => {
             </div>
 
             {/* Amenities / Perks */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-6 border-t border-white/10">
+            <div className="grid grid-cols-2 gap-4 pt-6 border-t border-white/10">
               <div className="flex items-center gap-2.5 text-xs text-white/80">
                 <Wifi className="h-4 w-4 text-[#4285F4] shrink-0" />
                 <span>High-Speed Wi-Fi</span>
@@ -50,10 +50,6 @@ export const VenueSection: React.FC = () => {
               <div className="flex items-center gap-2.5 text-xs text-white/80">
                 <Bus className="h-4 w-4 text-[#EA4335] shrink-0" />
                 <span>Free Campus Shuttles</span>
-              </div>
-              <div className="flex items-center gap-2.5 text-xs text-white/80">
-                <Car className="h-4 w-4 text-[#FBBC05] shrink-0" />
-                <span>Ample Parking</span>
               </div>
               <div className="flex items-center gap-2.5 text-xs text-white/80">
                 <ShieldCheck className="h-4 w-4 text-[#34A853] shrink-0" />
@@ -76,25 +72,29 @@ export const VenueSection: React.FC = () => {
               >
                 Open in Google Maps →
               </GlowButton>
-              <GlowButton href="/contact" shape="pill" size="md">
-                Travel & Stay Guide
-              </GlowButton>
             </div>
           </div>
 
-          {/* Right Map Image / Visual */}
-          <div className="lg:col-span-5 relative h-64 sm:h-80 lg:h-auto rounded-2xl overflow-hidden border border-white/15">
+          {/* Right Campus Image / Visual */}
+          <div className="lg:col-span-5 relative h-64 sm:h-80 lg:h-auto min-h-[300px] rounded-2xl overflow-hidden border border-white/15 bg-black/90 shadow-xl">
             <img
-              src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1000&q=80"
-              alt="RMKEC Campus Venue"
+              src="/images/rmkec-campus.webp"
+              alt="R.M.K. Engineering College"
               className="h-full w-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-            <div className="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-black/70 backdrop-blur-md border border-white/10 text-xs text-white/90">
-              <p className="font-semibold text-white">Main Audi & Innovation Block</p>
-              <p className="text-[11px] text-white/70 font-mono mt-0.5">
-                DevFest 2026 Registration Arena
-              </p>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+            <div className="absolute bottom-4 left-4 right-4 p-3.5 rounded-xl bg-black/75 backdrop-blur-md border border-white/10 text-xs text-white/90">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-semibold text-white">R.M.K. Engineering College</p>
+                  <p className="text-[11px] text-white/70 font-mono mt-0.5">
+                    RSM Nagar, Kavaraipettai Campus
+                  </p>
+                </div>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/10 text-white/80 border border-white/10">
+                  RMKEC
+                </span>
+              </div>
             </div>
           </div>
         </div>

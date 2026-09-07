@@ -35,17 +35,27 @@ export const MemberCard: React.FC<MemberCardProps> = ({ member }) => {
   const badgeText = member.teamCategory || member.domain;
   const badgeVariant = getBadgeVariant(member.teamCategory);
 
+  const safeAvatarUrl = member.avatarUrl ? encodeURI(member.avatarUrl) : '';
+
   return (
     <div className="group relative flex flex-col justify-between h-full rounded-2xl border border-white/15 bg-[#0D111A]/90 text-white p-6 shadow-xl backdrop-blur-xl hover:border-blue-500/60 hover:shadow-[0_0_30px_rgba(66,133,244,0.25)] transition-all duration-300">
       <div>
-        {/* Large Portrait Image (4:5 Aspect Ratio) */}
-        <div className="relative mb-5 overflow-hidden rounded-xl aspect-[4/5] w-full border border-white/15 shadow-md">
+        {/* Full Image Visible As It Is with Ambient Background */}
+        <div className="relative mb-5 overflow-hidden rounded-xl aspect-[4/5] w-full border border-white/15 shadow-md bg-slate-950 flex items-center justify-center">
+          {safeAvatarUrl && (
+            <img
+              src={safeAvatarUrl}
+              alt=""
+              aria-hidden="true"
+              className="absolute inset-0 h-full w-full object-cover blur-xl opacity-30 scale-110 pointer-events-none"
+            />
+          )}
           <img
-            src={member.avatarUrl}
+            src={safeAvatarUrl}
             alt={member.name}
-            className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
+            className="relative z-10 h-full w-full object-contain object-center group-hover:scale-105 transition-transform duration-500"
           />
-          <div className="absolute top-3 left-3">
+          <div className="absolute top-3 left-3 z-20">
             <Badge variant={badgeVariant}>{badgeText}</Badge>
           </div>
         </div>
