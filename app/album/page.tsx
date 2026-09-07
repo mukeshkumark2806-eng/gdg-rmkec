@@ -45,8 +45,8 @@ const albumPhotos: AlbumPhoto[] = [
     image:
       'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=1200&q=80',
     caption:
-      'Kickoff ceremony of HackNEXA’26 bringing together 650+ participating teams across RMK Group of Institutions to solve real-world problems.',
-    attendees: '650+ Teams',
+      'Kickoff ceremony of HackNEXA’26 bringing together 650+ Hackathon Teams Participated across RMK Group of Institutions to solve real-world problems.',
+    attendees: '650+ Hackathon Teams',
     tags: ['HackNEXA', 'TechSprint', 'Opening Ceremony', 'Keynote'],
   },
   {
@@ -352,7 +352,7 @@ export default function AlbumPage() {
             </div>
             <div className="flex items-center gap-2">
               <span className="h-2 w-2 rounded-full bg-[#4285F4]" />
-              <span>650+ Hackathon Teams</span>
+              <span>650+ Hackathon Teams Participated</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="h-2 w-2 rounded-full bg-[#34A853]" />

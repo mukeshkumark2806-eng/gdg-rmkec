@@ -52,7 +52,7 @@ const pillars: ActionPillar[] = [
     action: 'Interdisciplinary Community',
     description: 'Bring together students from different disciplines to solve real-world challenges.',
     highlights: [
-      '650+ Hackathon Teams participating in HackNEXA',
+      '650+ Hackathon Teams Participated in HackNEXA',
       '250+ Teams advancing to live evaluation rounds',
       '5 Specialized Technical Wings',
       'Cross-departmental project incubation',

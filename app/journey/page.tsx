@@ -73,12 +73,12 @@ export default function JourneyPage() {
             <p className="text-sm sm:text-base text-white/80 leading-relaxed mb-4">
               An active community conducting events, building projects, and nurturing future leaders.
               With landmark achievements including the <strong>Google Cloud Campaign Study Jam</strong> (100+
-              learners, 40 completers), the flagship <strong>HackNEXA&apos;26 Hackathon</strong> (650+ participating
-              teams), and ongoing development of the <strong>Real-Time College Bus Tracking System</strong>.
+              learners, 40 completers), the flagship <strong>HackNEXA&apos;26 Hackathon</strong> (650+ Hackathon Teams
+              Participated), and ongoing development of the <strong>Real-Time College Bus Tracking System</strong>.
             </p>
             <div className="flex flex-wrap gap-2 pt-2">
               <span className="px-3 py-1 rounded-full bg-white/10 text-xs font-mono text-white/90">
-                HackNEXA 650+ Teams
+                650+ Hackathon Teams Participated
               </span>
               <span className="px-3 py-1 rounded-full bg-white/10 text-xs font-mono text-white/90">
                 40+ Cloud Completers

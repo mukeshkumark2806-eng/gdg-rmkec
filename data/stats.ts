@@ -7,7 +7,7 @@ export const statsData: StatItem[] = [
     value: 650,
     suffix: '+',
     description: 'Across RMK Group of Institutions',
-    iconName: 'Users',
+    iconName: 'Users2',
   },
   {
     id: 'eval-teams',

@@ -2,15 +2,15 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { Users, Calendar, Code2, UsersRound, Landmark } from 'lucide-react';
+import { Users2, Trophy, BookOpen, Cloud, Code2 } from 'lucide-react';
 import { statsData } from '@/data/stats';
 
 const statConfig = [
-  { icon: <Users    className="h-5 w-5" />, accent: '#4285F4' },
-  { icon: <Calendar className="h-5 w-5" />, accent: '#EA4335' },
-  { icon: <Code2    className="h-5 w-5" />, accent: '#34A853' },
-  { icon: <UsersRound className="h-5 w-5" />, accent: '#FBBC05' },
-  { icon: <Landmark  className="h-5 w-5" />, accent: '#4285F4' },
+  { icon: <Users2   className="h-5 w-5" />, accent: '#4285F4' },
+  { icon: <Trophy   className="h-5 w-5" />, accent: '#EA4335' },
+  { icon: <BookOpen className="h-5 w-5" />, accent: '#FBBC05' },
+  { icon: <Cloud    className="h-5 w-5" />, accent: '#34A853' },
+  { icon: <Code2    className="h-5 w-5" />, accent: '#4285F4' },
 ];
 
 /* ── Animated counter ─────────────────────────────── */

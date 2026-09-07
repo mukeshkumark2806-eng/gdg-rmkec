@@ -22,7 +22,7 @@ const memories: MemoryItem[] = [
     tag: 'TechSprint Campaign',
     date: 'Flagship Event',
     description:
-      'Over 650+ participating teams and 250+ teams presenting their software and IoT prototypes to jury panels.',
+      'Over 650+ Hackathon Teams Participated, with 250+ teams presenting their software and IoT prototypes to jury panels.',
     image:
       'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1200&q=80',
     color: '#4285F4',

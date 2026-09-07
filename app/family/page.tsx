@@ -29,9 +29,10 @@ export default function FamilyPage() {
           </p>
 
           <p className="mt-4 text-xs sm:text-sm md:text-base text-white/70 max-w-3xl mx-auto leading-relaxed">
-            GDG on Campus RMKEC is powered by passionate students who dedicate their time, creativity,
-            and expertise to building a thriving technology community. Every achievement, event, and
-            project is the result of teamwork, collaboration, and shared learning.
+            GDG on Campus RMKEC is powered by passionate student organizers, wing leads, and faculty advisors
+            dedicated to building a thriving technology community. While our flagship hackathons brought together 650+
+            Hackathon Teams Participated across RMK institutions, these are the 45 core team members and leads driving
+            our chapter operations, technical projects, and workshops.
           </p>
         </div>
 

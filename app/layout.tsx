@@ -7,6 +7,7 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { siteConfig } from '@/data/site';
 import { LiteModeProvider } from '@/context/LiteModeContext';
+import { ChatbotWidget } from '@/components/chatbot/ChatbotWidget';
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -105,6 +106,9 @@ export default function RootLayout({
 
           {/* Signature Yellow Brackets Footer */}
           <Footer />
+
+          {/* Floating GDG Campus Guide Chatbot Widget */}
+          <ChatbotWidget />
         </LiteModeProvider>
       </body>
     </html>

@@ -1,14 +1,14 @@
 'use client';
 
 import React from 'react';
-import { Users, Trophy, BookOpen, Cloud, Code2, ShieldCheck, Sparkles } from 'lucide-react';
+import { Users2, Trophy, BookOpen, Cloud, Code2, ShieldCheck, Sparkles } from 'lucide-react';
 
 const impactStats = [
   {
     value: '650+',
     label: 'Hackathon Teams Participated',
     subtext: 'Across RMK Group of Institutions in HackNEXA',
-    icon: <Users className="h-6 w-6 text-[#4285F4]" />,
+    icon: <Users2 className="h-6 w-6 text-[#4285F4]" />,
     color: '#4285F4',
   },
   {
