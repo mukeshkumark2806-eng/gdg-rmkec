@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "dev": "cmd /c \"set PATH=%LOCALAPPDATA%\\Programs\\nodejs-x64;%PATH% && next dev\"",
+    "build": "cmd /c \"set PATH=%LOCALAPPDATA%\\Programs\\nodejs-x64;%PATH% && next build\"",
+    "start": "cmd /c \"set PATH=%LOCALAPPDATA%\\Programs\\nodejs-x64;%PATH% && next start\"",
+    "lint": "cmd /c \"set PATH=%LOCALAPPDATA%\\Programs\\nodejs-x64;%PATH% && eslint\""
   },
   "dependencies": {
     "@gsap/react": "^2.1.1",
