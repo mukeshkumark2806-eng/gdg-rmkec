@@ -15,8 +15,10 @@ import {
   Grid,
   Images,
   ArrowRight,
+  BookOpen,
 } from 'lucide-react';
 import { GlowButton } from '@/components/ui/GlowButton';
+import { AlbumFlipBook } from '@/components/album/AlbumFlipBook';
 
 export type EventCategory =
   | 'Google Cloud Campaign'
@@ -1045,7 +1047,7 @@ export default function AlbumPage() {
   // When an album is clicked, this modal opens showing all photos of that event
   const [activeModalAlbum, setActiveModalAlbum] = useState<EventCategory | null>(null);
   const [modalPhotoIndex, setModalPhotoIndex] = useState<number>(0);
-  const [modalViewMode, setModalViewMode] = useState<'slideshow' | 'grid'>('slideshow');
+  const [modalViewMode, setModalViewMode] = useState<'book' | 'slideshow' | 'grid'>('book');
 
   // Fullscreen single-photo lightbox (used inside album modal)
   const [lightboxPhoto, setLightboxPhoto] = useState<AlbumPhoto | null>(null);
@@ -1059,10 +1061,20 @@ export default function AlbumPage() {
     ? eventAlbums.find((a) => a.name === activeModalAlbum)
     : null;
 
-  // Open an album
+  const activeAlbumIndex = activeModalAlbum
+    ? eventAlbums.findIndex((a) => a.name === activeModalAlbum)
+    : -1;
+
+  const nextAlbum =
+    activeAlbumIndex !== -1
+      ? eventAlbums[(activeAlbumIndex + 1) % eventAlbums.length]
+      : null;
+
+  // Open an album in Interactive 3D Photo Book Mode
   const handleOpenAlbum = (albumName: EventCategory) => {
     setActiveModalAlbum(albumName);
     setModalPhotoIndex(0);
+    setModalViewMode('book');
   };
 
   // Keyboard navigation for album modal slideshow & lightbox
@@ -1158,14 +1170,14 @@ export default function AlbumPage() {
         <div className="mb-14">
           <div className="flex items-center justify-between mb-4 px-1">
             <div className="flex items-center gap-2">
-              <FolderOpen className="h-4 w-4 text-[#4285F4]" />
+              <BookOpen className="h-4 w-4 text-[#4285F4]" />
               <h2 className="text-sm sm:text-base font-semibold text-white tracking-wide">
                 Select an Event Album
               </h2>
               <span className="text-xs text-white/40 font-mono">(4 Flagship Events)</span>
             </div>
             <span className="text-xs text-white/50 font-mono hidden sm:inline-block">
-              Click album to open all event photos
+              Click album to open interactive photo book with page flip
             </span>
           </div>
 
@@ -1183,10 +1195,11 @@ export default function AlbumPage() {
                   tabIndex={0}
                   onKeyDown={(e) => e.key === 'Enter' && handleOpenAlbum(album.name)}
                   aria-label={`Open ${album.name} album`}
-                  className={`group relative overflow-hidden rounded-2xl border transition-all duration-300 cursor-pointer flex flex-col justify-between ${
+                  style={{ borderLeftColor: album.color }}
+                  className={`group relative overflow-hidden rounded-2xl border-l-[6px] border-y border-r transition-all duration-300 cursor-pointer flex flex-col justify-between ${
                     isSelected
                       ? 'border-white/40 ring-2 ring-[#4285F4]/50 bg-[#15151c] shadow-[0_12px_28px_rgba(0,0,0,0.8)] -translate-y-1'
-                      : 'border-white/12 bg-black/60 hover:border-white/30 hover:bg-[#121218] hover:-translate-y-1 hover:shadow-[0_12px_24px_rgba(0,0,0,0.7)]'
+                      : 'border-white/12 bg-black/60 hover:border-white/30 hover:bg-[#121218] hover:-translate-y-1 hover:shadow-[0_14px_30px_rgba(0,0,0,0.8)]'
                   }`}
                 >
                   {/* Compact Cover Image */}
@@ -1213,11 +1226,11 @@ export default function AlbumPage() {
                       </span>
                     </div>
 
-                    {/* Hover Prompt Overlay */}
-                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center p-3 text-center">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#4285F4] text-white text-xs font-semibold shadow-lg">
-                        <FolderOpen className="h-3.5 w-3.5" />
-                        View All {eventPhotoCount} Photos
+                    {/* Hover Prompt Overlay: Book Animation Hint */}
+                    <div className="absolute inset-0 bg-black/65 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center p-3 text-center">
+                      <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#4285F4] text-white text-xs font-semibold shadow-xl group-hover:scale-105 transition-transform">
+                        <BookOpen className="h-3.5 w-3.5" />
+                        Open Photo Book
                       </span>
                     </div>
                   </div>
@@ -1251,8 +1264,9 @@ export default function AlbumPage() {
                       <span className="text-white/50 truncate max-w-[130px]">
                         {album.location.split(',')[0]}
                       </span>
-                      <span className="text-[#4285F4] group-hover:text-white flex items-center gap-0.5 transition-colors font-semibold">
-                        Open <ArrowRight className="h-3 w-3" />
+                      <span className="text-[#4285F4] group-hover:text-white flex items-center gap-1 transition-colors font-semibold">
+                        <BookOpen className="h-3 w-3" />
+                        <span>Flip Book →</span>
                       </span>
                     </div>
                   </div>
@@ -1301,7 +1315,7 @@ export default function AlbumPage() {
               exit={{ opacity: 0, scale: 0.94, y: 15 }}
               transition={{ duration: 0.2 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative max-w-5xl w-full rounded-3xl border border-white/20 bg-[#121216] overflow-hidden shadow-2xl flex flex-col max-h-[92vh]"
+              className="relative max-w-5xl lg:max-w-6xl w-full rounded-3xl border border-white/20 bg-[#121216] overflow-hidden shadow-2xl flex flex-col max-h-[94vh]"
             >
               {/* Top Modal Navigation & Album Header */}
               <div className="p-4 sm:p-5 border-b border-white/10 bg-black/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shrink-0">
@@ -1328,40 +1342,63 @@ export default function AlbumPage() {
                   </h2>
                 </div>
 
-                {/* View Mode Toggle: Slideshow vs Grid */}
+                {/* View Mode Toggle: Photo Book vs Slideshow vs Grid */}
                 <div className="flex items-center gap-2 self-start sm:self-auto">
                   <div className="p-1 rounded-full bg-white/08 border border-white/10 flex items-center">
+                    <button
+                      type="button"
+                      onClick={() => setModalViewMode('book')}
+                      className={`px-3 py-1 rounded-full text-xs font-mono transition-all cursor-pointer flex items-center gap-1.5 ${
+                        modalViewMode === 'book'
+                          ? 'bg-[#4285F4] text-white font-semibold shadow-md'
+                          : 'text-white/60 hover:text-white'
+                      }`}
+                    >
+                      <BookOpen className="h-3 w-3" />
+                      <span>Photo Book</span>
+                    </button>
                     <button
                       type="button"
                       onClick={() => setModalViewMode('slideshow')}
                       className={`px-3 py-1 rounded-full text-xs font-mono transition-all cursor-pointer flex items-center gap-1.5 ${
                         modalViewMode === 'slideshow'
-                          ? 'bg-[#4285F4] text-white font-semibold'
+                          ? 'bg-[#4285F4] text-white font-semibold shadow-md'
                           : 'text-white/60 hover:text-white'
                       }`}
                     >
                       <Images className="h-3 w-3" />
-                      Slideshow
+                      <span>Slideshow</span>
                     </button>
                     <button
                       type="button"
                       onClick={() => setModalViewMode('grid')}
                       className={`px-3 py-1 rounded-full text-xs font-mono transition-all cursor-pointer flex items-center gap-1.5 ${
                         modalViewMode === 'grid'
-                          ? 'bg-[#4285F4] text-white font-semibold'
+                          ? 'bg-[#4285F4] text-white font-semibold shadow-md'
                           : 'text-white/60 hover:text-white'
                       }`}
                     >
                       <Grid className="h-3 w-3" />
-                      Grid (All {activeAlbumPhotos.length})
+                      <span>Grid ({activeAlbumPhotos.length})</span>
                     </button>
                   </div>
                 </div>
               </div>
 
               {/* Modal Content Body */}
-              <div className="overflow-y-auto flex-1 p-4 sm:p-6">
-                {modalViewMode === 'slideshow' ? (
+              <div className="overflow-y-auto flex-1 p-3 sm:p-5">
+                {modalViewMode === 'book' ? (
+                  /* ─── 3D Interactive Photo Book Flip Animation ─────── */
+                  <AlbumFlipBook
+                    key={activeAlbumData.id}
+                    album={activeAlbumData}
+                    photos={activeAlbumPhotos}
+                    onPhotoClick={(photo) => setLightboxPhoto(photo)}
+                    onClose={() => setActiveModalAlbum(null)}
+                    onSelectNextAlbum={(nextName) => handleOpenAlbum(nextName)}
+                    nextAlbumName={nextAlbum?.name}
+                  />
+                ) : modalViewMode === 'slideshow' ? (
                   /* Slideshow View: Large preview + details + thumbnail gallery strip */
                   <div className="space-y-4">
                     <div className="relative rounded-2xl overflow-hidden bg-black flex items-center justify-center min-h-[280px] max-h-[50vh] border border-white/10 group">
