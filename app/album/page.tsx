@@ -66,11 +66,10 @@ const eventAlbums: EventAlbum[] = [
     badgeBorder: 'border-[#4285F4]/40',
     badgeBg: 'bg-[#4285F4]/15',
     badgeText: 'text-blue-300',
-    coverImage:
-      'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=75',
-    attendees: '100+ Learners & 40+ Completers',
+    coverImage: '/images/cloud-campaign/cloud-campaign-leads-onboarding.jpg',
+    attendees: '100+ Learners & Core Team Leads',
     description:
-      'Hands-on Kubernetes labs, cloud infrastructure quests, and felicitation of 40+ certified pathway completers with official Google Cloud swags and T-shirts.',
+      'Hands-on Kubernetes labs, cloud infrastructure quests, GDG Core Team onboarding kick-off, and felicitation of certified pathway completers with official Google Cloud swags.',
   },
   {
     id: 'hacknexa-26',
@@ -123,66 +122,90 @@ const eventAlbums: EventAlbum[] = [
 ];
 
 const albumPhotos: AlbumPhoto[] = [
-  // 1. Google Cloud Campaign (October 2025)
+  // 1. Google Cloud Campaign & Core Team Onboarding (2025)
   {
-    id: 'alb-cloud-1',
-    title: 'Principal Felicitations & Official T-Shirt Distribution',
+    id: 'alb-cloud-leads-onboarding',
+    title: 'GDG Core Team Leads Reveal & Chapter Onboarding',
     event: 'Google Cloud Campaign',
     category: 'Google Cloud Campaign',
     year: '2025',
-    date: 'October 2025',
-    location: 'Main Auditorium, RMKEC',
-    image:
-      'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=75',
+    date: 'December 2025',
+    location: 'Tech Seminar Wing, RMKEC',
+    image: '/images/cloud-campaign/cloud-campaign-leads-onboarding.jpg',
     caption:
-      'College Principal and Faculty Advisors felicitating 40+ certified pathway completers with official Google Cloud T-shirt rewards and milestone swag bags.',
-    attendees: '40+ Completers',
-    tags: ['Google Cloud', 'Principal Felicitations', 'Milestone Completers', 'T-Shirts'],
+      'Introducing the newly selected GDG on Campus RMKEC Core Team domain leads and coordinators during the official chapter onboarding and campaign launch.',
+    attendees: 'Core Leads & Community Members',
+    tags: ['Core Team Leads', 'GDG Onboarding', 'Kick-Off Meeting', 'Campus Chapter'],
   },
   {
-    id: 'alb-cloud-2',
-    title: 'Hands-on Cloud Infrastructure & Kubernetes Lab Jam',
+    id: 'alb-cloud-kickoff-presentation',
+    title: 'GDG on Campus Kick-Off Presentation & Roadmap',
     event: 'Google Cloud Campaign',
     category: 'Google Cloud Campaign',
     year: '2025',
-    date: 'October 2025',
-    location: 'Computer Centre 3, RMKEC',
-    image:
-      'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=75',
+    date: 'December 2025',
+    location: 'Tech Seminar Wing, RMKEC',
+    image: '/images/cloud-campaign/cloud-campaign-kickoff-presentation.jpg',
     caption:
-      'Over 100+ enthusiastic student developers navigating Google Cloud Skills Boost quests, deploying GKE clusters and IAM policies in lab workstations.',
-    attendees: '100+ Learners',
-    tags: ['GCP Badges', 'Cloud Skills Boost', 'Kubernetes', 'Hands-on Labs'],
+      'Presenting the GDG on Campus RMKEC mission, upcoming Google Cloud study jam milestones, and hands-on developer tracks to incoming team leads.',
+    attendees: 'RMKEC Chapter Leads',
+    tags: ['Kick-Off Meeting', 'Google Cloud', 'GDG RMKEC', 'Roadmap'],
   },
   {
-    id: 'alb-cloud-3',
-    title: 'Peer Mentorship & Skill Badge Completion Sprint',
+    id: 'alb-cloud-speaker-briefing',
+    title: 'Lead Speaker Briefing on Community Initiatives',
     event: 'Google Cloud Campaign',
     category: 'Google Cloud Campaign',
     year: '2025',
-    date: 'October 2025',
-    location: 'Cloud Computing Lab, RMKEC',
-    image:
-      'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=75',
+    date: 'December 2025',
+    location: 'Tech Seminar Wing, RMKEC',
+    image: '/images/cloud-campaign/cloud-campaign-speaker-briefing.jpg',
     caption:
-      'Senior technical leads and Cloud Facilitators conducting peer code walkthroughs and troubleshooting console deployment errors with first-time learners.',
-    attendees: 'Cloud Facilitators',
-    tags: ['Peer Mentorship', 'Skill Badges', 'DevOps', 'Study Jam'],
+      'Student lead outlining technical study jams, arcade quests, skill badges, and community expectations for the upcoming academic year.',
+    attendees: 'Lead Speaker & Organizers',
+    tags: ['Speaker Briefing', 'Vision & Strategy', 'Google Cloud Study Jam', 'Leadership'],
   },
   {
-    id: 'alb-cloud-4',
-    title: 'Cloud Arcade Swag Celebration & Leaderboard Highlights',
+    id: 'alb-cloud-team-audience',
+    title: 'Core Team Attendees & Technical Wing Candidates',
     event: 'Google Cloud Campaign',
     category: 'Google Cloud Campaign',
     year: '2025',
-    date: 'October 2025',
-    location: 'Seminar Hall, RMKEC',
-    image:
-      'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=75',
+    date: 'December 2025',
+    location: 'Tech Seminar Wing, RMKEC',
+    image: '/images/cloud-campaign/cloud-campaign-team-audience.jpg',
     caption:
-      'Celebrating top arcade leaderboard scorers with Google Cloud branded backpacks, bottles, stickers, and official completion certificates.',
-    attendees: 'Top Scorers',
-    tags: ['Cloud Arcade', 'Swag Celebration', 'Leaderboard', 'GCP Community'],
+      'Dedicated core team members and tech domain applicants listening attentively to project workflows, certification pathways, and event planning.',
+    attendees: 'Domain Candidates & Members',
+    tags: ['Core Team Applicants', 'Audience', 'Student Community', 'Engagement'],
+  },
+  {
+    id: 'alb-cloud-attendees-gathering',
+    title: 'Student Developers & Team Members Assembly',
+    event: 'Google Cloud Campaign',
+    category: 'Google Cloud Campaign',
+    year: '2025',
+    date: 'December 2025',
+    location: 'Tech Seminar Wing, RMKEC',
+    image: '/images/cloud-campaign/cloud-campaign-attendees-gathering.jpg',
+    caption:
+      'Enthusiastic engineering students across departments assembled in the seminar hall for the GDG on Campus onboarding and orientation session.',
+    attendees: 'Student Engineers',
+    tags: ['Assembly', 'Campus Community', 'Peer Learning', 'GDG Family'],
+  },
+  {
+    id: 'alb-cloud-interactive-discussion',
+    title: 'Interactive Discussion & Technical Q&A Session',
+    event: 'Google Cloud Campaign',
+    category: 'Google Cloud Campaign',
+    year: '2025',
+    date: 'December 2025',
+    location: 'Tech Seminar Wing, RMKEC',
+    image: '/images/cloud-campaign/cloud-campaign-interactive-discussion.jpg',
+    caption:
+      'Spirited interactive Q&A discussing developer advocacy, cloud architectures, upcoming hackathons, and cross-domain collaboration.',
+    attendees: 'Core Leads & Students',
+    tags: ['Interactive Q&A', 'Open Discussion', 'Tech Mentorship', 'Collaboration'],
   },
 
   // 2. HackNEXA'26 Hackathon (February 2026)
