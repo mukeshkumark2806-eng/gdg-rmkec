@@ -41,6 +41,7 @@ export const BracketsField: React.FC = () => {
       y: number;
       char: string;
       size: number;
+      fontStr: string;
       speedX: number;
       speedY: number;
       opacity: number;
@@ -49,73 +50,77 @@ export const BracketsField: React.FC = () => {
       rotSpeed: number;
     }
 
-    const count = Math.min(32, Math.floor((width * height) / 35000));
+    const count = Math.min(28, Math.floor((width * height) / 40000));
     const particles: Particle[] = [];
 
     for (let i = 0; i < count; i++) {
+      const size = Math.round(Math.random() * 18 + 16);
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
         char: symbols[Math.floor(Math.random() * symbols.length)],
-        size: Math.random() * 20 + 16,
-        speedX: (Math.random() - 0.5) * 0.4,
-        speedY: (Math.random() - 0.5) * 0.4,
+        size,
+        fontStr: `600 ${size}px monospace`,
+        speedX: (Math.random() - 0.5) * 0.35,
+        speedY: (Math.random() - 0.5) * 0.35,
         opacity: Math.random() * 0.5 + 0.2,
         color: colors[Math.floor(Math.random() * colors.length)],
         rotation: (Math.random() - 0.5) * 0.5,
-        rotSpeed: (Math.random() - 0.5) * 0.005,
+        rotSpeed: (Math.random() - 0.5) * 0.004,
       });
     }
 
     let mouseX = width / 2;
     let mouseY = height / 2;
+    let isVisible = !document.hidden;
 
     const handleMouseMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    const handleVisibilityChange = () => {
+      isVisible = !document.hidden;
+      if (isVisible && !animationFrameId) {
+        animationFrameId = requestAnimationFrame(render);
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    // Cache font alignments once
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
 
     const render = () => {
+      if (!isVisible) {
+        animationFrameId = 0;
+        return;
+      }
+
       ctx.clearRect(0, 0, width, height);
 
-      // Draw subtle ambient radial glow around center/mouse
-      const radialGradient = ctx.createRadialGradient(
-        mouseX,
-        mouseY,
-        0,
-        mouseX,
-        mouseY,
-        Math.max(width, height) * 0.6
-      );
-      radialGradient.addColorStop(0, 'rgba(66, 133, 244, 0.05)');
-      radialGradient.addColorStop(0.5, 'rgba(251, 188, 5, 0.02)');
-      radialGradient.addColorStop(1, 'transparent');
-      ctx.fillStyle = radialGradient;
-      ctx.fillRect(0, 0, width, height);
-
       // Render floating code bracket particles
-      particles.forEach((p) => {
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
         p.x += p.speedX;
         p.y += p.speedY;
         p.rotation += p.rotSpeed;
 
         if (p.x < -50) p.x = width + 50;
-        if (p.x > width + 50) p.x = -50;
+        else if (p.x > width + 50) p.x = -50;
         if (p.y < -50) p.y = height + 50;
-        if (p.y > height + 50) p.y = -50;
+        else if (p.y > height + 50) p.y = -50;
 
         ctx.save();
         ctx.translate(p.x, p.y);
         ctx.rotate(p.rotation);
-        ctx.font = `600 ${p.size}px monospace`;
+        ctx.font = p.fontStr;
         ctx.fillStyle = p.color;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
         ctx.fillText(p.char, 0, 0);
         ctx.restore();
-      });
+      }
 
       animationFrameId = requestAnimationFrame(render);
     };
@@ -123,9 +128,10 @@ export const BracketsField: React.FC = () => {
     render();
 
     return () => {
-      cancelAnimationFrame(animationFrameId);
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [isLiteMode]);
 

@@ -30,18 +30,18 @@ export const BootPreloader: React.FC = () => {
       return;
     }
 
-    // ─── Transition Timers ─────────────────────────────────────────
+    // ─── Extended Transition Timers ───────────────────────────────
     const stage2Timer = setTimeout(() => {
       setStage(2);
-    }, 1000);
+    }, 1800);
 
     const stage3Timer = setTimeout(() => {
       setStage(3);
-    }, 2100);
+    }, 3800);
 
     const dismissTimer = setTimeout(() => {
       setMounted(false);
-    }, 4500);
+    }, 6500);
 
     return () => {
       clearTimeout(stage2Timer);

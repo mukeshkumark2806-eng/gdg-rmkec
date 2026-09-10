@@ -39,13 +39,13 @@ export const SingleFrameFamilyCarousel: React.FC<SingleFrameFamilyCarouselProps>
     return [...list, ...list];
   }, [filteredMembers]);
 
-  // ─── Automatic Slow Glide Loop (Pauses on Hover or Drag) ───────────
+  // ─── Automatic Slow Glide Loop (Pauses on Hover, Drag, or Tab Hidden) ───────────
   useEffect(() => {
     let animationFrameId: number;
     const speed = 0.55; // Calm, slow pixels per frame
 
     const scrollLoop = () => {
-      if (!isHovered && !isDragging && containerRef.current) {
+      if (!document.hidden && !isHovered && !isDragging && containerRef.current) {
         const container = containerRef.current;
         container.scrollLeft += speed;
 
@@ -58,7 +58,18 @@ export const SingleFrameFamilyCarousel: React.FC<SingleFrameFamilyCarouselProps>
     };
 
     animationFrameId = requestAnimationFrame(scrollLoop);
-    return () => cancelAnimationFrame(animationFrameId);
+
+    const handleVisibility = () => {
+      if (!document.hidden && !isHovered && !isDragging) {
+        animationFrameId = requestAnimationFrame(scrollLoop);
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      document.removeEventListener('visibilitychange', handleVisibility);
+    };
   }, [isHovered, isDragging]);
 
   // ─── Mouse Wheel / Trackpad Horizontal Scrolling ─────────────
@@ -239,6 +250,8 @@ export const SingleFrameFamilyCarousel: React.FC<SingleFrameFamilyCarouselProps>
                     <img
                       src={safeAvatarUrl}
                       alt={member.name}
+                      loading="lazy"
+                      decoding="async"
                       draggable={false}
                       className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105 pointer-events-none"
                       onError={(e) => {

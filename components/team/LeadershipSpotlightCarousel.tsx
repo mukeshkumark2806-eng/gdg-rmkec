@@ -50,6 +50,8 @@ export const LeadershipSpotlightCarousel: React.FC<LeadershipSpotlightProps> = (
           <img
             src={currentLeader.avatarUrl}
             alt={currentLeader.name}
+            loading="lazy"
+            decoding="async"
             className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
             onError={(e) => {
               (e.currentTarget as HTMLImageElement).src =

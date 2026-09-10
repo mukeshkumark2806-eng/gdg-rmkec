@@ -47,12 +47,16 @@ export const MemberCard: React.FC<MemberCardProps> = ({ member }) => {
               src={safeAvatarUrl}
               alt=""
               aria-hidden="true"
+              loading="lazy"
+              decoding="async"
               className="absolute inset-0 h-full w-full object-cover blur-xl opacity-30 scale-110 pointer-events-none"
             />
           )}
           <img
             src={safeAvatarUrl}
             alt={member.name}
+            loading="lazy"
+            decoding="async"
             className="relative z-10 h-full w-full object-contain object-center group-hover:scale-105 transition-transform duration-500"
           />
           <div className="absolute top-3 left-3 z-20">

@@ -25,8 +25,10 @@ export const DevFestVibesSection: React.FC = () => {
           }}
         >
           <img
-            src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=1800&q=80"
+            src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=1200&q=75"
             alt="Build & Present"
+            loading="lazy"
+            decoding="async"
             className="h-full w-full object-cover object-left"
           />
           {/* Radial Dark Vignette */}
@@ -69,8 +71,10 @@ export const DevFestVibesSection: React.FC = () => {
           }}
         >
           <img
-            src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1800&q=80"
+            src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1200&q=75"
             alt="Learn & Participate"
+            loading="lazy"
+            decoding="async"
             className="h-full w-full object-cover object-right"
           />
           {/* Radial Dark Vignette */}
@@ -116,8 +120,10 @@ export const DevFestVibesSection: React.FC = () => {
           }}
         >
           <img
-            src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=1200&q=80"
+            src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=800&q=75"
             alt="Build"
+            loading="lazy"
+            decoding="async"
             className="h-full w-full object-cover"
           />
           <div className="absolute inset-0 bg-black/75" />
@@ -142,8 +148,10 @@ export const DevFestVibesSection: React.FC = () => {
           }}
         >
           <img
-            src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1200&q=80"
+            src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=75"
             alt="Learn"
+            loading="lazy"
+            decoding="async"
             className="h-full w-full object-cover"
           />
           <div className="absolute inset-0 bg-black/75" />

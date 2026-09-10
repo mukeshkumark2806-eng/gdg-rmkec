@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { GlowButton } from '@/components/ui/GlowButton';
-import { ChevronLeft, ChevronRight, Camera, Pause, Play } from 'lucide-react';
+import { Camera } from 'lucide-react';
 import Link from 'next/link';
 
 interface MemoryItem {
@@ -66,14 +65,6 @@ export const MemoriesCarousel: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
 
-  const prevSlide = () => {
-    setCurrentIndex((prev) => (prev === 0 ? memories.length - 1 : prev - 1));
-  };
-
-  const nextSlide = () => {
-    setCurrentIndex((prev) => (prev === memories.length - 1 ? 0 : prev + 1));
-  };
-
   // Automatic Movement with Hover-to-Pause
   useEffect(() => {
     if (isHovered) return;
@@ -111,42 +102,6 @@ export const MemoriesCarousel: React.FC = () => {
             and friendship that defines our community.
           </p>
         </div>
-
-        <div className="flex items-center gap-3">
-          {/* Status Indicator */}
-          <div className="hidden sm:flex items-center gap-1 font-mono text-[10px] text-white/40 px-2.5 py-1 rounded-full bg-black/40 border border-white/08">
-            {isHovered ? (
-              <>
-                <Pause className="h-3 w-3 text-[#FBBC05]" />
-                <span className="text-[#FBBC05]">PAUSED</span>
-              </>
-            ) : (
-              <>
-                <Play className="h-3 w-3 text-[#34A853]" />
-                <span>AUTO-PLAY</span>
-              </>
-            )}
-          </div>
-
-          <GlowButton
-            onClick={prevSlide}
-            shape="circle"
-            size="sm"
-            ariaLabel="Previous memory"
-            surfaceClassName="h-10 w-10 !p-0"
-          >
-            <ChevronLeft className="h-5 w-5 text-white" />
-          </GlowButton>
-          <GlowButton
-            onClick={nextSlide}
-            shape="circle"
-            size="sm"
-            ariaLabel="Next memory"
-            surfaceClassName="h-10 w-10 !p-0"
-          >
-            <ChevronRight className="h-5 w-5 text-white" />
-          </GlowButton>
-        </div>
       </div>
 
       {/* Main Slide Card */}
@@ -154,6 +109,8 @@ export const MemoriesCarousel: React.FC = () => {
         <img
           src={current.image}
           alt={current.title}
+          loading="lazy"
+          decoding="async"
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
         <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 via-black/30 to-transparent pointer-events-none" />

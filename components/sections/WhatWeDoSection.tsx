@@ -161,6 +161,7 @@ export const WhatWeDoSection: React.FC = () => {
                     alt={pillar.title}
                     className="h-full w-full object-cover object-center"
                     loading="lazy"
+                    decoding="async"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-black/25" />
                 </div>

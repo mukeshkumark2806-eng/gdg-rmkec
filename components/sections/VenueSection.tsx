@@ -80,6 +80,8 @@ export const VenueSection: React.FC = () => {
             <img
               src="/images/rmkec-campus.webp"
               alt="R.M.K. Engineering College"
+              loading="lazy"
+              decoding="async"
               className="h-full w-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
