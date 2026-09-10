@@ -230,7 +230,7 @@ export const SingleFrameFamilyCarousel: React.FC<SingleFrameFamilyCarouselProps>
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
-          className={`flex gap-6 overflow-x-hidden no-scrollbar py-2 px-6 sm:px-10 ${
+          className={`flex gap-5 sm:gap-6 overflow-x-hidden no-scrollbar py-2 px-4 sm:px-8 ${
             isDragging ? 'cursor-grabbing' : isHovered ? 'cursor-grab' : 'cursor-default'
           }`}
           style={{ scrollBehavior: 'auto' }}
@@ -242,10 +242,10 @@ export const SingleFrameFamilyCarousel: React.FC<SingleFrameFamilyCarouselProps>
             return (
               <div
                 key={`${member.id}-${index}`}
-                className="w-[280px] sm:w-[310px] shrink-0 rounded-3xl border border-white/15 bg-[#121216] backdrop-blur-xl overflow-hidden group hover:border-white/45 hover:scale-[1.02] transition-all duration-300 shadow-2xl flex flex-col justify-between"
+                className="w-[235px] sm:w-[260px] shrink-0 rounded-2xl sm:rounded-3xl border border-white/15 bg-[#121216] backdrop-blur-xl overflow-hidden group hover:border-white/45 hover:scale-[1.02] transition-all duration-300 shadow-xl flex flex-col justify-between"
               >
                 {/* ─── Photo Covering the Whole Box (Flush Edge-to-Edge) ─── */}
-                <div className="relative h-[290px] sm:h-[320px] w-full overflow-hidden bg-[#181820]">
+                <div className="relative h-[240px] sm:h-[265px] w-full overflow-hidden bg-[#181820]">
                   {safeAvatarUrl ? (
                     <img
                       src={safeAvatarUrl}
@@ -261,14 +261,14 @@ export const SingleFrameFamilyCarousel: React.FC<SingleFrameFamilyCarouselProps>
                     />
                   ) : (
                     <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#4285F4]/20 to-[#34A853]/20">
-                      <User className="h-20 w-20 text-white/40" />
+                      <User className="h-16 w-16 text-white/40" />
                     </div>
                   )}
 
                   {/* Category Pill Tag */}
-                  <div className="absolute top-3.5 left-3.5 z-10">
+                  <div className="absolute top-3 left-3 z-10">
                     <span
-                      className="font-mono text-[10px] uppercase tracking-wider font-bold px-2.5 py-1 rounded-full bg-black/80 backdrop-blur-md border border-white/20 shadow-md"
+                      className="font-mono text-[9px] sm:text-[10px] uppercase tracking-wider font-bold px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-black/80 backdrop-blur-md border border-white/20 shadow-md"
                       style={{ color: badgeColor }}
                     >
                       {member.teamCategory}
@@ -277,23 +277,23 @@ export const SingleFrameFamilyCarousel: React.FC<SingleFrameFamilyCarouselProps>
                 </div>
 
                 {/* ─── Details of that person BELOW the image ─── */}
-                <div className="p-5 pt-3.5 flex flex-col justify-between flex-grow">
+                <div className="p-4 pt-3 flex flex-col justify-between flex-grow">
                   <div>
-                    <h4 className="text-lg font-bold text-white group-hover:text-[#4285F4] transition-colors line-clamp-1">
+                    <h4 className="text-base sm:text-[17px] font-bold text-white group-hover:text-[#4285F4] transition-colors line-clamp-1">
                       {member.name}
                     </h4>
-                    <p className="font-mono text-xs text-[#FBBC05] font-semibold mt-0.5 line-clamp-1">
+                    <p className="font-mono text-[11px] sm:text-xs text-[#FBBC05] font-semibold mt-0.5 line-clamp-1">
                       {member.role}
                     </p>
                     {member.bio && (
-                      <p className="mt-2 text-xs text-white/75 leading-relaxed line-clamp-3">
+                      <p className="mt-2 text-[11px] sm:text-xs text-white/70 leading-relaxed line-clamp-2">
                         {member.bio}
                       </p>
                     )}
                   </div>
 
                   {/* Footer with Domain & Social Links */}
-                  <div className="mt-4 pt-3 border-t border-white/08 flex items-center justify-between">
+                  <div className="mt-3 pt-2.5 border-t border-white/08 flex items-center justify-between">
                     <span className="font-mono text-[10px] uppercase tracking-widest text-white/40 font-medium">
                       {member.domain || 'Member'}
                     </span>

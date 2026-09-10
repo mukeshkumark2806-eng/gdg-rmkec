@@ -147,7 +147,7 @@ export const FamilyCarousel: React.FC<FamilyCarouselProps> = ({
               className="shrink-0 w-full sm:w-[calc(50%-10px)] lg:w-[calc(33.333%-14px)] rounded-3xl border border-white/15 bg-[#121216]/80 backdrop-blur-xl overflow-hidden group hover:border-white/35 transition-all duration-300 shadow-xl flex flex-col justify-between"
             >
               {/* Card Media Top */}
-              <div className="relative aspect-[4/3] w-full overflow-hidden bg-black">
+              <div className="relative aspect-[4/4.5] w-full overflow-hidden bg-black">
                 {member.avatarUrl ? (
                   <img
                     src={member.avatarUrl}
