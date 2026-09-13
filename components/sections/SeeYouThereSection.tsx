@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { GlowButton } from '@/components/ui/GlowButton';
+import { siteConfig } from '@/data/site';
 
 export const SeeYouThereSection: React.FC = () => {
   return (
@@ -31,13 +32,13 @@ export const SeeYouThereSection: React.FC = () => {
       {/* Action Buttons */}
       <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-6 relative z-10">
         <GlowButton
-          href="https://discord.gg/gdgrmkec"
+          href={siteConfig.socials.linkedin}
           target="_blank"
           rel="noreferrer"
           shape="pill"
           size="lg"
         >
-          Join Discord Community →
+          Connect on LinkedIn →
         </GlowButton>
         <GlowButton href="/join" shape="pill" size="lg">
           Apply for Technical Wings →

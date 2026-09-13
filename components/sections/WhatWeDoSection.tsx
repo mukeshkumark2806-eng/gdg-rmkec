@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { BookOpen, Hammer, Users2, Trophy, ChevronLeft, ChevronRight, Sparkles, Pause, Play } from 'lucide-react';
+import { BookOpen, Hammer, Users2, Trophy, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import { GlowButton } from '@/components/ui/GlowButton';
 
 interface ActionPillar {
@@ -22,10 +22,10 @@ const pillars: ActionPillar[] = [
     action: 'Hands-on Technical Learning',
     description: 'Conduct workshops, study jams, and hands-on technical sessions across emerging domains.',
     highlights: [
-      '100+ Google Cloud Study Jam Participants',
-      '40+ Certified Milestone Achievers',
-      'Agentic AI & Gemini Framework Jams',
-      'Zero-cost workshops & peer code reviews',
+      '100+ Google Cloud Study Jam Learners',
+      '40+ Certified Pathway Completers',
+      'Agentic AI & Prompt Engineering Workshops',
+      'Hands-on AI Sycophancy Mini Challenge',
     ],
     image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1600&q=80',
     tag: 'Workshops & Study Jams',
@@ -38,9 +38,9 @@ const pillars: ActionPillar[] = [
     description: 'Develop impactful solutions for students, faculty members, and college administration.',
     highlights: [
       'Real-Time College Bus Tracking System',
-      'HackNEXA 650+ Team Competition Platform',
-      'Autonomous Student Scheduling Agents',
-      'Open-source web and mobile applications',
+      'Autonomous Calendar Reminder Agents',
+      'READTRACE Smart AI Highlighter Pen (₹1,179)',
+      'TinyML Predictive Maintenance & ProcureIQ',
     ],
     image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1600&q=80',
     tag: 'Projects & Engineering',
@@ -52,10 +52,10 @@ const pillars: ActionPillar[] = [
     action: 'Interdisciplinary Community',
     description: 'Bring together students from different disciplines to solve real-world challenges.',
     highlights: [
-      '650+ Hackathon Teams participating in HackNEXA',
-      '250+ Teams advancing to live evaluation rounds',
-      '5 Specialized Technical Wings',
-      'Cross-departmental project incubation',
+      'HackNEXA \'26 (653 participants & 257 teams)',
+      '114 Project Submissions & 55 On-site Finalists',
+      'A.C.E Day Batches 1 & 2 (15+ AI pitches)',
+      'Cross-disciplinary (ECE, CSE, IT, CSBS)',
     ],
     image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1600&q=80',
     tag: 'Hackathons & Teams',
@@ -67,10 +67,10 @@ const pillars: ActionPillar[] = [
     action: 'Leadership & Personal Growth',
     description: 'Create opportunities for leadership, stage presentation, and personal career growth.',
     highlights: [
-      'GDG India swags & national recognitions',
-      'Student chapter leads & wing coordinators',
-      'Public speaking and conference hosting',
-      'Mentorship from Google Developer Experts',
+      'Top 3 Teams Awarded Google Reward Kits',
+      'Google Solution Challenge Roadmap & Mentoring',
+      'Student Keynote Speakers & Workshop Leads',
+      'Evaluation by 14+ Senior Faculty Jury Members',
     ],
     image: 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=1600&q=80',
     tag: 'Mentorship & Growth',
@@ -82,6 +82,9 @@ export const WhatWeDoSection: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
 
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
   const prevSlide = () => {
     setCurrentIndex((prev) => (prev === 0 ? pillars.length - 1 : prev - 1));
   };
@@ -90,7 +93,31 @@ export const WhatWeDoSection: React.FC = () => {
     setCurrentIndex((prev) => (prev === pillars.length - 1 ? 0 : prev + 1));
   };
 
-  // Automatic Movement with Hover-to-Pause
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setIsHovered(true);
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStart && touchEnd) {
+      const distance = touchStart - touchEnd;
+      if (distance > 50) {
+        nextSlide();
+      } else if (distance < -50) {
+        prevSlide();
+      }
+    }
+    setTimeout(() => {
+      setIsHovered(false);
+    }, 1500);
+  };
+
+  // Automatic Movement with Hover-to-Pause (strictly active when not hovering image box)
   useEffect(() => {
     if (isHovered) return;
 
@@ -102,13 +129,7 @@ export const WhatWeDoSection: React.FC = () => {
   }, [isHovered]);
 
   return (
-    <section
-      className="relative overflow-hidden text-paper py-20 px-4 sm:px-8 group/whatwedo"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onTouchStart={() => setIsHovered(true)}
-      onTouchEnd={() => setIsHovered(false)}
-    >
+    <section className="relative overflow-hidden text-paper py-20 px-4 sm:px-8">
       <div className="relative z-10 mx-auto max-w-6xl">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
@@ -126,25 +147,42 @@ export const WhatWeDoSection: React.FC = () => {
               Four foundational pillars driving innovation, project execution, and student empowerment
               at RMK Engineering College.
             </p>
-            {/* Status indicator */}
-            <div className="flex items-center gap-1.5 font-mono text-[10px] text-white/40">
-              {isHovered ? (
-                <>
-                  <Pause className="h-3 w-3 text-[#FBBC05]" />
-                  <span className="text-[#FBBC05]">PAUSED</span>
-                </>
-              ) : (
-                <>
-                  <Play className="h-3 w-3 text-[#34A853]" />
-                  <span>AUTO-SLIDING</span>
-                </>
-              )}
-            </div>
           </div>
         </div>
 
-        {/* Carousel Viewport */}
-        <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-black">
+        {/* Carousel Viewport (Hover Boundary for Manual Mode) */}
+        <div
+          className="relative overflow-hidden rounded-3xl border border-white/15 bg-black group/carousel"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
+          {/* In-box Manual Prev / Next Buttons (Appear on Hover) */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              prevSlide();
+            }}
+            aria-label="Previous slide"
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-black/60 border border-white/20 text-white backdrop-blur-md opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300 hover:bg-black/90 hover:scale-105 cursor-pointer shadow-xl"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              nextSlide();
+            }}
+            aria-label="Next slide"
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-black/60 border border-white/20 text-white backdrop-blur-md opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300 hover:bg-black/90 hover:scale-105 cursor-pointer shadow-xl"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
           <div
             className="flex transition-transform duration-700 ease-out"
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}

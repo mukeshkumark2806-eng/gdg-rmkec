@@ -52,8 +52,8 @@ export const DevFestVibesSection: React.FC = () => {
             </h3>
             <p className="text-sm sm:text-base md:text-lg text-white/90 leading-relaxed drop-shadow-[0_1px_12px_rgba(0,0,0,1)]">
               Got novel ideas or ready to build high-impact campus solutions? Join our Technical Wings
-              and Core Teams. From Agentic AI to the Real-Time Bus Tracker, lead projects that impact
-              the college ecosystem!
+              and Core Teams. From Agentic AI tools and the Real-Time Bus Tracker to A.C.E Day prototypes,
+              lead projects that make real institutional impact!
             </p>
             <div className="pt-2">
               <GlowButton href="/join" shape="pill" size="lg">
@@ -99,8 +99,8 @@ export const DevFestVibesSection: React.FC = () => {
               </GlowButton>
             </div>
             <p className="text-sm sm:text-base md:text-lg text-white/90 leading-relaxed drop-shadow-[0_1px_12px_rgba(0,0,0,1)]">
-              Level up your skills through hands-on Google Cloud study jams, HackNEXA’26 hackathons,
-              and AI workshops. Earn official Google badges, swags, and build your developer portfolio.
+              Level up your skills through hands-on Agentic AI workshops, Google Cloud study jams,
+              and the flagship HackNEXA&apos;26 hackathon. Earn official Google badges, reward kits, and build your developer portfolio.
             </p>
             <h3 className="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white drop-shadow-[0_2px_24px_rgba(0,0,0,1)]">
               Learn & Compete
@@ -162,7 +162,7 @@ export const DevFestVibesSection: React.FC = () => {
               </GlowButton>
             </div>
             <p className="text-xs text-white/80 leading-relaxed max-w-xs">
-              Participate in HackNEXA, Cloud Jams, and Agentic AI bootcamps.
+              Participate in HackNEXA&apos;26, Agentic AI workshops, and A.C.E Day pitch sessions.
             </p>
             <h3 className="text-3xl font-bold text-white">Learn & Compete</h3>
           </div>

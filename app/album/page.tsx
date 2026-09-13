@@ -66,7 +66,7 @@ const eventAlbums: EventAlbum[] = [
     badgeBorder: 'border-[#4285F4]/40',
     badgeBg: 'bg-[#4285F4]/15',
     badgeText: 'text-blue-300',
-    coverImage: '/images/cloud-campaign/cloud-campaign-leads-onboarding.jpg',
+    coverImage: '/images/posters/google-cloud-campaign-thumb.jpg',
     attendees: '100+ Learners & Core Team Leads',
     description:
       'Hands-on Kubernetes labs, cloud infrastructure quests, GDG Core Team onboarding kick-off, and felicitation of certified pathway completers with official Google Cloud swags.',
@@ -76,48 +76,48 @@ const eventAlbums: EventAlbum[] = [
     name: "HackNEXA'26 Hackathon",
     tagline: '24-Hour Flagship Hackathon',
     year: '2026',
-    date: 'February 2026',
-    location: 'Main Auditorium & Central Computing Lab, RMKEC',
+    date: '08th January 2026',
+    location: 'Central Computing Lab & Main Auditorium, RMKEC',
     color: '#EA4335',
     badgeBorder: 'border-[#EA4335]/40',
     badgeBg: 'bg-[#EA4335]/15',
     badgeText: 'text-red-300',
-    coverImage: '/images/hacknexa/hacknexa-poster.jpg',
-    attendees: '650+ Teams & 250+ Finalists',
+    coverImage: '/images/posters/hacknexa-thumb.png',
+    attendees: '252 Finalists (63 Teams)',
     description:
-      'Flagship 24-hour hackathon bringing together 650+ teams across RMK Group of Institutions to prototype real-world AI, Cloud, and IoT innovations.',
+      'Flagship 24-hour hackathon bringing together 650+ registered teams across RMK Group of Institutions, with 63 finalist teams (252 shortlisted participants) prototyping AI, Cloud, and IoT innovations.',
   },
   {
     id: 'agentic-ai',
     name: 'Agentic AI Study Jam',
     tagline: 'Autonomous Agents & Prompt Engineering',
     year: '2026',
-    date: 'January 2026',
-    location: 'Tech Seminar Hall, RMKEC',
+    date: '04th March 2026',
+    location: 'RJ Block Seminar Hall, RMKEC',
     color: '#34A853',
     badgeBorder: 'border-[#34A853]/40',
     badgeBg: 'bg-[#34A853]/15',
     badgeText: 'text-emerald-300',
-    coverImage: '/images/agentic-ai/agentic-ai-poster.jpg',
-    attendees: '120+ Builders & Mentors',
+    coverImage: '/images/posters/agentic_ai-thumb.jpg',
+    attendees: '100+ Participants & Core Mentors',
     description:
-      'Hands-on study jam on Agentic AI, Prompt Engineering frameworks (Co-STAR, ROSES, APE, Tree of Thoughts), tool calling, and live workflow development with student builders.',
+      'Hands-on workshop on Agentic AI, Prompt Engineering frameworks (Co-STAR, ROSES, APE, Tree of Thoughts), tool calling, and live workflow development with student builders.',
   },
   {
     id: 'ace-collage',
     name: 'A.C.E - AI Collage Day',
     tagline: 'AI Collage Exchange & Project Pitching',
     year: '2026',
-    date: 'April 2026',
-    location: 'Google Meet (Online Session)',
+    date: '06th April 2026',
+    location: 'Google Meet (Virtual Batches 1 & 2)',
     color: '#FBBC05',
     badgeBorder: 'border-[#FBBC05]/40',
     badgeBg: 'bg-[#FBBC05]/15',
     badgeText: 'text-amber-300',
-    coverImage: '/images/ace-day/ace-poster.png',
-    attendees: '10 Presenters & 30+ Participants',
+    coverImage: '/images/posters/ace_batch1-thumb.jpg',
+    attendees: 'Batch 1 & Batch 2 (10 Presenters & 30+ Participants)',
     description:
-      'AI Collage Exchange event where students conceptualized real-world solutions across healthcare, civic governance, traffic, and education through AI-generated visual collages.',
+      'AI Collage Exchange (A.C.E Day) where students conceptualized real-world solutions across healthcare, civic governance, traffic, and education through AI-generated visual collages across two batches.',
   },
 ];
 
@@ -208,20 +208,20 @@ const albumPhotos: AlbumPhoto[] = [
     tags: ['Interactive Q&A', 'Open Discussion', 'Tech Mentorship', 'Collaboration'],
   },
 
-  // 2. HackNEXA'26 Hackathon (February 2026)
+  // 2. HackNEXA'26 Hackathon (08th January 2026)
   {
     id: 'alb-hacknexa-poster',
-    title: "Official Banner — HackNEXA'26 Flagship Hackathon",
+    title: "Official Poster — HackNEXA'26 Flagship Hackathon",
     event: "HackNEXA'26 Hackathon",
     category: "HackNEXA'26 Hackathon",
     year: '2026',
-    date: 'February 2026',
-    location: 'Main Stage & Lab Display, RMKEC',
-    image: '/images/hacknexa/hacknexa-poster.jpg',
+    date: 'January 8, 2026',
+    location: 'Central Computing Lab & Main Auditorium, RMKEC',
+    image: '/images/posters/hacknexa-report-poster.png',
     caption:
-      "Official digital banner of HackNEXA'26 hosted by Google Developer Group On Campus RMKEC Chapter.",
-    attendees: '650+ Teams',
-    tags: ['HackNEXA', 'Official Poster', 'Banner', 'GDG RMKEC'],
+      "Official event poster of HackNEXA'26 hosted by Google Developer Group On Campus RMKEC Chapter, bringing together 252 finalists across AI, Cloud, and IoT.",
+    attendees: '252 Finalists (63 Teams)',
+    tags: ['HackNEXA', 'Official Poster', 'Thumbnail', 'GDG RMKEC'],
   },
   {
     id: 'alb-hacknexa-welcome-address',
@@ -490,20 +490,20 @@ const albumPhotos: AlbumPhoto[] = [
     tags: ['Final Scoring', 'Deliberation', 'HackNEXA Winners'],
   },
 
-  // 3. Agentic AI Study Jam (January 2026)
+  // 3. Agentic AI Workshop & Study Jam (04th March 2026)
   {
     id: 'alb-agentic-poster',
-    title: 'Official Event Poster — Agentic AI Study Jam',
+    title: 'Official Poster — Agentic AI Workshop',
     event: 'Agentic AI Study Jam',
     category: 'Agentic AI Study Jam',
     year: '2026',
-    date: 'January 2026',
-    location: 'Tech Seminar Hall, RMKEC',
-    image: '/images/agentic-ai/agentic-ai-poster.jpg',
+    date: 'March 4, 2026',
+    location: 'RJ Block Seminar Hall, RMKEC',
+    image: '/images/posters/agentic_ai-report-poster.jpg',
     caption:
-      'Official event poster for the Agentic AI Study Jam organized by GDG on Campus RMKEC, spotlighting prompt engineering, autonomous agents, and hands-on building.',
-    attendees: 'GDG RMKEC Community',
-    tags: ['Official Poster', 'Agentic AI', 'GDG RMKEC', 'Study Jam'],
+      'Official event poster and thumbnail for the Agentic AI Workshop organized by GDG on Campus RMKEC, spotlighting prompt engineering, autonomous agents, and hands-on building.',
+    attendees: '100+ Participants & Core Mentors',
+    tags: ['Official Poster', 'Agentic AI', 'Thumbnail', 'GDG RMKEC', 'Study Jam'],
   },
   {
     id: 'alb-agentic-hall-gathering',
@@ -814,7 +814,7 @@ const albumPhotos: AlbumPhoto[] = [
     tags: ['Core Team', 'Faculty Advisor', 'Stage Celebration', 'GDG RMKEC'],
   },
 
-  // 4. A.C.E - AI Collage Day (April 2026)
+  // 4. A.C.E - AI Collage Day (06th April 2026)
   {
     id: 'alb-ace-poster',
     title: 'A.C.E Day Official Poster — AI Collage Exchange',
@@ -823,11 +823,11 @@ const albumPhotos: AlbumPhoto[] = [
     year: '2026',
     date: 'April 6, 2026',
     location: 'Google Meet (Virtual)',
-    image: '/images/ace-day/ace-poster.png',
+    image: '/images/posters/ace_batch1-report-poster.jpg',
     caption:
-      'Official announcement poster for A.C.E (AI Collage Exchange) Day inviting students to pitch innovative ideas through AI-generated visual collages.',
-    attendees: 'All Batches',
-    tags: ['A.C.E Day', 'Official Poster', 'AI Collage Exchange', 'Call for Pitches'],
+      'Official announcement poster for A.C.E (AI Collage Exchange) Day inviting students across batches to pitch innovative ideas through AI-generated visual collages.',
+    attendees: 'Batch 1 & Batch 2 Participants',
+    tags: ['A.C.E Day', 'Event Poster', 'AI Collage Exchange', 'GDG RMKEC'],
   },
   {
     id: 'alb-ace-welcome',

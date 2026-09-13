@@ -69,15 +69,14 @@ export default function AboutPage() {
         {/* Our Story Box */}
         <div className="mb-20 rounded-3xl border border-white/15 bg-black p-8 sm:p-12 shadow-2xl backdrop-blur-2xl">
           <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#FBBC05] mb-3 font-semibold">
-            <span>Established September 2025</span>
+            <span>Established September 2025 · RMK Engineering College</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Our Story</h2>
+          <p className="text-sm sm:text-base text-white/80 leading-relaxed mb-4">
+            GDG on Campus RMKEC was founded in <strong>September 2025</strong> under the mentorship of Faculty Coordinator <strong>Dr. Siva Chandar K</strong> (Associate Professor, ECE) and Chapter Lead <strong>R J Vishal</strong> (III ECE) alongside core student leadership across Technical, HR, PR, and Design wings.
+          </p>
           <p className="text-sm sm:text-base text-white/80 leading-relaxed">
-            The community was established in <strong>September 2025</strong>, with a vision of
-            bringing together passionate students interested in technology, innovation, and
-            problem-solving. Over time, GDG on Campus RMKEC has evolved into a platform where students
-            not only learn cutting-edge technologies but also contribute to impactful projects and
-            large-scale events like HackNEXA&apos;26 and Google Cloud Study Jams.
+            Within its first year, the chapter has established a formidable track record of technical excellence: hosting the milestone <strong>Google Cloud Campaign Study Jam</strong> with 40+ certified completers felicitated by the Principal; spearheading the flagship <strong>HackNEXA&apos;26 Hackathon</strong> as part of GDG India&apos;s national Tech Sprint (uniting <strong>653 participants</strong>, <strong>257 teams</strong>, and <strong>114 submissions</strong> evaluated by 14 faculty juries across ECE labs); organizing the in-person <strong>Agentic AI Study Jam</strong> with hands-on AI sycophancy tests and autonomous Calendar Reminder agents; and hosting the double-batch <strong>A.C.E Day (AI Collage Exchange)</strong> with 15+ student pitches and Google Solution Challenge onboarding.
           </p>
         </div>
 
@@ -111,8 +110,7 @@ export default function AboutPage() {
                 <h3 className="text-2xl font-bold text-white">Our Vision</h3>
               </div>
               <p className="text-sm sm:text-base text-white/80 leading-relaxed">
-                To become a leading student technology community recognized for innovation, technical
-                excellence, and meaningful impact across the college ecosystem and beyond.
+                To serve as the premier student-led innovation hub across RMK Group of Institutions, transforming passionate learners into industry-ready engineers through real-world software development, national Google hackathons, and community-driven knowledge sharing.
               </p>
             </div>
 
@@ -134,20 +132,45 @@ export default function AboutPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {pillars.map((pillar) => (
-              <div
-                key={pillar.title}
-                className="h-full rounded-3xl border border-white/15 bg-[#121216]/80 p-7 backdrop-blur-xl hover:border-white/30 hover:-translate-y-1 transition-all duration-300 group shadow-xl"
-              >
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-black border border-white/15 group-hover:scale-110 transition-transform mb-5">
-                  {pillar.icon}
-                </div>
-                <h3 className="text-xl font-bold text-white mb-2">{pillar.title}</h3>
-                <p className="text-xs sm:text-sm text-white/70 leading-relaxed">
-                  {pillar.description}
-                </p>
+            <div className="h-full rounded-3xl border border-white/15 bg-[#121216]/80 p-7 backdrop-blur-xl hover:border-white/30 hover:-translate-y-1 transition-all duration-300 group shadow-xl">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-black border border-white/15 group-hover:scale-110 transition-transform mb-5">
+                <BookOpen className="h-6 w-6 text-[#4285F4]" />
               </div>
-            ))}
+              <h3 className="text-xl font-bold text-white mb-2">Learn</h3>
+              <p className="text-xs sm:text-sm text-white/70 leading-relaxed">
+                Hands-on study jams, prompt engineering masterclasses, and cloud certification pathways with official Google badges.
+              </p>
+            </div>
+
+            <div className="h-full rounded-3xl border border-white/15 bg-[#121216]/80 p-7 backdrop-blur-xl hover:border-white/30 hover:-translate-y-1 transition-all duration-300 group shadow-xl">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-black border border-white/15 group-hover:scale-110 transition-transform mb-5">
+                <Hammer className="h-6 w-6 text-[#EA4335]" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Build</h3>
+              <p className="text-xs sm:text-sm text-white/70 leading-relaxed">
+                Engineered campus solutions including the Real-Time Bus Tracker, Autonomous Calendar Agents, and READTRACE AI Pen.
+              </p>
+            </div>
+
+            <div className="h-full rounded-3xl border border-white/15 bg-[#121216]/80 p-7 backdrop-blur-xl hover:border-white/30 hover:-translate-y-1 transition-all duration-300 group shadow-xl">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-black border border-white/15 group-hover:scale-110 transition-transform mb-5">
+                <Users2 className="h-6 w-6 text-[#FBBC05]" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Collaborate</h3>
+              <p className="text-xs sm:text-sm text-white/70 leading-relaxed">
+                653+ hackathon participants and 15+ AI collage presenters collaborating across ECE, CSE, IT, and CSBS departments.
+              </p>
+            </div>
+
+            <div className="h-full rounded-3xl border border-white/15 bg-[#121216]/80 p-7 backdrop-blur-xl hover:border-white/30 hover:-translate-y-1 transition-all duration-300 group shadow-xl">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-black border border-white/15 group-hover:scale-110 transition-transform mb-5">
+                <Trophy className="h-6 w-6 text-[#34A853]" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Lead</h3>
+              <p className="text-xs sm:text-sm text-white/70 leading-relaxed">
+                Top 3 HackNEXA winners awarded Google kits, student workshop speakers, and Solution Challenge mentorship.
+              </p>
+            </div>
           </div>
         </div>
       </div>

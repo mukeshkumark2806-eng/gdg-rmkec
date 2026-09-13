@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Space_Grotesk, Inter } from 'next/font/google';
 import './globals.css';
 import { BootPreloader } from '@/components/ui/BootPreloader';
@@ -20,6 +20,13 @@ const inter = Inter({
   variable: '--font-body',
   display: 'swap',
 });
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: '#000000',
+};
 
 export const metadata: Metadata = {
   title: {

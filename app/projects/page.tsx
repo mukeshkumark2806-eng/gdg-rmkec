@@ -72,7 +72,7 @@ export default function ProjectsPage() {
             Projects in Development
           </h1>
           <p className="mt-4 text-base sm:text-lg text-white/70">
-            Student-engineered applications, real-time IoT solutions, and campus tools built by GDG on
+            Student-engineered applications, real-time IoT solutions, and campus platforms built by GDG on
             Campus RMKEC. Click any project to explore full architectural details and the team behind it.
           </p>
 
@@ -128,10 +128,16 @@ export default function ProjectsPage() {
                   </span>
                   <span
                     className={`font-mono text-[10px] uppercase tracking-wider font-semibold px-2.5 py-0.5 rounded-full border ${
-                      project.status === 'Deployed & Active' || project.status === 'Active Production'
-                        ? 'bg-[#34A853]/20 text-[#34A853] border-[#34A853]/40'
-                        : project.status === 'Ongoing Development'
+                      project.status?.includes('Gold')
                         ? 'bg-[#FBBC05]/20 text-[#FBBC05] border-[#FBBC05]/40'
+                        : project.status?.includes('Silver')
+                        ? 'bg-slate-300/20 text-slate-200 border-slate-400/40'
+                        : project.status?.includes('Bronze')
+                        ? 'bg-amber-700/20 text-amber-400 border-amber-600/40'
+                        : project.status === 'Deployed & Active' || project.status === 'Active Production'
+                        ? 'bg-[#34A853]/20 text-[#34A853] border-[#34A853]/40'
+                        : project.status?.includes('A.C.E')
+                        ? 'bg-[#EA4335]/20 text-[#EA4335] border-[#EA4335]/40'
                         : 'bg-[#4285F4]/20 text-[#4285F4] border-[#4285F4]/40'
                     }`}
                   >
@@ -251,10 +257,16 @@ export default function ProjectsPage() {
                   </span>
                   <span
                     className={`font-mono text-xs uppercase tracking-wider font-semibold px-3 py-1 rounded-full border ${
-                      activeProject.status === 'Deployed & Active' || activeProject.status === 'Active Production'
-                        ? 'bg-[#34A853]/20 text-[#34A853] border-[#34A853]/40'
-                        : activeProject.status === 'Ongoing Development'
+                      activeProject.status?.includes('Gold')
                         ? 'bg-[#FBBC05]/20 text-[#FBBC05] border-[#FBBC05]/40'
+                        : activeProject.status?.includes('Silver')
+                        ? 'bg-slate-300/20 text-slate-200 border-slate-400/40'
+                        : activeProject.status?.includes('Bronze')
+                        ? 'bg-amber-700/20 text-amber-400 border-amber-600/40'
+                        : activeProject.status === 'Deployed & Active' || activeProject.status === 'Active Production'
+                        ? 'bg-[#34A853]/20 text-[#34A853] border-[#34A853]/40'
+                        : activeProject.status?.includes('A.C.E')
+                        ? 'bg-[#EA4335]/20 text-[#EA4335] border-[#EA4335]/40'
                         : 'bg-[#4285F4]/20 text-[#4285F4] border-[#4285F4]/40'
                     }`}
                   >

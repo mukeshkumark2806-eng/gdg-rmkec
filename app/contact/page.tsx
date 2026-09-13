@@ -159,6 +159,30 @@ export default function ContactPage() {
                     </a>
                   </div>
                 </div>
+
+                <div className="pt-3 border-t border-white/10 flex flex-col gap-2.5">
+                  <span className="font-mono text-[11px] uppercase tracking-wider text-white/50">
+                    Official Social Channels
+                  </span>
+                  <div className="flex flex-wrap gap-2.5">
+                    <a
+                      href={siteConfig.socials.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/06 border border-white/15 text-xs text-white/85 hover:text-white hover:border-[#4285F4] hover:bg-[#4285F4]/10 transition-all"
+                    >
+                      LinkedIn (@google-developer-group-r-m-k...) ↗
+                    </a>
+                    <a
+                      href={siteConfig.socials.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/06 border border-white/15 text-xs text-white/85 hover:text-white hover:border-[#EA4335] hover:bg-[#EA4335]/10 transition-all"
+                    >
+                      Instagram (@gdgoc_rmk) ↗
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
 

@@ -50,10 +50,9 @@ export default function EventsPage() {
 
           {/* Official Schedule Note */}
           <div className="mt-6 inline-flex items-center gap-2 p-3 px-5 rounded-2xl bg-[#121216]/80 border border-white/10 text-xs text-white/80">
-            <Info className="h-4 w-4 text-[#FBBC05] shrink-0" />
+            <Info className="h-4 w-4 text-[#34A853] shrink-0" />
             <span>
-              <strong>Note:</strong> Exact dates for HackNEXA&apos;26, Agentic AI Study Jam, and A.C.E will be
-              announced soon.
+              <strong>Milestone Update:</strong> HackNEXA&apos;26 (653 participants), Agentic AI Study Jam, and A.C.E Day (Batches 1 &amp; 2) have been successfully hosted with huge campus impact!
             </span>
           </div>
         </div>
@@ -186,11 +185,11 @@ export default function EventsPage() {
               {activeModalEvent.description}
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 rounded-2xl bg-[#121216] border border-white/10 text-xs mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 rounded-2xl bg-[#121216] border border-white/10 text-xs mb-4">
               <div>
                 <span className="text-[#FBBC05] block font-mono font-semibold">Date & Time</span>
                 <span className="text-white font-medium">
-                  {activeModalEvent.date} ({activeModalEvent.time})
+                  {activeModalEvent.date} {activeModalEvent.time ? `(${activeModalEvent.time})` : ''}
                 </span>
               </div>
               <div>
@@ -198,6 +197,40 @@ export default function EventsPage() {
                 <span className="text-white font-medium">{activeModalEvent.location}</span>
               </div>
             </div>
+
+            {/* Speakers / Jury List */}
+            {activeModalEvent.speakers && activeModalEvent.speakers.length > 0 && (
+              <div className="mb-4 p-4 rounded-2xl bg-[#121216] border border-white/10">
+                <span className="text-[11px] font-mono uppercase tracking-wider text-[#4285F4] font-semibold block mb-2">
+                  Organizers, Speakers &amp; Jury
+                </span>
+                <div className="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto pr-1">
+                  {activeModalEvent.speakers.map((sp, idx) => (
+                    <span
+                      key={idx}
+                      className="px-2.5 py-1 rounded-lg bg-black/60 border border-white/10 text-[11px] text-white/90"
+                    >
+                      <strong className="text-white">{sp.name}</strong>{' '}
+                      <span className="text-white/60">({sp.role} · {sp.company})</span>
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Event Tags */}
+            {activeModalEvent.tags && activeModalEvent.tags.length > 0 && (
+              <div className="flex flex-wrap gap-1.5 mb-6">
+                {activeModalEvent.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-2 py-0.5 rounded-full bg-white/06 border border-white/10 text-[10px] font-mono text-white/70"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
 
             <div className="flex justify-end gap-3">
               <button
@@ -208,13 +241,13 @@ export default function EventsPage() {
                 Close
               </button>
               <GlowButton
-                href="https://gdg.community.dev/rmk-engineering-college/"
+                href={activeModalEvent.registrationUrl || 'https://gdg.community.dev/rmk-engineering-college/'}
                 target="_blank"
                 rel="noreferrer"
                 shape="pill"
                 size="sm"
               >
-                GDG Community Portal →
+                {activeModalEvent.category === 'Hackathon' ? 'View on Hack2Skill →' : 'GDG Community Portal →'}
               </GlowButton>
             </div>
           </div>
