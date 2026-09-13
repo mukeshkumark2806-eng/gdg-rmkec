@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { MapPin, Navigation, Bus, Wifi, ShieldCheck } from 'lucide-react';
 import { GlowButton } from '@/components/ui/GlowButton';
 
@@ -77,12 +78,12 @@ export const VenueSection: React.FC = () => {
 
           {/* Right Campus Image / Visual */}
           <div className="lg:col-span-5 relative h-64 sm:h-80 lg:h-auto min-h-[300px] rounded-2xl overflow-hidden border border-white/15 bg-black/90 shadow-xl">
-            <img
+            <Image
               src="/images/rmkec-campus.webp"
               alt="R.M.K. Engineering College"
-              loading="lazy"
-              decoding="async"
-              className="h-full w-full object-cover"
+              fill
+              sizes="(max-width: 1024px) 100vw, 40vw"
+              className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
             <div className="absolute bottom-4 left-4 right-4 p-3.5 rounded-xl bg-black/75 backdrop-blur-md border border-white/10 text-xs text-white/90">

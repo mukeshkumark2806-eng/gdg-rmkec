@@ -3,7 +3,6 @@
 import React from 'react';
 import { GlowButton } from '@/components/ui/GlowButton';
 import { motion } from 'framer-motion';
-import { Sparkles, ArrowRight, Code2, Calendar, Users } from 'lucide-react';
 
 export const HeroSection: React.FC = () => {
   return (
@@ -28,7 +27,7 @@ export const HeroSection: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="mt-6 text-4xl font-bold leading-tight tracking-tight sm:text-6xl md:text-7xl lg:text-8xl text-white select-none"
+          className="mt-6 text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-tight tracking-tight text-white select-none"
         >
           Building the Future of Technology at <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4285F4] via-[#EA4335] to-[#FBBC05]">RMKEC</span>
         </motion.h1>
@@ -38,7 +37,7 @@ export const HeroSection: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="mt-6 text-lg sm:text-xl md:text-2xl text-white/90 font-medium max-w-3xl leading-relaxed"
+          className="mt-6 text-base sm:text-xl md:text-2xl text-white/90 font-medium max-w-3xl leading-relaxed"
         >
           A community of innovators, builders, problem solvers, and future technology leaders working
           together to learn, create, and impact the college ecosystem through technology.

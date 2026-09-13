@@ -199,7 +199,7 @@ export const BootPreloader: React.FC = () => {
                     transition={{ repeat: Infinity, duration: 1.7 }}
                     className="absolute -bottom-6 -right-10 font-mono text-sm text-[#34A853] font-bold"
                   >
-                    // DEV
+                    {'// DEV'}
                   </motion.span>
                 </motion.div>
               )}

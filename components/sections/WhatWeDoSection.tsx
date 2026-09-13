@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { BookOpen, Hammer, Users2, Trophy, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
+import Image from 'next/image';
+import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import { GlowButton } from '@/components/ui/GlowButton';
 
 interface ActionPillar {
@@ -194,12 +195,12 @@ export const WhatWeDoSection: React.FC = () => {
               >
                 {/* Background Photo */}
                 <div className="absolute inset-0">
-                  <img
+                  <Image
                     src={pillar.image}
                     alt={pillar.title}
-                    className="h-full w-full object-cover object-center"
-                    loading="lazy"
-                    decoding="async"
+                    fill
+                    sizes="100vw"
+                    className="object-cover object-center"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-black/25" />
                 </div>

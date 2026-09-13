@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { SignalDots } from '@/components/ui/SignalDots';
+import { Calendar, Users, ArrowRight, FolderOpen } from 'lucide-react';
 
 export default function NotFound() {
   return (
@@ -11,71 +12,78 @@ export default function NotFound() {
       <SignalDots size="md" />
 
       {/* 404 Label */}
-      <p className="mt-6 font-mono text-xs uppercase tracking-widest text-white/50">404</p>
+      <p className="mt-6 font-mono text-xs uppercase tracking-widest text-[#EA4335] font-semibold">
+        404 · Page Not Found
+      </p>
       <h1 className="mt-2 text-3xl sm:text-5xl font-bold tracking-tight text-white">
-        Page not found.
+        This route took a wrong turn.
       </h1>
+      <p className="mt-3 text-sm sm:text-base text-white/70 max-w-xl">
+        The page you are looking for doesn&apos;t exist or might have been relocated. Here are the most helpful destinations to get you back on track.
+      </p>
 
       {/* Divider */}
-      <div className="mt-10 h-px w-full bg-white/10" aria-hidden="true" />
+      <div className="mt-8 h-px w-full bg-white/10" aria-hidden="true" />
 
-      {/* What most people are looking for */}
-      <h2 className="mt-8 text-lg font-semibold tracking-tight text-white">
-        What most people are looking for
+      {/* Primary Helpful Routes */}
+      <h2 className="mt-8 text-base font-semibold tracking-tight text-white">
+        Popular Chapter Destinations
       </h2>
 
       <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-        {/* Get Tickets */}
-        <Link href="/tickets" className="block h-full group">
+        {/* Explore Events */}
+        <Link href="/events" className="block h-full group">
           <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#121216]/80 p-5 sm:p-6 h-full transition-all hover:border-white/25 hover:bg-[#121216]">
-            <span className="font-mono text-[11px] uppercase tracking-wider text-[#4285F4] font-semibold">
-              Get in
-            </span>
-            <span className="mt-2 block text-lg font-bold text-white group-hover:text-[#4285F4] transition-colors">
-              Get Tickets →
+            <div className="flex items-center gap-2 mb-2">
+              <Calendar className="h-4 w-4 text-[#4285F4]" />
+              <span className="font-mono text-[11px] uppercase tracking-wider text-[#4285F4] font-semibold">
+                Workshops &amp; Jams
+              </span>
+            </div>
+            <span className="block text-lg font-bold text-white group-hover:text-[#4285F4] transition-colors">
+              Explore Events &rarr;
             </span>
             <span className="mt-1 block text-xs text-white/70">
-              Book your place at DevFest RMKEC 2026.
+              Browse HackNEXA&apos;26 archives, Agentic AI jams, and upcoming chapter sessions.
             </span>
           </div>
         </Link>
 
-        {/* Speak at DevFest */}
-        <a
-          href="https://devfest.gdgchennai.in/cfp"
-          target="_blank"
-          rel="noreferrer"
-          className="block h-full group"
-        >
+        {/* Join Community */}
+        <Link href="/join" className="block h-full group">
           <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#121216]/80 p-5 sm:p-6 h-full transition-all hover:border-white/25 hover:bg-[#121216]">
-            <span className="font-mono text-[11px] uppercase tracking-wider text-[#EA4335] font-semibold">
-              Get on stage
-            </span>
-            <span className="mt-2 block text-lg font-bold text-white group-hover:text-[#EA4335] transition-colors">
-              Speak at DevFest →
+            <div className="flex items-center gap-2 mb-2">
+              <Users className="h-4 w-4 text-[#34A853]" />
+              <span className="font-mono text-[11px] uppercase tracking-wider text-[#34A853] font-semibold">
+                Get Involved
+              </span>
+            </div>
+            <span className="block text-lg font-bold text-white group-hover:text-[#34A853] transition-colors">
+              Join GDG RMKEC &rarr;
             </span>
             <span className="mt-1 block text-xs text-white/70">
-              First-time speakers as welcome as conference regulars.
+              Become an active member or student contributor across our 5 technical wings.
             </span>
           </div>
-        </a>
+        </Link>
       </div>
 
       {/* Everywhere else on the site */}
-      <h2 className="mt-12 font-mono text-xs uppercase tracking-widest text-white/50">
-        Everywhere else on the site
+      <h2 className="mt-10 font-mono text-xs uppercase tracking-widest text-white/50">
+        All Other Chapter Pages
       </h2>
 
       <ul className="mt-3 flex flex-wrap gap-2">
         {[
           { label: 'Home', path: '/' },
-          { label: 'Tickets', path: '/tickets' },
-          { label: 'Album', path: '/album' },
-          { label: 'Events', path: '/events' },
-          { label: 'Projects', path: '/projects' },
-          { label: 'About', path: '/about' },
-          { label: 'Family', path: '/family' },
-          { label: 'Volunteer', path: '/join' },
+          { label: 'About Us', path: '/about' },
+          { label: 'Our Journey', path: '/journey' },
+          { label: 'Events & Jams', path: '/events' },
+          { label: 'Campus Projects', path: '/projects' },
+          { label: 'Event Album', path: '/album' },
+          { label: 'Family Wall', path: '/family' },
+          { label: 'Join Us', path: '/join' },
+          { label: 'Website Credits', path: '/credits' },
           { label: 'Contact', path: '/contact' },
         ].map((item) => (
           <li key={item.path}>
@@ -90,36 +98,36 @@ export default function NotFound() {
         ))}
       </ul>
 
-      {/* Archive Card */}
-      <div className="mt-12 h-px w-full bg-white/10" aria-hidden="true" />
+      {/* Event Album Card */}
+      <div className="mt-10 h-px w-full bg-white/10" aria-hidden="true" />
 
       <Link
         href="/album"
-        className="group mt-8 block sm:flex sm:items-center sm:gap-6 rounded-2xl border border-white/10 bg-[#121216]/60 p-4 hover:border-white/25 transition-all"
+        className="group mt-8 block sm:flex sm:items-center sm:gap-6 rounded-2xl border border-white/10 bg-[#121216]/60 p-5 hover:border-white/25 transition-all"
       >
-        <div className="w-full sm:w-56 sm:shrink-0 aspect-[3/2] overflow-hidden rounded-xl">
-          <img
-            src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80"
-            alt="Closing group photo"
-            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-          />
+        <div className="flex h-12 w-12 sm:h-16 sm:w-16 items-center justify-center rounded-2xl bg-black border border-white/15 text-[#FBBC05] shrink-0">
+          <FolderOpen className="h-6 w-6" />
         </div>
-        <div className="mt-4 sm:mt-0">
-          <p className="font-bold text-white">While you’re here</p>
-          <p className="mt-1 text-xs text-white/70 max-w-md">
-            The archive is the one part of this site that was never going to 404. Explore event
-            photos, hackathon highlights, and moments in our Event Album →
+        <div className="mt-3 sm:mt-0">
+          <p className="font-bold text-white flex items-center gap-1.5">
+            <span>Browse Event Album &amp; Campus Memories</span>
+            <ArrowRight className="h-4 w-4 text-[#4285F4] group-hover:translate-x-1 transition-transform" />
+          </p>
+          <p className="mt-1 text-xs text-white/70 max-w-lg leading-relaxed">
+            The archive is always online. Relive 100+ moments from HackNEXA&apos;26, Agentic AI, Google Cloud campaigns, and A.C.E Day.
           </p>
         </div>
       </Link>
 
       {/* Signoff */}
-      <p className="mt-14 text-xl font-bold tracking-tight text-white">
-        Hope to see you at DevFest.
-      </p>
-      <p className="mt-1 font-mono text-xs text-white/60">
-        Saturday, 17 October 2026 · RMK Engineering College
-      </p>
+      <div className="mt-12 pt-6 border-t border-white/08">
+        <p className="text-lg font-bold tracking-tight text-white">
+          GDG on Campus RMKEC
+        </p>
+        <p className="mt-0.5 font-mono text-xs text-white/60">
+          R.M.K. Engineering College · Established September 2025
+        </p>
+      </div>
     </div>
   );
 }

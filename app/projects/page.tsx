@@ -188,6 +188,11 @@ export default function ProjectsPage() {
                           <img
                             src={contrib.avatarUrl}
                             alt={contrib.name}
+                            loading="lazy"
+                            decoding="async"
+                            onError={(e) => {
+                              (e.currentTarget as HTMLElement).style.display = 'none';
+                            }}
                             className="h-full w-full object-cover"
                           />
                         ) : (
@@ -451,6 +456,11 @@ export default function ProjectsPage() {
                                 <img
                                   src={member.avatarUrl}
                                   alt={member.name}
+                                  loading="lazy"
+                                  decoding="async"
+                                  onError={(e) => {
+                                    (e.currentTarget as HTMLElement).style.display = 'none';
+                                  }}
                                   className="h-full w-full object-cover"
                                 />
                               ) : (

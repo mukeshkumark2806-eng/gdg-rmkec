@@ -32,6 +32,8 @@
     background-color: #000000;
     color: #f0f0f2;
     font-family: var(--font-body);
+    overflow-x: hidden;
+    scroll-behavior: smooth;
   }
 
   body {

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Cpu, Cloud, Smartphone, Globe, Shield, Palette, ArrowUpRight } from 'lucide-react';
+import { Cpu, Cloud, Smartphone, Globe, Shield, Palette } from 'lucide-react';
 import { GlowButton } from '@/components/ui/GlowButton';
 
 const tracks = [
