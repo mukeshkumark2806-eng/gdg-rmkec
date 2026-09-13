@@ -16,6 +16,8 @@ import {
   Cloud,
   Compass,
   Zap,
+  Github,
+  ExternalLink,
 } from 'lucide-react';
 import { GlowButton } from '@/components/ui/GlowButton';
 import { projectsData } from '@/data/projects';
@@ -297,6 +299,34 @@ export default function ProjectsPage() {
                     <p className="mt-2 text-sm sm:text-base text-[#4285F4] font-medium leading-relaxed">
                       {activeProject.tagline}
                     </p>
+
+                    {/* Source Code & Live Demo Action Links */}
+                    {(activeProject.githubUrl || activeProject.liveUrl) && (
+                      <div className="flex flex-wrap items-center gap-2.5 mt-4">
+                        {activeProject.githubUrl && (
+                          <a
+                            href={activeProject.githubUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-white/15 bg-white/06 hover:bg-white/12 hover:border-white/30 text-xs font-mono text-white transition-all cursor-pointer"
+                          >
+                            <Github className="h-3.5 w-3.5 text-white" />
+                            <span>View Source Code</span>
+                          </a>
+                        )}
+                        {activeProject.liveUrl && (
+                          <a
+                            href={activeProject.liveUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#4285F4]/40 bg-[#4285F4]/15 hover:bg-[#4285F4]/25 text-xs font-mono text-blue-300 transition-all cursor-pointer"
+                          >
+                            <ExternalLink className="h-3.5 w-3.5 text-[#4285F4]" />
+                            <span>Live Portal / Demo</span>
+                          </a>
+                        )}
+                      </div>
+                    )}
                   </div>
 
                   {/* Impact Banner if available */}

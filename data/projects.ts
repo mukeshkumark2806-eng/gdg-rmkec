@@ -13,6 +13,7 @@ export const projectsData: ProjectItem[] = [
     status: 'Ongoing Development',
     stars: 180,
     forks: 42,
+    githubUrl: 'https://github.com/gdg-rmkec/bus-tracking-system',
     techStack: [
       'GPS IoT Hardware',
       'Next.js 15',
@@ -91,6 +92,7 @@ export const projectsData: ProjectItem[] = [
     status: 'Active Development',
     stars: 142,
     forks: 31,
+    githubUrl: 'https://github.com/gdg-rmkec/college-navigation-console',
     techStack: [
       'React 19',
       'Next.js 15',
@@ -180,6 +182,7 @@ export const projectsData: ProjectItem[] = [
     status: 'Active Development',
     stars: 210,
     forks: 58,
+    githubUrl: 'https://github.com/gdg-rmkec/ai-placement-preparation',
     techStack: [
       'Gemini 2.5 Flash',
       'Python FastAPI',
@@ -245,6 +248,8 @@ export const projectsData: ProjectItem[] = [
     status: 'Active Production',
     stars: 176,
     forks: 48,
+    githubUrl: 'https://github.com/gdg-rmkec',
+    liveUrl: 'https://gdg.rmkec.ac.in',
     techStack: [
       'Next.js 16 (Turbopack)',
       'React 19',
@@ -311,6 +316,7 @@ export const projectsData: ProjectItem[] = [
     status: 'Ongoing Development',
     stars: 128,
     forks: 29,
+    githubUrl: 'https://github.com/gdg-rmkec/telemetry-dashboard',
     techStack: [
       'Next.js 15',
       'React 19',

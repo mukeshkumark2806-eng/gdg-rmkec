@@ -7,6 +7,8 @@ import { Mail, MapPin, Send, CheckCircle, Sparkles, MessageSquare } from 'lucide
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -14,9 +16,29 @@ export default function ContactPage() {
     message: '',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setSubmitting(true);
+    setErrorMsg(null);
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) {
+        const errJson = await res.json().catch(() => ({}));
+        throw new Error(errJson.error || 'Failed to send message. Please try again.');
+      }
+
+      setSubmitted(true);
+    } catch (err: any) {
+      setErrorMsg(err.message || 'An unexpected error occurred. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -117,16 +139,22 @@ export default function ContactPage() {
                   />
                 </div>
 
-                <div className="pt-2">
+                <div className="pt-2 space-y-2">
                   <GlowButton
                     type="submit"
                     shape="pill"
                     size="md"
                     className="w-full"
+                    disabled={submitting}
                     surfaceClassName="w-full justify-center"
                   >
-                    Send Message →
+                    {submitting ? 'Sending Message...' : 'Send Message →'}
                   </GlowButton>
+                  {errorMsg && (
+                    <p className="text-center font-mono text-xs text-[#EA4335] bg-[#EA4335]/10 border border-[#EA4335]/30 p-2.5 rounded-xl">
+                      {errorMsg}
+                    </p>
+                  )}
                 </div>
               </form>
             )}

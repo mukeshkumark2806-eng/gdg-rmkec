@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { eventsData } from '@/data/events';
 import { EventItem } from '@/types';
 import { GlowButton } from '@/components/ui/GlowButton';
-import { Calendar, MapPin, Search, Sparkles, X, Trophy, Info, Tag } from 'lucide-react';
+import { Calendar, MapPin, Search, Sparkles, X, Trophy, Info, Tag, CalendarClock } from 'lucide-react';
 
 const categories = ['All', 'Upcoming', 'Workshop', 'Hackathon', 'Bootcamp', 'Past'];
 
@@ -89,75 +89,128 @@ export default function EventsPage() {
           </div>
         </div>
 
-        {/* Events Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {filteredEvents.map((event) => (
-            <div
-              key={event.id}
-              className="group relative flex flex-col justify-between rounded-3xl border border-white/15 bg-[#121216]/80 p-7 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-white/30 hover:bg-[#121216]"
-            >
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <span
-                    className={`text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border ${
-                      event.status === 'Upcoming'
-                        ? 'bg-[#34A853]/20 text-[#34A853] border-[#34A853]/30'
-                        : 'bg-white/10 text-white/70 border-white/15'
-                    }`}
-                  >
-                    {event.status}
-                  </span>
-                  <span className="text-xs font-mono text-[#4285F4] font-semibold">
-                    {event.category}
-                  </span>
-                </div>
-
-                <h3 className="text-2xl font-bold text-white tracking-tight group-hover:text-[#4285F4] transition-colors mb-2.5">
-                  {event.title}
-                </h3>
-                <p className="text-xs sm:text-sm text-white/80 font-medium leading-relaxed mb-4">
-                  {event.tagline}
-                </p>
-
-                <div className="flex flex-col gap-2.5 text-xs text-white/75 bg-black/50 p-4 rounded-2xl border border-white/08 mb-4">
-                  <div className="flex items-center gap-2">
-                    <Calendar className="h-4 w-4 text-[#FBBC05] shrink-0" />
-                    <span>
-                      <strong>Date:</strong> {event.date} {event.time ? `(${event.time})` : ''}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <MapPin className="h-4 w-4 text-[#EA4335] shrink-0" />
-                    <span className="truncate">{event.location}</span>
-                  </div>
-                </div>
-
-                {/* Highlights / Tags */}
-                <div className="flex flex-wrap gap-1.5">
-                  {event.tags.map((tag) => (
+        {/* Events Grid or Empty State */}
+        {filteredEvents.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {filteredEvents.map((event) => (
+              <div
+                key={event.id}
+                className="group relative flex flex-col justify-between rounded-3xl border border-white/15 bg-[#121216]/80 p-7 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-white/30 hover:bg-[#121216]"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-4">
                     <span
-                      key={tag}
-                      className="rounded-full bg-white/06 border border-white/10 px-2.5 py-0.5 text-[10px] text-white/70 font-mono"
+                      className={`text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border ${
+                        event.status === 'Upcoming'
+                          ? 'bg-[#34A853]/20 text-[#34A853] border-[#34A853]/30'
+                          : 'bg-white/10 text-white/70 border-white/15'
+                      }`}
                     >
-                      {tag}
+                      {event.status}
                     </span>
-                  ))}
+                    <span className="text-xs font-mono text-[#4285F4] font-semibold">
+                      {event.category}
+                    </span>
+                  </div>
+
+                  <h3 className="text-2xl font-bold text-white tracking-tight group-hover:text-[#4285F4] transition-colors mb-2.5">
+                    {event.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-white/80 font-medium leading-relaxed mb-4">
+                    {event.tagline}
+                  </p>
+
+                  <div className="flex flex-col gap-2.5 text-xs text-white/75 bg-black/50 p-4 rounded-2xl border border-white/08 mb-4">
+                    <div className="flex items-center gap-2">
+                      <Calendar className="h-4 w-4 text-[#FBBC05] shrink-0" />
+                      <span>
+                        <strong>Date:</strong> {event.date} {event.time ? `(${event.time})` : ''}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <MapPin className="h-4 w-4 text-[#EA4335] shrink-0" />
+                      <span className="truncate">{event.location}</span>
+                    </div>
+                  </div>
+
+                  {/* Highlights / Tags */}
+                  <div className="flex flex-wrap gap-1.5">
+                    {event.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full bg-white/06 border border-white/10 px-2.5 py-0.5 text-[10px] text-white/70 font-mono"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
+                  <button
+                    type="button"
+                    onClick={() => setActiveModalEvent(event)}
+                    className="text-xs font-bold text-[#4285F4] hover:text-white flex items-center gap-1 transition-colors cursor-pointer"
+                  >
+                    <span>View Full Details</span>
+                    <span>→</span>
+                  </button>
                 </div>
               </div>
+            ))}
+          </div>
+        ) : (
+          <div className="rounded-3xl border border-white/15 bg-[#121216]/90 p-8 sm:p-14 text-center backdrop-blur-2xl shadow-2xl max-w-2xl mx-auto my-4">
+            <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-3xl bg-black border border-white/15 text-[#4285F4] shadow-inner">
+              <CalendarClock className="h-10 w-10 text-[#4285F4]" />
+            </div>
 
-              <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
+            <div className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-[#FBBC05] px-3.5 py-1 rounded-full border border-[#FBBC05]/30 bg-[#FBBC05]/10 mb-4 font-semibold">
+              <Sparkles className="h-3 w-3" />
+              <span>Stay Tuned</span>
+            </div>
+
+            <h3 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+              {selectedCategory === 'Upcoming'
+                ? 'No Upcoming Events Right Now'
+                : searchQuery
+                ? `No Events Found for "${searchQuery}"`
+                : 'No Events in this Category'}
+            </h3>
+
+            <p className="mt-4 text-xs sm:text-sm text-white/70 leading-relaxed max-w-md mx-auto">
+              {selectedCategory === 'Upcoming'
+                ? 'Our technical wings are currently curating and planning our next round of hands-on workshops, AI study jams, and hackathons. Stay tuned or join the chapter community to be the first to know!'
+                : 'Try adjusting your search query or selecting a different event category above to browse our event archives.'}
+            </p>
+
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+              {selectedCategory === 'Upcoming' ? (
                 <button
                   type="button"
-                  onClick={() => setActiveModalEvent(event)}
-                  className="text-xs font-bold text-[#4285F4] hover:text-white flex items-center gap-1 transition-colors cursor-pointer"
+                  onClick={() => {
+                    setSelectedCategory('Past');
+                    setSearchQuery('');
+                  }}
+                  className="px-5 py-2.5 rounded-full text-xs font-semibold bg-white text-black hover:bg-white/90 transition-colors shadow-lg cursor-pointer"
                 >
-                  <span>View Full Details</span>
-                  <span>→</span>
+                  View Past Events Archive →
                 </button>
-              </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedCategory('All');
+                    setSearchQuery('');
+                  }}
+                  className="px-5 py-2.5 rounded-full text-xs font-semibold bg-white text-black hover:bg-white/90 transition-colors shadow-lg cursor-pointer"
+                >
+                  Reset All Filters
+                </button>
+              )}
             </div>
-          ))}
-        </div>
+          </div>
+        )}
       </div>
 
       {/* Modal Popup for Event Details */}

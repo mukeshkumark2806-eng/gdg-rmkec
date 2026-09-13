@@ -98,6 +98,12 @@ export const Footer: React.FC = () => {
               Code of Conduct
             </a>
             <Link
+              href="/credits"
+              className="underline-offset-4 hover:text-white hover:underline transition-colors"
+            >
+              Website Credits
+            </Link>
+            <Link
               href="/contact"
               className="underline-offset-4 hover:text-white hover:underline transition-colors"
             >
@@ -127,6 +133,25 @@ export const Footer: React.FC = () => {
                 {isLiteMode ? 'on' : 'off'}
               </span>
             </button>
+          </div>
+
+          {/* Creator Credits Badge */}
+          <div className="pt-2">
+            <Link
+              href="/credits"
+              className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-white/12 bg-[#121216]/80 hover:bg-white/10 hover:border-white/25 text-xs text-white/80 hover:text-white transition-all group backdrop-blur-md shadow-lg"
+            >
+              <span className="flex h-2 w-2 relative">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#4285F4] opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#4285F4]" />
+              </span>
+              <span className="font-mono text-[11px]">
+                Engineered by the <strong className="text-white">GDG Web Team</strong>
+              </span>
+              <span className="text-[#4285F4] group-hover:translate-x-0.5 transition-transform font-bold text-xs">
+                Meet the Creators →
+              </span>
+            </Link>
           </div>
 
           <p className="max-w-2xl font-mono text-[11px] text-white/40 leading-relaxed">

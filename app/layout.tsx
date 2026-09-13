@@ -29,6 +29,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   title: {
     default: 'GDG on Campus RMKEC | Building the Future of Technology at RMKEC',
     template: `%s | GDG on Campus RMKEC`,
@@ -54,12 +55,21 @@ export const metadata: Metadata = {
     siteName: 'GDG on Campus RMKEC',
     locale: 'en_US',
     type: 'website',
+    images: [
+      {
+        url: '/images/posters/hacknexa-thumb.png',
+        width: 1200,
+        height: 630,
+        alt: 'GDG on Campus RMKEC',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'GDG on Campus RMKEC',
     description:
       'Building the Future of Technology at RMKEC — A community of innovators, builders, and problem solvers.',
+    images: ['/images/posters/hacknexa-thumb.png'],
   },
 };
 

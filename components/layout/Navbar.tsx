@@ -30,6 +30,7 @@ const menuItems = [
   { label: 'Event Album', href: '/album' },
   { label: 'Family Wall', href: '/family' },
   { label: 'Join the Community', href: '/join' },
+  { label: 'Website Credits', href: '/credits' },
   { label: 'Contact & Support', href: '/contact' },
 ];
 

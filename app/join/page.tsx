@@ -95,6 +95,8 @@ const opportunities = [
 
 export default function JoinPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [formData, setFormData] = useState({
     fullName: '',
@@ -107,17 +109,36 @@ export default function JoinPage() {
     motivation: '',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitting(true);
+    setErrorMsg(null);
 
-    confetti({
-      particleCount: 120,
-      spread: 70,
-      origin: { y: 0.6 },
-      colors: ['#4285F4', '#EA4335', '#FBBC05', '#34A853'],
-    });
+    try {
+      const res = await fetch('/api/apply', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
 
-    setSubmitted(true);
+      if (!res.ok) {
+        const errJson = await res.json().catch(() => ({}));
+        throw new Error(errJson.error || 'Failed to submit application. Please try again.');
+      }
+
+      confetti({
+        particleCount: 120,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#4285F4', '#EA4335', '#FBBC05', '#34A853'],
+      });
+
+      setSubmitted(true);
+    } catch (err: any) {
+      setErrorMsg(err.message || 'An unexpected error occurred. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -449,10 +470,16 @@ export default function JoinPage() {
                     shape="pill"
                     size="lg"
                     className="w-full"
+                    disabled={submitting}
                     surfaceClassName="w-full justify-center py-3.5 text-sm font-semibold"
                   >
-                    Submit Application →
+                    {submitting ? 'Submitting Application...' : 'Submit Application →'}
                   </GlowButton>
+                  {errorMsg && (
+                    <p className="text-center font-mono text-xs text-[#EA4335] bg-[#EA4335]/10 border border-[#EA4335]/30 p-2.5 rounded-xl">
+                      {errorMsg}
+                    </p>
+                  )}
                   <p className="text-center font-mono text-xs text-white/50">
                     Official Chapter Review • Turnaround within 48–72 hours
                   </p>
