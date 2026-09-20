@@ -54,7 +54,7 @@ graph TD
 | `/technical-wings` | **Technical Wings Registration** | Completed | Dedicated candidate intake portal with non-scrolling interactive wing selection (5 official wings), tech stack badges, GitHub verification, structured registration form, and backend webhook forwarding. |
 | `/join` | **Core Team Recruitment** | Completed | Focused Core Team recruitment portal with dedicated "Join in Technical Wing →" button beside "Apply for Membership" and single submit button. |
 | `/tickets` | **Event Passes & Tickets** | Completed | Digital pass generator / event ticketing interface. |
-| `/contact` | **Contact & Inquiries** | Completed | Chapter communication form with validated backend endpoint `/api/contact`. |
+| `/contact` | **Contact & Inquiries** | Completed | "Send Us a Message" inquiry portal with direct first-party Gmail SMTP delivery (`nodemailer`) to inbox with validated backend endpoint `/api/contact`. |
 
 ---
 
@@ -144,6 +144,26 @@ graph TD
 - **Verification & Testing:**
   - Live payload tests dispatched to the endpoint; received `HTTP 200` with `{"result": "success"}` on both pipelines.
   - Automatic header row creation with styled Google Blue branding (`#4285F4`).
+
+---
+
+### 4.7. Contact Form Direct First-Party Email Dispatch (Zero 3rd Parties & Zero Sheets)
+- **Functional Separation:**
+  - The Google Sheet integration is reserved strictly for registration pipelines (`/join` and `/technical-wings`).
+  - Contact messages from the "Send Us a Message" form are completely decoupled from Google Sheets and never append any rows.
+- **Client Experience:**
+  - Completely reverted and removed all `mailto:` links, browser popups, and `window.open` calls.
+  - When visitors fill in their name, email, topic, and message, the form submits cleanly in-browser without launching local email clients (such as Windows Mail or Outlook).
+- **Direct First-Party Gmail SMTP (`nodemailer`):**
+  - Form data is received and validated by [`app/api/contact/route.ts`](file:///C:/Users/Cursory_Inverse/Desktop/gdg-rmkec/app/api/contact/route.ts).
+  - All 3rd-party relays (such as FormSubmit) were completely removed and deactivated.
+  - Next.js server connects directly to Google's official mail server (`smtp.gmail.com:465`) using TLS encryption and a dedicated Google App Password stored securely in `.env.local` (`GMAIL_APP_PASSWORD`).
+  - **Live Dispatch Verified:** Dispatched live test message ID `<77f46dba-9d5d-1fb2-4cda-ca531d4aa9f1@gmail.com>` delivered straight into the inbox.
+  - Configured with `replyTo` matching the sender's email address, enabling 1-click replies from Gmail.
+  - Currently targeted to `mukeshkumar.k2806@gmail.com` for active user testing, ready to switch back to `gdgocrmk@gmail.com`.
+- **In-Page Success Confirmation:**
+  - Renders an immediate green confirmation badge: *"Message Sent Successfully! Thank you, [Name]. Your message has been sent directly to [email]. Our community team will review your inquiry and get back to you shortly."*
+  - Includes a "Send Another Message" action button to reset the form.
 
 ---
 

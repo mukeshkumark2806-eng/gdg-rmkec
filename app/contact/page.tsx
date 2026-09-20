@@ -65,17 +65,40 @@ export default function ContactPage() {
             <h2 className="text-2xl font-bold text-white mb-6">Send Us a Message</h2>
 
             {submitted ? (
-              <div className="text-center py-12">
-                <CheckCircle className="h-12 w-12 text-[#34A853] mx-auto mb-4" />
-                <h3 className="text-xl font-bold text-white">Message Received!</h3>
-                <p className="text-xs text-white/70 mt-2">
-                  Thank you, <span className="text-white font-medium">{formData.name}</span>. Our
-                  team will respond to <span className="text-[#4285F4]">{formData.email}</span> shortly.
+              <div className="text-center py-8 space-y-4">
+                <CheckCircle className="h-12 w-12 text-[#34A853] mx-auto mb-2" />
+                <h3 className="text-xl font-bold text-white">Message Sent Successfully!</h3>
+                <p className="text-xs sm:text-sm text-white/70 max-w-md mx-auto leading-relaxed">
+                  Thank you, <span className="text-white font-medium">{formData.name}</span>. Your message has been sent directly to{' '}
+                  <span className="text-[#4285F4] font-semibold">mukeshkumar.k2806@gmail.com</span>. Our community team will review your inquiry and get back to you shortly.
                 </p>
-                <div className="mt-6">
-                  <GlowButton onClick={() => setSubmitted(false)} shape="pill" size="sm">
-                    Send Another Note
-                  </GlowButton>
+
+                <div className="p-4 rounded-2xl bg-black/50 border border-white/10 text-left text-xs font-mono text-white/70 max-w-md mx-auto space-y-2">
+                  <div className="flex justify-between border-b border-white/08 pb-1.5">
+                    <span>Sent To:</span>
+                    <span className="text-[#4285F4] font-semibold">mukeshkumar.k2806@gmail.com</span>
+                  </div>
+                  <div className="flex justify-between border-b border-white/08 pb-1.5">
+                    <span>Topic:</span>
+                    <span className="text-white">{formData.subject}</span>
+                  </div>
+                  <div className="flex justify-between pb-1">
+                    <span>From:</span>
+                    <span className="text-white">{formData.email}</span>
+                  </div>
+                </div>
+
+                <div className="mt-6 flex items-center justify-center">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSubmitted(false);
+                      setFormData({ name: '', email: '', subject: 'General Inquiry', message: '' });
+                    }}
+                    className="px-6 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-mono transition-all cursor-pointer border border-white/15"
+                  >
+                    Send Another Message
+                  </button>
                 </div>
               </div>
             ) : (
