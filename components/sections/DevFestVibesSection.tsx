@@ -56,7 +56,7 @@ export const DevFestVibesSection: React.FC = () => {
               lead projects that make real institutional impact!
             </p>
             <div className="pt-2">
-              <GlowButton href="/join" shape="pill" size="lg">
+              <GlowButton href="/technical-wings" shape="pill" size="lg">
                 Join Technical Wings →
               </GlowButton>
             </div>

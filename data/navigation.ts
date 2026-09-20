@@ -18,6 +18,7 @@ export const footerNav = {
     { label: 'Timeline & History', href: '/journey' },
     { label: 'Events & Workshops', href: '/events' },
     { label: 'Student Projects', href: '/projects' },
+    { label: 'Technical Wings', href: '/technical-wings' },
   ],
   community: [
     { label: 'Event Album', href: '/album' },

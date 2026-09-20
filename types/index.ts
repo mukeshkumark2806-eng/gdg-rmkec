@@ -119,3 +119,40 @@ export interface TrackDomain {
   leadRole: string;
   projectsCount: number;
 }
+
+export type EventCategory =
+  | 'Google Cloud Campaign'
+  | "HackNEXA'26 Hackathon"
+  | 'Agentic AI Study Jam'
+  | 'A.C.E - AI Collage Day';
+
+export interface AlbumPhoto {
+  id: string;
+  title: string;
+  event: EventCategory;
+  category: EventCategory;
+  year: '2026' | '2025';
+  date: string;
+  location: string;
+  image: string;
+  caption: string;
+  attendees?: string;
+  tags: string[];
+}
+
+export interface EventAlbum {
+  id: string;
+  name: EventCategory;
+  tagline: string;
+  year: '2026' | '2025';
+  date: string;
+  location: string;
+  color: string;
+  badgeBorder: string;
+  badgeBg: string;
+  badgeText: string;
+  coverImage: string;
+  attendees: string;
+  description: string;
+}
+

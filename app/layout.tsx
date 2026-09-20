@@ -118,7 +118,7 @@ export default function RootLayout({
           <Navbar />
 
           {/* Main Content */}
-          <main className="flex-grow relative z-10">{children}</main>
+          <main className="flex-grow">{children}</main>
 
           {/* Signature Yellow Brackets Footer */}
           <Footer />

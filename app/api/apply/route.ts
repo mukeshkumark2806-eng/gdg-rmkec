@@ -22,11 +22,18 @@ export async function POST(request: Request) {
     const fullName = sanitize(data.fullName, 100);
     const rollNumber = sanitize(data.rollNumber, 30);
     const email = sanitize(data.email, 120).toLowerCase();
+    const phone = sanitize(data.phone, 30);
     const department = sanitize(data.department, 50);
     const year = sanitize(data.year, 30);
-    const opportunity = sanitize(data.opportunity, 50);
-    const github = sanitize(data.github, 150);
-    const motivation = sanitize(data.motivation, 2000);
+    const opportunity = sanitize(data.opportunity, 100);
+    const primaryWing = sanitize(data.primaryWing, 100);
+    const secondaryWing = sanitize(data.secondaryWing, 100);
+    const skills = sanitize(data.skills, 500);
+    const github = sanitize(data.github, 200);
+    const portfolio = sanitize(data.portfolio, 200);
+    const experience = sanitize(data.experience, 2500);
+    const motivation = sanitize(data.motivation, 2500);
+    const commitment = sanitize(data.commitment, 50);
 
     if (!fullName || !rollNumber || !email) {
       return NextResponse.json(
@@ -47,14 +54,21 @@ export async function POST(request: Request) {
       fullName,
       rollNumber,
       email,
+      phone: phone || 'N/A',
       department: department || 'Not Specified',
       year: year || 'Not Specified',
-      opportunity: opportunity || 'General Member',
+      opportunity: opportunity || primaryWing || 'Technical Wings',
+      primaryWing: primaryWing || opportunity || 'General Technical',
+      secondaryWing: secondaryWing || 'N/A',
+      skills: skills || 'N/A',
       github: github || 'N/A',
+      portfolio: portfolio || 'N/A',
+      experience: experience || 'N/A',
       motivation: motivation || 'N/A',
+      commitment: commitment || '3-5 hours/week',
     };
 
-    console.log('[GDG Member Application Validated]:', payload);
+    console.log('[GDG Member/Technical Wing Application Validated]:', payload);
 
     // Forward to secure webhook if configured (Google Sheets / Supabase)
     const webhookUrl = process.env.GOOGLE_SHEET_WEBHOOK_URL;

@@ -232,7 +232,7 @@ export default function ProjectsPage() {
           <p className="text-xs sm:text-sm text-white/70 max-w-md mx-auto mb-6">
             Join the GDG on Campus RMKEC Technical Wings or Design Team and collaborate on real student solutions.
           </p>
-          <GlowButton href="/join" shape="pill" size="lg">
+          <GlowButton href="/technical-wings" shape="pill" size="lg">
             Apply to Join Technical Wings →
           </GlowButton>
         </div>
@@ -244,7 +244,7 @@ export default function ProjectsPage() {
       <AnimatePresence>
         {activeProject && (
           <div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-8 overflow-y-auto bg-black/85 backdrop-blur-xl"
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 md:p-8 overflow-y-auto bg-black/85 backdrop-blur-xl"
             onClick={() => setActiveProject(null)}
           >
             <motion.div

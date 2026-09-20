@@ -17,1029 +17,10 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { GlowButton } from '@/components/ui/GlowButton';
+import { eventAlbums, albumPhotos } from '@/data/album';
+import { EventCategory, AlbumPhoto, EventAlbum } from '@/types';
 
-export type EventCategory =
-  | 'Google Cloud Campaign'
-  | "HackNEXA'26 Hackathon"
-  | 'Agentic AI Study Jam'
-  | 'A.C.E - AI Collage Day';
-
-export interface AlbumPhoto {
-  id: string;
-  title: string;
-  event: EventCategory;
-  category: EventCategory;
-  year: '2026' | '2025';
-  date: string;
-  location: string;
-  image: string;
-  caption: string;
-  attendees?: string;
-  tags: string[];
-}
-
-export interface EventAlbum {
-  id: string;
-  name: EventCategory;
-  tagline: string;
-  year: '2026' | '2025';
-  date: string;
-  location: string;
-  color: string;
-  badgeBorder: string;
-  badgeBg: string;
-  badgeText: string;
-  coverImage: string;
-  attendees: string;
-  description: string;
-}
-
-const eventAlbums: EventAlbum[] = [
-  {
-    id: 'cloud-campaign',
-    name: 'Google Cloud Campaign',
-    tagline: 'Cloud Skills Boost & Certifications',
-    year: '2025',
-    date: 'October 2025',
-    location: 'Main Auditorium & Computer Centre 3, RMKEC',
-    color: '#4285F4',
-    badgeBorder: 'border-[#4285F4]/40',
-    badgeBg: 'bg-[#4285F4]/15',
-    badgeText: 'text-blue-300',
-    coverImage: '/images/posters/google-cloud-campaign-thumb.jpg',
-    attendees: '100+ Learners & Core Team Leads',
-    description:
-      'Hands-on Kubernetes labs, cloud infrastructure quests, GDG Core Team onboarding kick-off, and felicitation of certified pathway completers with official Google Cloud swags.',
-  },
-  {
-    id: 'hacknexa-26',
-    name: "HackNEXA'26 Hackathon",
-    tagline: '24-Hour Flagship Hackathon',
-    year: '2026',
-    date: '08th January 2026',
-    location: 'Central Computing Lab & Main Auditorium, RMKEC',
-    color: '#EA4335',
-    badgeBorder: 'border-[#EA4335]/40',
-    badgeBg: 'bg-[#EA4335]/15',
-    badgeText: 'text-red-300',
-    coverImage: '/images/posters/hacknexa-thumb.png',
-    attendees: '252 Finalists (63 Teams)',
-    description:
-      'Flagship 24-hour hackathon bringing together 650+ registered teams across RMK Group of Institutions, with 63 finalist teams (252 shortlisted participants) prototyping AI, Cloud, and IoT innovations.',
-  },
-  {
-    id: 'agentic-ai',
-    name: 'Agentic AI Study Jam',
-    tagline: 'Autonomous Agents & Prompt Engineering',
-    year: '2026',
-    date: '04th March 2026',
-    location: 'RJ Block Seminar Hall, RMKEC',
-    color: '#34A853',
-    badgeBorder: 'border-[#34A853]/40',
-    badgeBg: 'bg-[#34A853]/15',
-    badgeText: 'text-emerald-300',
-    coverImage: '/images/posters/agentic_ai-thumb.jpg',
-    attendees: '100+ Participants & Core Mentors',
-    description:
-      'Hands-on workshop on Agentic AI, Prompt Engineering frameworks (Co-STAR, ROSES, APE, Tree of Thoughts), tool calling, and live workflow development with student builders.',
-  },
-  {
-    id: 'ace-collage',
-    name: 'A.C.E - AI Collage Day',
-    tagline: 'AI Collage Exchange & Project Pitching',
-    year: '2026',
-    date: '06th April 2026',
-    location: 'Google Meet (Virtual Batches 1 & 2)',
-    color: '#FBBC05',
-    badgeBorder: 'border-[#FBBC05]/40',
-    badgeBg: 'bg-[#FBBC05]/15',
-    badgeText: 'text-amber-300',
-    coverImage: '/images/posters/ace_batch1-thumb.jpg',
-    attendees: 'Batch 1 & Batch 2 (10 Presenters & 30+ Participants)',
-    description:
-      'AI Collage Exchange (A.C.E Day) where students conceptualized real-world solutions across healthcare, civic governance, traffic, and education through AI-generated visual collages across two batches.',
-  },
-];
-
-const albumPhotos: AlbumPhoto[] = [
-  // 1. Google Cloud Campaign & Core Team Onboarding (2025)
-  {
-    id: 'alb-cloud-leads-onboarding',
-    title: 'GDG Core Team Leads Reveal & Chapter Onboarding',
-    event: 'Google Cloud Campaign',
-    category: 'Google Cloud Campaign',
-    year: '2025',
-    date: 'December 2025',
-    location: 'Tech Seminar Wing, RMKEC',
-    image: '/images/cloud-campaign/cloud-campaign-leads-onboarding.jpg',
-    caption:
-      'Introducing the newly selected GDG on Campus RMKEC Core Team domain leads and coordinators during the official chapter onboarding and campaign launch.',
-    attendees: 'Core Leads & Community Members',
-    tags: ['Core Team Leads', 'GDG Onboarding', 'Kick-Off Meeting', 'Campus Chapter'],
-  },
-  {
-    id: 'alb-cloud-kickoff-presentation',
-    title: 'GDG on Campus Kick-Off Presentation & Roadmap',
-    event: 'Google Cloud Campaign',
-    category: 'Google Cloud Campaign',
-    year: '2025',
-    date: 'December 2025',
-    location: 'Tech Seminar Wing, RMKEC',
-    image: '/images/cloud-campaign/cloud-campaign-kickoff-presentation.jpg',
-    caption:
-      'Presenting the GDG on Campus RMKEC mission, upcoming Google Cloud study jam milestones, and hands-on developer tracks to incoming team leads.',
-    attendees: 'RMKEC Chapter Leads',
-    tags: ['Kick-Off Meeting', 'Google Cloud', 'GDG RMKEC', 'Roadmap'],
-  },
-  {
-    id: 'alb-cloud-speaker-briefing',
-    title: 'Lead Speaker Briefing on Community Initiatives',
-    event: 'Google Cloud Campaign',
-    category: 'Google Cloud Campaign',
-    year: '2025',
-    date: 'December 2025',
-    location: 'Tech Seminar Wing, RMKEC',
-    image: '/images/cloud-campaign/cloud-campaign-speaker-briefing.jpg',
-    caption:
-      'Student lead outlining technical study jams, arcade quests, skill badges, and community expectations for the upcoming academic year.',
-    attendees: 'Lead Speaker & Organizers',
-    tags: ['Speaker Briefing', 'Vision & Strategy', 'Google Cloud Study Jam', 'Leadership'],
-  },
-  {
-    id: 'alb-cloud-team-audience',
-    title: 'Core Team Attendees & Technical Wing Candidates',
-    event: 'Google Cloud Campaign',
-    category: 'Google Cloud Campaign',
-    year: '2025',
-    date: 'December 2025',
-    location: 'Tech Seminar Wing, RMKEC',
-    image: '/images/cloud-campaign/cloud-campaign-team-audience.jpg',
-    caption:
-      'Dedicated core team members and tech domain applicants listening attentively to project workflows, certification pathways, and event planning.',
-    attendees: 'Domain Candidates & Members',
-    tags: ['Core Team Applicants', 'Audience', 'Student Community', 'Engagement'],
-  },
-  {
-    id: 'alb-cloud-attendees-gathering',
-    title: 'Student Developers & Team Members Assembly',
-    event: 'Google Cloud Campaign',
-    category: 'Google Cloud Campaign',
-    year: '2025',
-    date: 'December 2025',
-    location: 'Tech Seminar Wing, RMKEC',
-    image: '/images/cloud-campaign/cloud-campaign-attendees-gathering.jpg',
-    caption:
-      'Enthusiastic engineering students across departments assembled in the seminar hall for the GDG on Campus onboarding and orientation session.',
-    attendees: 'Student Engineers',
-    tags: ['Assembly', 'Campus Community', 'Peer Learning', 'GDG Family'],
-  },
-  {
-    id: 'alb-cloud-interactive-discussion',
-    title: 'Interactive Discussion & Technical Q&A Session',
-    event: 'Google Cloud Campaign',
-    category: 'Google Cloud Campaign',
-    year: '2025',
-    date: 'December 2025',
-    location: 'Tech Seminar Wing, RMKEC',
-    image: '/images/cloud-campaign/cloud-campaign-interactive-discussion.jpg',
-    caption:
-      'Spirited interactive Q&A discussing developer advocacy, cloud architectures, upcoming hackathons, and cross-domain collaboration.',
-    attendees: 'Core Leads & Students',
-    tags: ['Interactive Q&A', 'Open Discussion', 'Tech Mentorship', 'Collaboration'],
-  },
-
-  // 2. HackNEXA'26 Hackathon (08th January 2026)
-  {
-    id: 'alb-hacknexa-poster',
-    title: "Official Poster — HackNEXA'26 Flagship Hackathon",
-    event: "HackNEXA'26 Hackathon",
-    category: "HackNEXA'26 Hackathon",
-    year: '2026',
-    date: 'January 8, 2026',
-    location: 'Central Computing Lab & Main Auditorium, RMKEC',
-    image: '/images/posters/hacknexa-report-poster.png',
-    caption:
-      "Official event poster of HackNEXA'26 hosted by Google Developer Group On Campus RMKEC Chapter, bringing together 252 finalists across AI, Cloud, and IoT.",
-    attendees: '252 Finalists (63 Teams)',
-    tags: ['HackNEXA', 'Official Poster', 'Thumbnail', 'GDG RMKEC'],
-  },
-  {
-    id: 'alb-hacknexa-welcome-address',
-    title: 'Coordinator Welcome Address & Keynote',
-    event: "HackNEXA'26 Hackathon",
-    category: "HackNEXA'26 Hackathon",
-    year: '2026',
-    date: 'February 2026',
-    location: 'Computing Lab & Seminar Arena, RMKEC',
-    image: '/images/hacknexa/hacknexa-welcome-address.jpg',
-    caption:
-      'Faculty coordinators welcoming participating teams and outlining the vision behind HackNEXA’26.',
-    attendees: '650+ Teams',
-    tags: ['Keynote', 'Welcome Address', 'Faculty Coordinators', 'Inauguration'],
-  },
-  {
-    id: 'alb-hacknexa-stage-display',
-    title: "HackNEXA'26 Arena & Display Setup",
-    event: "HackNEXA'26 Hackathon",
-    category: "HackNEXA'26 Hackathon",
-    year: '2026',
-    date: 'February 2026',
-    location: 'Central Computing Lab, RMKEC',
-    image: '/images/hacknexa/hacknexa-stage-display.jpg',
-    caption:
-      'Smart seminar display broadcasting the HackNEXA’26 brand across the main computing laboratory.',
-    attendees: '650+ Teams',
-    tags: ['Arena Setup', 'Central Lab', 'Display', 'HackNEXA'],
-  },
-  {
-    id: 'alb-hacknexa-guidelines-briefing',
-    title: 'Problem Statements & Track Guidelines Briefing',
-    event: "HackNEXA'26 Hackathon",
-    category: "HackNEXA'26 Hackathon",
-    year: '2026',
-    date: 'February 2026',
-    location: 'Main Lab Stage, RMKEC',
-    image: '/images/hacknexa/hacknexa-guidelines-briefing.jpg',
-    caption:
-      'Hackathon organizers briefing participants on judging criteria, sprint checkpoints, and submission tracks.',
-    attendees: 'All Finalists',
-    tags: ['Rules Briefing', 'Problem Statements', 'Sprint Tracks'],
-  },
-  {
-    id: 'alb-hacknexa-gdg-introduction',
-    title: 'Google Developer Groups on Campus Overview',
-    event: "HackNEXA'26 Hackathon",
-    category: "HackNEXA'26 Hackathon",
-    year: '2026',
-    date: 'February 2026',
-    location: 'Main Seminar Arena, RMKEC',
-    image: '/images/hacknexa/hacknexa-gdg-introduction.jpg',
-    caption:
-      'Student lead introducing the GDG On Campus RMKEC Chapter mission, developer community, and global ecosystem.',
-    attendees: 'Community Leads',
-    tags: ['GDG Community', 'GDG RMKEC', 'Lead Keynote', 'Developer Ecosystem'],
-  },
-  {
-    id: 'alb-hacknexa-organizers-reveal',
-    title: 'GDG Core Team & Hackathon Organizers',
-    event: "HackNEXA'26 Hackathon",
-    category: "HackNEXA'26 Hackathon",
-    year: '2026',
-    date: 'February 2026',
-    location: 'Main Seminar Stage, RMKEC',
-    image: '/images/hacknexa/hacknexa-organizers-reveal.jpg',
-    caption:
-      'Introducing the passionate student organizers and domain leads driving HackNEXA’26 operations.',
-    attendees: 'Core Organizing Team',
-    tags: ['Core Team', 'Organizers', 'Student Leads', 'GDG Volunteers'],
-  },
-  {
-    id: 'alb-hacknexa-mentor-guidance',
-    title: 'Technical Mentorship & Code Guidance',
-    event: "HackNEXA'26 Hackathon",
-    category: "HackNEXA'26 Hackathon",
-    year: '2026',
-    date: 'February 2026',
-    location: 'Central Computing Lab, RMKEC',
-    image: '/images/hacknexa/hacknexa-mentor-guidance.jpg',
-    caption:
-      'Technical mentor guiding teams through backend API optimization, edge deployment, and cloud integrations.',
-    attendees: 'Mentors & Teams',
-    tags: ['Mentorship', 'Code Guidance', 'Backend Architecture'],
-  },
-  {
-    id: 'alb-hacknexa-deepfake-ideation',
-    title: 'Deepfake Detection & AI Architecture Sprint',
-    event: "HackNEXA'26 Hackathon",
-    category: "HackNEXA'26 Hackathon",
-    year: '2026',
-    date: 'February 2026',
-    location: 'Team Pods, Central Lab, RMKEC',
-    image: '/images/hacknexa/hacknexa-deepfake-ideation.jpg',
-    caption:
-      'Student developers walking mentors through their deepfake media detection architecture and model pipeline.',
-    attendees: 'AI Builder Pod',
-    tags: ['AI Prototype', 'Deepfake Detection', 'Machine Learning'],
-  },
-  {
-    id: 'alb-hacknexa-evaluator-discussion',
-    title: 'Technical Review & Feasibility Discussion',
-    event: "HackNEXA'26 Hackathon",
-    category: "HackNEXA'26 Hackathon",
-    year: '2026',
-    date: 'February 2026',
-    location: 'Innovation Pods, RMKEC',
-    image: '/images/hacknexa/hacknexa-evaluator-discussion.jpg',
-    caption:
-      'Jury members and industry mentors dissecting team system architecture and scalability potential.',
-    attendees: 'Jury & Developers',
-    tags: ['Architecture Review', 'Evaluation', 'Technical Feedback'],
-  },
-  {
-    id: 'alb-hacknexa-peer-debugging',
-    title: 'Collaborative Sprint & Peer Debugging',
-    event: "HackNEXA'26 Hackathon",
-    category: "HackNEXA'26 Hackathon",
-    year: '2026',
-    date: 'February 2026',
-    location: 'Row Workstations, Central Lab, RMKEC',
-    image: '/images/hacknexa/hacknexa-peer-debugging.jpg',
-    caption:
-      'Teammates pair-programming to resolve runtime bottlenecks during the intense sprint hours.',
-    attendees: 'Builder Squads',
-    tags: ['Pair Programming', 'Debugging', 'Sprint Workstation'],
-  },
-  {
-    id: 'alb-hacknexa-girls-in-tech',
-    title: 'Women in Tech — Solution Demo & Pitch',
-    event: "HackNEXA'26 Hackathon",
-    category: "HackNEXA'26 Hackathon",
-    year: '2026',
-    date: 'February 2026',
-    location: 'Lab Station 4, RMKEC',
-    image: '/images/hacknexa/hacknexa-girls-in-tech.jpg',
-    caption:
-      'All-women developer team demonstrating their full-stack cloud application to evaluation mentors.',
-    attendees: 'Finalist Pod',
-    tags: ['Women in Tech', 'Full-Stack', 'Live Demo', 'Team Collaboration'],
-  },
-  {
-    id: 'alb-hacknexa-lab-panoramic',
-    title: 'Active Hackathon Floor & Developer Aisle',
-    event: "HackNEXA'26 Hackathon",
-    category: "HackNEXA'26 Hackathon",
-    year: '2026',
-    date: 'February 2026',
-    location: 'Central Computing Lab, RMKEC',
-    image: '/images/hacknexa/hacknexa-lab-panoramic.jpg',
-    caption:
-      'Panoramic view down the central aisle as dozens of multidisciplinary teams build simultaneously.',
-    attendees: '250+ Finalists',
-    tags: ['Lab Floor', 'Atmosphere', 'Aisle Perspective', 'Hackathon Energy'],
-  },
-  {
-    id: 'alb-hacknexa-hall-packed',
-    title: 'High-Energy Hackathon Hall in Full Flow',
-    event: "HackNEXA'26 Hackathon",
-    category: "HackNEXA'26 Hackathon",
-    year: '2026',
-    date: 'February 2026',
-    location: 'Computing Facility, RMKEC',
-    image: '/images/hacknexa/hacknexa-hall-packed.jpg',
-    caption:
-      'Vibrant lab atmosphere filled with hundreds of participants collaborating on innovative solutions.',
-    attendees: 'Full Lab Capacity',
-    tags: ['Community Pulse', 'Packed Hall', 'Collaborative Coding'],
-  },
-  {
-    id: 'alb-hacknexa-sprint-collaboration',
-    title: 'Cross-Disciplinary Brainstorming & Sync',
-    event: "HackNEXA'26 Hackathon",
-    category: "HackNEXA'26 Hackathon",
-    year: '2026',
-    date: 'February 2026',
-    location: 'Lab Collaborative Pods, RMKEC',
-    image: '/images/hacknexa/hacknexa-sprint-collaboration.jpg',
-    caption:
-      'Teams deliberating UI/UX workflows, API contracts, and integration timelines during mid-sprint check.',
-    attendees: 'Cross-Domain Teams',
-    tags: ['Brainstorming', 'Workflow Sync', 'Teamwork'],
-  },
-  {
-    id: 'alb-hacknexa-jury-rubric',
-    title: 'Milestone Evaluation & Scoring Review',
-    event: "HackNEXA'26 Hackathon",
-    category: "HackNEXA'26 Hackathon",
-    year: '2026',
-    date: 'February 2026',
-    location: 'Jury Workstation, RMKEC',
-    image: '/images/hacknexa/hacknexa-jury-rubric.jpg',
-    caption:
-      'Faculty evaluators grading prototypes across innovation, technical complexity, completeness, and viability.',
-    attendees: 'Jury Panel',
-    tags: ['Jury Scoring', 'Evaluation Rubric', 'Assessment'],
-  },
-  {
-    id: 'alb-hacknexa-iot-robotics-demo',
-    title: 'IoT Embedded Systems & Robotics Demo',
-    event: "HackNEXA'26 Hackathon",
-    category: "HackNEXA'26 Hackathon",
-    year: '2026',
-    date: 'February 2026',
-    location: 'Hardware Prototyping Bay, RMKEC',
-    image: '/images/hacknexa/hacknexa-iot-robotics-demo.jpg',
-    caption:
-      'Hardware innovators showcasing custom microcontroller circuitry, smart obstacle avoidance, and sensor telemetry.',
-    attendees: 'IoT Hardware Pod',
-    tags: ['Hardware IoT', 'Robotics', 'Embedded Systems', 'Sensors'],
-  },
-  {
-    id: 'alb-hacknexa-architecture-review',
-    title: 'System Architecture & Schema Validation',
-    event: "HackNEXA'26 Hackathon",
-    category: "HackNEXA'26 Hackathon",
-    year: '2026',
-    date: 'February 2026',
-    location: 'Evaluation Bay 2, RMKEC',
-    image: '/images/hacknexa/hacknexa-architecture-review.jpg',
-    caption:
-      'Jury inspecting backend database schema, query latency, and deployment pipelines.',
-    attendees: 'Engineering Leads',
-    tags: ['System Architecture', 'Database Design', 'Technical Review'],
-  },
-  {
-    id: 'alb-hacknexa-techsprint-pitch',
-    title: 'Final Stage Pitch & Solution Showcase',
-    event: "HackNEXA'26 Hackathon",
-    category: "HackNEXA'26 Hackathon",
-    year: '2026',
-    date: 'February 2026',
-    location: 'Jury Evaluation Stage, RMKEC',
-    image: '/images/hacknexa/hacknexa-techsprint-pitch.jpg',
-    caption:
-      'Finalist team presenting their working solution, market impact, and real-world deployment roadmap.',
-    attendees: 'Finalist Presenters',
-    tags: ['TechSprint Pitch', 'Project Showcase', 'Innovation Presentation'],
-  },
-  {
-    id: 'alb-hacknexa-prototype-presentation',
-    title: 'Interactive Working Prototype Demonstration',
-    event: "HackNEXA'26 Hackathon",
-    category: "HackNEXA'26 Hackathon",
-    year: '2026',
-    date: 'February 2026',
-    location: 'Main Presentation Hub, RMKEC',
-    image: '/images/hacknexa/hacknexa-prototype-presentation.jpg',
-    caption:
-      'Demonstrating real-time user flow and edge-case resilience directly to the evaluators.',
-    attendees: 'Jury & Developers',
-    tags: ['Prototype Demo', 'Live Testing', 'Product Pitch'],
-  },
-  {
-    id: 'alb-hacknexa-final-evaluation',
-    title: 'Final Round Judgment & Score Validation',
-    event: "HackNEXA'26 Hackathon",
-    category: "HackNEXA'26 Hackathon",
-    year: '2026',
-    date: 'February 2026',
-    location: 'Jury Desk, RMKEC',
-    image: '/images/hacknexa/hacknexa-final-evaluation.jpg',
-    caption:
-      'Jury deliberating and finalizing scores to determine top winners of HackNEXA’26.',
-    attendees: 'Jury Panel',
-    tags: ['Final Scoring', 'Deliberation', 'HackNEXA Winners'],
-  },
-
-  // 3. Agentic AI Workshop & Study Jam (04th March 2026)
-  {
-    id: 'alb-agentic-poster',
-    title: 'Official Poster — Agentic AI Workshop',
-    event: 'Agentic AI Study Jam',
-    category: 'Agentic AI Study Jam',
-    year: '2026',
-    date: 'March 4, 2026',
-    location: 'RJ Block Seminar Hall, RMKEC',
-    image: '/images/posters/agentic_ai-report-poster.jpg',
-    caption:
-      'Official event poster and thumbnail for the Agentic AI Workshop organized by GDG on Campus RMKEC, spotlighting prompt engineering, autonomous agents, and hands-on building.',
-    attendees: '100+ Participants & Core Mentors',
-    tags: ['Official Poster', 'Agentic AI', 'Thumbnail', 'GDG RMKEC', 'Study Jam'],
-  },
-  {
-    id: 'alb-agentic-hall-gathering',
-    title: 'Tech Seminar Hall Gathering & Welcome',
-    event: 'Agentic AI Study Jam',
-    category: 'Agentic AI Study Jam',
-    year: '2026',
-    date: 'January 2026',
-    location: 'Tech Seminar Hall, RMKEC',
-    image: '/images/agentic-ai/agentic-ai-hall-gathering.jpg',
-    caption:
-      'Students assembling at the Tech Seminar Hall as the Agentic AI Study Jam kicks off with an introduction to next-generation AI workflows.',
-    attendees: '120+ Participants',
-    tags: ['Auditorium', 'Welcome', 'Community', 'Kickoff'],
-  },
-  {
-    id: 'alb-agentic-keynote',
-    title: 'Opening Keynote: Welcoming Student AI Builders',
-    event: 'Agentic AI Study Jam',
-    category: 'Agentic AI Study Jam',
-    year: '2026',
-    date: 'January 2026',
-    location: 'Main Stage, RMKEC',
-    image: '/images/agentic-ai/agentic-ai-keynote.jpg',
-    caption:
-      'Lead organizer introducing the vision of Agentic AI, autonomous agent design, and the roadmap for practical skills covered throughout the study jam.',
-    attendees: '120+ Students',
-    tags: ['Keynote', 'Agentic AI', 'GDG RMKEC', 'Welcome Session'],
-  },
-  {
-    id: 'alb-agentic-icebreaker',
-    title: 'Interactive Icebreaker: "Which is AI...?"',
-    event: 'Agentic AI Study Jam',
-    category: 'Agentic AI Study Jam',
-    year: '2026',
-    date: 'January 2026',
-    location: 'Tech Seminar Hall, RMKEC',
-    image: '/images/agentic-ai/agentic-ai-icebreaker.jpg',
-    caption:
-      'Kicking off the Agentic AI Study Jam with an interactive AI vs Human perception challenge, warming up students to generative concepts and agent reasoning.',
-    attendees: '120+ Participants',
-    tags: ['Icebreaker', 'Gamified Learning', 'GenAI', 'Interactive'],
-  },
-  {
-    id: 'alb-agentic-audience',
-    title: 'Audience Brainstorming & Interactive Discussions',
-    event: 'Agentic AI Study Jam',
-    category: 'Agentic AI Study Jam',
-    year: '2026',
-    date: 'January 2026',
-    location: 'Tech Seminar Hall, RMKEC',
-    image: '/images/agentic-ai/agentic-ai-audience-interaction.jpg',
-    caption:
-      'Engaging discussions across the hall as attendees brainstorm real-world use cases for intelligent agents in campus administration and developer workflows.',
-    attendees: 'Audience Discussion',
-    tags: ['Interactive', 'Q&A', 'Brainstorming', 'Student Ideas'],
-  },
-  {
-    id: 'alb-agentic-podium-perspective',
-    title: 'Speaker View & Full Hall Engagement',
-    event: 'Agentic AI Study Jam',
-    category: 'Agentic AI Study Jam',
-    year: '2026',
-    date: 'January 2026',
-    location: 'Tech Seminar Hall Podium, RMKEC',
-    image: '/images/agentic-ai/agentic-ai-podium-perspective.jpg',
-    caption:
-      'A dynamic view from the speaker podium addressing a packed auditorium of enthusiastic engineers eager to master autonomous agents.',
-    attendees: 'Packed Auditorium',
-    tags: ['Podium View', 'Speaker Session', 'Auditorium', 'Engagement'],
-  },
-  {
-    id: 'alb-agentic-prompting',
-    title: 'Prompting Techniques & Frameworks Masterclass',
-    event: 'Agentic AI Study Jam',
-    category: 'Agentic AI Study Jam',
-    year: '2026',
-    date: 'January 2026',
-    location: 'Tech Seminar Hall Podium, RMKEC',
-    image: '/images/agentic-ai/agentic-ai-prompting-masterclass.jpg',
-    caption:
-      'In-depth breakdown of essential prompt engineering frameworks: Chain-of-Thought (CoT), Tree of Thoughts (ToT), Co-STAR, ROSES, and APE for deterministic agent behavior.',
-    attendees: '120+ Learners',
-    tags: ['Prompt Engineering', 'Co-STAR Framework', 'Tree of Thoughts', 'Chain of Thought'],
-  },
-  {
-    id: 'alb-agentic-prompt-frameworks',
-    title: 'Prompt Engineering Frameworks: CoT, ToT & Co-STAR',
-    event: 'Agentic AI Study Jam',
-    category: 'Agentic AI Study Jam',
-    year: '2026',
-    date: 'January 2026',
-    location: 'Tech Seminar Hall, RMKEC',
-    image: '/images/agentic-ai/agentic-ai-prompt-frameworks.jpg',
-    caption:
-      'Deep dive into structured system prompting, illustrating how reasoning scaffolds transform basic LLM responses into reliable autonomous agents.',
-    attendees: 'Technical Presentation',
-    tags: ['System Prompts', 'Co-STAR', 'Chain-of-Thought', 'AI Scaffolding'],
-  },
-  {
-    id: 'alb-agentic-interactive-prompting',
-    title: 'Live Prompt Optimization Guidelines',
-    event: 'Agentic AI Study Jam',
-    category: 'Agentic AI Study Jam',
-    year: '2026',
-    date: 'January 2026',
-    location: 'Tech Seminar Hall, RMKEC',
-    image: '/images/agentic-ai/agentic-ai-interactive-prompting.jpg',
-    caption:
-      'Demonstrating live prompt refinements on screen, guiding students through context setting, output constraints, and few-shot formatting.',
-    attendees: 'Interactive Masterclass',
-    tags: ['Live Demo', 'Prompt Guidelines', 'Few-Shot Learning', 'Interactive'],
-  },
-  {
-    id: 'alb-agentic-interactive-challenge',
-    title: 'Interactive Challenge: "Can You Make AI Lie?"',
-    event: 'Agentic AI Study Jam',
-    category: 'Agentic AI Study Jam',
-    year: '2026',
-    date: 'January 2026',
-    location: 'Tech Seminar Hall, RMKEC',
-    image: '/images/agentic-ai/agentic-ai-interactive-challenge.jpg',
-    caption:
-      'A gamified adversarial prompt injection challenge where participants test guardrails and explore model robustness against jailbreaks.',
-    attendees: 'Student Contenders',
-    tags: ['AI Safety', 'Guardrails', 'Prompt Injection', 'Challenge'],
-  },
-  {
-    id: 'alb-agentic-agent-architecture',
-    title: 'Autonomous Agent Architecture & Execution DAGs',
-    event: 'Agentic AI Study Jam',
-    category: 'Agentic AI Study Jam',
-    year: '2026',
-    date: 'January 2026',
-    location: 'Tech Seminar Hall, RMKEC',
-    image: '/images/agentic-ai/agentic-ai-agent-architecture.jpg',
-    caption:
-      'Architectural breakdown of personal assistant agents, highlighting perception, memory vectors, tool calling APIs, and execution loops.',
-    attendees: 'System Design',
-    tags: ['Agent Architecture', 'Tool Calling', 'Execution Loops', 'System Design'],
-  },
-  {
-    id: 'alb-agentic-auditorium-demo',
-    title: 'Auditorium-Wide Live Agent Deployment',
-    event: 'Agentic AI Study Jam',
-    category: 'Agentic AI Study Jam',
-    year: '2026',
-    date: 'January 2026',
-    location: 'Tech Seminar Hall, RMKEC',
-    image: '/images/agentic-ai/agentic-ai-auditorium-demo.jpg',
-    caption:
-      'Live demonstration of an autonomous multi-step agent coordinating web searches, data parsing, and summarization in front of the entire audience.',
-    attendees: 'All Attendees',
-    tags: ['Live Deployment', 'Autonomous Agents', 'Multi-Step Workflows', 'Auditorium'],
-  },
-  {
-    id: 'alb-agentic-labs',
-    title: 'Hands-on Prompt Engineering & AI Agent Lab',
-    event: 'Agentic AI Study Jam',
-    category: 'Agentic AI Study Jam',
-    year: '2026',
-    date: 'January 2026',
-    location: 'Tech Seminar Hall, RMKEC',
-    image: '/images/agentic-ai/agentic-ai-hands-on-labs.jpg',
-    caption:
-      'Students opening their laptops to build structured prompts, configure system instructions, and evaluate multi-turn agent responses in real time.',
-    attendees: '80+ Laptops Active',
-    tags: ['Hands-on Lab', 'Live Coding', 'Prompt Design', 'Workstations'],
-  },
-  {
-    id: 'alb-agentic-prompt-experimentation',
-    title: 'Active Hands-on Experimentation & Code Building',
-    event: 'Agentic AI Study Jam',
-    category: 'Agentic AI Study Jam',
-    year: '2026',
-    date: 'January 2026',
-    location: 'Tech Seminar Hall, RMKEC',
-    image: '/images/agentic-ai/agentic-ai-prompt-experimentation.jpg',
-    caption:
-      'Participants testing custom prompts, tweaking temperature and top-p sampling hyperparameters, and validating model responses in code sandboxes.',
-    attendees: 'Student Developers',
-    tags: ['Coding Lab', 'Hyperparameters', 'Sandboxes', 'Experimentation'],
-  },
-  {
-    id: 'alb-agentic-mentorship',
-    title: '1-on-1 Mentorship & Row-by-Row Guidance',
-    event: 'Agentic AI Study Jam',
-    category: 'Agentic AI Study Jam',
-    year: '2026',
-    date: 'January 2026',
-    location: 'Tech Seminar Hall, RMKEC',
-    image: '/images/agentic-ai/agentic-ai-mentorship.jpg',
-    caption:
-      'GDG RMKEC core leads and mentors circulating through every row, helping students troubleshoot API calls and fine-tune reasoning chains.',
-    attendees: 'Core Mentors',
-    tags: ['Mentorship', 'Peer Support', 'Troubleshooting', 'Hands-on Support'],
-  },
-  {
-    id: 'alb-agentic-hall',
-    title: 'Auditorium-Wide Live AI Hacking Session',
-    event: 'Agentic AI Study Jam',
-    category: 'Agentic AI Study Jam',
-    year: '2026',
-    date: 'January 2026',
-    location: 'Tech Seminar Hall, RMKEC',
-    image: '/images/agentic-ai/agentic-ai-hall-coding.jpg',
-    caption:
-      'A panoramic view of the seminar hall filled with student developers actively prototyping generative AI agents and pipeline integrations.',
-    attendees: 'Full Hall Coding',
-    tags: ['Auditorium View', 'Live Hacking', 'Community Build', 'GenAI'],
-  },
-  {
-    id: 'alb-agentic-collaborative-lab',
-    title: 'Collaborative Pair Programming & Prompt Debugging',
-    event: 'Agentic AI Study Jam',
-    category: 'Agentic AI Study Jam',
-    year: '2026',
-    date: 'January 2026',
-    location: 'Tech Seminar Hall, RMKEC',
-    image: '/images/agentic-ai/agentic-ai-collaborative-lab.jpg',
-    caption:
-      'Teams huddled over laptop screens comparing outputs, debugging edge cases, and building collective prompt libraries.',
-    attendees: 'Pair Programmers',
-    tags: ['Pair Programming', 'Prompt Debugging', 'Collaboration', 'Lab Work'],
-  },
-  {
-    id: 'alb-agentic-peer-learning',
-    title: 'Peer Collaboration & Workflow Architecture',
-    event: 'Agentic AI Study Jam',
-    category: 'Agentic AI Study Jam',
-    year: '2026',
-    date: 'January 2026',
-    location: 'Tech Seminar Hall, RMKEC',
-    image: '/images/agentic-ai/agentic-ai-peer-learning.jpg',
-    caption:
-      'Students collaborating side-by-side to construct multi-agent coordination pipelines and custom tool-calling integrations.',
-    attendees: 'Developer Teams',
-    tags: ['Peer Collaboration', 'Agent Architecture', 'Tool Calling', 'Student Teams'],
-  },
-  {
-    id: 'alb-agentic-organizers-huddle',
-    title: 'GDG Organizers Coordination Huddle',
-    event: 'Agentic AI Study Jam',
-    category: 'Agentic AI Study Jam',
-    year: '2026',
-    date: 'January 2026',
-    location: 'Tech Seminar Hall, RMKEC',
-    image: '/images/agentic-ai/agentic-ai-organizers-huddle.jpg',
-    caption:
-      'GDG on Campus core leads syncing on event timing, hands-on lab milestones, and audience interaction coordination.',
-    attendees: 'Lead Organizers',
-    tags: ['Event Operations', 'Core Team', 'Logistics', 'Leadership'],
-  },
-  {
-    id: 'alb-agentic-organizers-cheer',
-    title: 'Organizing Team Energy & Mid-Session Cheer',
-    event: 'Agentic AI Study Jam',
-    category: 'Agentic AI Study Jam',
-    year: '2026',
-    date: 'January 2026',
-    location: 'Tech Seminar Hall, RMKEC',
-    image: '/images/agentic-ai/agentic-ai-organizers-cheer.jpg',
-    caption:
-      'Core team members sharing a spirited thumbs-up as attendees enthusiastically complete their hands-on agent workflows.',
-    attendees: 'Core Leads',
-    tags: ['Team Spirit', 'Organizers', 'Community Pride', 'GDG RMKEC'],
-  },
-  {
-    id: 'alb-agentic-hall-keynote-view',
-    title: 'Full Hall Masterclass & Interactive Dialogue',
-    event: 'Agentic AI Study Jam',
-    category: 'Agentic AI Study Jam',
-    year: '2026',
-    date: 'January 2026',
-    location: 'Tech Seminar Hall, RMKEC',
-    image: '/images/agentic-ai/agentic-ai-hall-keynote-view.jpg',
-    caption:
-      'A comprehensive wide angle of the session in full swing, capturing the energy, focused attention, and community participation.',
-    attendees: '120+ Builders',
-    tags: ['Wide Angle', 'Masterclass', 'Full House', 'Active Learning'],
-  },
-  {
-    id: 'alb-agentic-valedictory',
-    title: 'Valedictory Address & "Thank You" Remarks',
-    event: 'Agentic AI Study Jam',
-    category: 'Agentic AI Study Jam',
-    year: '2026',
-    date: 'January 2026',
-    location: 'Tech Seminar Hall, RMKEC',
-    image: '/images/agentic-ai/agentic-ai-valedictory.jpg',
-    caption:
-      'Concluding remarks thanking the students, faculty, and GDG community for their vibrant enthusiasm and groundbreaking prototypes.',
-    attendees: 'Valedictory Session',
-    tags: ['Valedictory', 'Closing Remarks', 'Thank You', 'GDG Campus'],
-  },
-  {
-    id: 'alb-agentic-team',
-    title: 'GDG RMKEC Core Team & Faculty Advisor Celebration',
-    event: 'Agentic AI Study Jam',
-    category: 'Agentic AI Study Jam',
-    year: '2026',
-    date: 'January 2026',
-    location: 'Main Stage, RMKEC',
-    image: '/images/agentic-ai/agentic-ai-team-stage.jpg',
-    caption:
-      'The dedicated GDG on Campus RMKEC organizing team standing proudly on stage with faculty leadership at the successful conclusion of the Agentic AI Study Jam.',
-    attendees: 'Core Organizing Team & Faculty',
-    tags: ['Core Team', 'Faculty Advisor', 'Stage Celebration', 'GDG RMKEC'],
-  },
-
-  // 4. A.C.E - AI Collage Day (06th April 2026)
-  {
-    id: 'alb-ace-poster',
-    title: 'A.C.E Day Official Poster — AI Collage Exchange',
-    event: 'A.C.E - AI Collage Day',
-    category: 'A.C.E - AI Collage Day',
-    year: '2026',
-    date: 'April 6, 2026',
-    location: 'Google Meet (Virtual)',
-    image: '/images/posters/ace_batch1-report-poster.jpg',
-    caption:
-      'Official announcement poster for A.C.E (AI Collage Exchange) Day inviting students across batches to pitch innovative ideas through AI-generated visual collages.',
-    attendees: 'Batch 1 & Batch 2 Participants',
-    tags: ['A.C.E Day', 'Event Poster', 'AI Collage Exchange', 'GDG RMKEC'],
-  },
-  {
-    id: 'alb-ace-welcome',
-    title: 'Welcome Address & Introduction to GDG on Campus',
-    event: 'A.C.E - AI Collage Day',
-    category: 'A.C.E - AI Collage Day',
-    year: '2026',
-    date: 'April 6, 2026 (2:00 PM)',
-    location: 'Google Meet (Virtual)',
-    image: '/images/ace-day/ace-welcome-gdg.png',
-    caption:
-      'Opening session hosted by GDG Lead K.S. Siddharth and team, welcoming participants to the A.C.E Day presentation batches.',
-    attendees: 'Siddharth, Niranjan & GDG Leads',
-    tags: ['Welcome Address', 'GDG RMKEC', 'Opening Remarks', 'Virtual Meet'],
-  },
-  {
-    id: 'alb-ace-what-is-gdg',
-    title: 'What is GDG? Community Perks & Student Ecosystem',
-    event: 'A.C.E - AI Collage Day',
-    category: 'A.C.E - AI Collage Day',
-    year: '2026',
-    date: 'April 6, 2026 (2:10 PM)',
-    location: 'Google Meet (Virtual)',
-    image: '/images/ace-day/ace-what-is-gdg.png',
-    caption:
-      'Niranjan Thirunavukkarasu presenting the mission, technical initiatives, and networking opportunities of Google Developer Group on Campus RMKEC.',
-    attendees: 'Niranjan T (Presenter)',
-    tags: ['What is GDG', 'Community Perks', 'Networking', 'Developer Ecosystem'],
-  },
-  {
-    id: 'alb-ace-icebreaker',
-    title: 'Interactive Icebreaker: "Which is AI...?" Challenge',
-    event: 'A.C.E - AI Collage Day',
-    category: 'A.C.E - AI Collage Day',
-    year: '2026',
-    date: 'April 6, 2026 (2:30 PM)',
-    location: 'Google Meet (Virtual)',
-    image: '/images/ace-day/ace-icebreaker-quiz.png',
-    caption:
-      'Anston A Sampson hosting an engaging AI visual discrimination game, challenging participants to identify real vs AI-synthesized imagery.',
-    attendees: 'Anston Sampson & Audience',
-    tags: ['AI Icebreaker', 'Real vs AI', 'Interactive Quiz', 'Community Fun'],
-  },
-  {
-    id: 'alb-ace-pitch-emergency',
-    title: 'Project Pitch: Smart Emergency Corridor by Niveditha E',
-    event: 'A.C.E - AI Collage Day',
-    category: 'A.C.E - AI Collage Day',
-    year: '2026',
-    date: 'April 6, 2026 (3:04 PM)',
-    location: 'Google Meet (Virtual)',
-    image: '/images/ace-day/ace-pitch-emergency-corridor.png',
-    caption:
-      'Niveditha E presenting an AI-generated collage depicting an automated smart emergency corridor clearing traffic for ambulances via IoT and RF beacons.',
-    attendees: 'Niveditha E (Pitcher)',
-    tags: ['Smart Emergency Corridor', 'IoT', 'AI Collage Pitch', 'Healthcare Mobility'],
-  },
-  {
-    id: 'alb-ace-pitch-feelwell',
-    title: 'Project Pitch: FeelWell Emotional Wellness by Anusree M',
-    event: 'A.C.E - AI Collage Day',
-    category: 'A.C.E - AI Collage Day',
-    year: '2026',
-    date: 'April 6, 2026 (3:09 PM)',
-    location: 'Google Meet (Virtual)',
-    image: '/images/ace-day/ace-pitch-feelwell.png',
-    caption:
-      'Anusree M illustrating FeelWell, an AI and AR/VR powered mental health and stress relief platform with personalized immersive relaxation therapy.',
-    attendees: 'Anusree M (Pitcher)',
-    tags: ['FeelWell', 'Mental Wellness', 'AR/VR', 'AI Architecture'],
-  },
-  {
-    id: 'alb-ace-pitch-dgts',
-    title: 'Project Pitch: Digital Grievance Tracking System by Akash M',
-    event: 'A.C.E - AI Collage Day',
-    category: 'A.C.E - AI Collage Day',
-    year: '2026',
-    date: 'April 6, 2026 (3:15 PM)',
-    location: 'Google Meet (Virtual)',
-    image: '/images/ace-day/ace-pitch-dgts.png',
-    caption:
-      'Akash M presenting DGTS, an AI/NLP-driven civic governance application streamlining public complaint filing, voice input in regional languages, and geotagged tracking.',
-    attendees: 'Akash M (Pitcher)',
-    tags: ['DGTS', 'Civic Tech', 'NLP', 'Smart Governance'],
-  },
-  {
-    id: 'alb-ace-pitch-smart-roads',
-    title: 'Project Pitch: Turning Roads into Power Sources by Sri Suddharshini A',
-    event: 'A.C.E - AI Collage Day',
-    category: 'A.C.E - AI Collage Day',
-    year: '2026',
-    date: 'April 6, 2026 (3:19 PM)',
-    location: 'Google Meet (Virtual)',
-    image: '/images/ace-day/ace-pitch-smart-roads.png',
-    caption:
-      'Sri Suddharshini A showcasing renewable smart highway concepts that convert mechanical vehicle weight on speed breakers into stored electrical grid power.',
-    attendees: 'Sri Suddharshini A (Pitcher)',
-    tags: ['Clean Energy', 'Smart Roads', 'Piezoelectric Power', 'IoT Monitoring'],
-  },
-  {
-    id: 'alb-ace-pitch-pivote',
-    title: 'Project Pitch: PiVote 2.0 Biometric Voting by Kiruthika R',
-    event: 'A.C.E - AI Collage Day',
-    category: 'A.C.E - AI Collage Day',
-    year: '2026',
-    date: 'April 6, 2026 (3:24 PM)',
-    location: 'Google Meet (Virtual)',
-    image: '/images/ace-day/ace-pitch-pivote.png',
-    caption:
-      'Kiruthika R pitching PiVote 2.0 for the Google Solution Challenge — a tamper-proof biometric fingerprint voting system with cloud verification and instant SMS confirmation.',
-    attendees: 'Kiruthika R (Pitcher)',
-    tags: ['PiVote 2.0', 'Google Solution Challenge', 'Biometrics', 'Cloud Security'],
-  },
-  {
-    id: 'alb-ace-pitch-paralysed',
-    title: 'Project Pitch: Health Monitor for Paralysed Patients by Lakshaya S',
-    event: 'A.C.E - AI Collage Day',
-    category: 'A.C.E - AI Collage Day',
-    year: '2026',
-    date: 'April 6, 2026 (3:29 PM)',
-    location: 'Google Meet (Virtual)',
-    image: '/images/ace-day/ace-pitch-paralysed-care.png',
-    caption:
-      'Lakshaya S demonstrating an assistive smart glove prototype using orange flex sensors and Arduino Uno to translate micro hand gestures into caregiver alerts.',
-    attendees: 'Lakshaya S (Pitcher)',
-    tags: ['Assistive Tech', 'Arduino Uno', 'Flex Sensors', 'Healthcare Innovation'],
-  },
-  {
-    id: 'alb-ace-pitch-disaster',
-    title: 'Project Pitch: AI Disaster Response & Rescue by Sharmila J',
-    event: 'A.C.E - AI Collage Day',
-    category: 'A.C.E - AI Collage Day',
-    year: '2026',
-    date: 'April 6, 2026 (3:34 PM)',
-    location: 'Google Meet (Virtual)',
-    image: '/images/ace-day/ace-pitch-disaster-response.png',
-    caption:
-      'Sharmila J presenting a real-time AI life-saving platform utilizing aerial drone computer vision, predictive threat analysis, and dynamic evacuation route planning.',
-    attendees: 'Sharmila J (Pitcher)',
-    tags: ['Disaster Management', 'Computer Vision', 'Drone Feeds', 'AI Decision Engine'],
-  },
-  {
-    id: 'alb-ace-pitch-crisislens',
-    title: 'Project Pitch: CrisisLens AI by Chilaka Deekshitha',
-    event: 'A.C.E - AI Collage Day',
-    category: 'A.C.E - AI Collage Day',
-    year: '2026',
-    date: 'April 6, 2026 (3:40 PM)',
-    location: 'Google Meet (Virtual)',
-    image: '/images/ace-day/ace-pitch-crisislens.png',
-    caption:
-      'Chilaka Deekshitha presenting CrisisLens AI ("Turning Chaos into Clarity") — integrating automated CCTV hazard detection, incident clustering, and dispatch dashboards.',
-    attendees: 'Chilaka Deekshitha (Pitcher)',
-    tags: ['CrisisLens AI', 'Emergency Alert', 'Situation Analysis', 'Real-Time Rescue'],
-  },
-  {
-    id: 'alb-ace-pitch-water-level',
-    title: 'Project Pitch: Water Level Indicator System by Meena T',
-    event: 'A.C.E - AI Collage Day',
-    category: 'A.C.E - AI Collage Day',
-    year: '2026',
-    date: 'April 6, 2026 (3:44 PM)',
-    location: 'Google Meet (Virtual)',
-    image: '/images/ace-day/ace-pitch-water-level.png',
-    caption:
-      'Meena T explaining an automated water reservoir level monitoring circuit using BC547 transistors, status LEDs, and buzzer alert systems.',
-    attendees: 'Meena T (Pitcher)',
-    tags: ['Water Level Indicator', 'BC547', 'Hardware Circuit', 'Resource Automation'],
-  },
-  {
-    id: 'alb-ace-pitch-edureels',
-    title: 'Project Pitch: EduReelS+ AI Learning by Kanagavalli R',
-    event: 'A.C.E - AI Collage Day',
-    category: 'A.C.E - AI Collage Day',
-    year: '2026',
-    date: 'April 6, 2026 (3:49 PM)',
-    location: 'Google Meet (Virtual)',
-    image: '/images/ace-day/ace-pitch-edureels.png',
-    caption:
-      'Kanagavalli R pitching EduReelS+, an AI-curated short-video platform replacing mindless entertainment scrolling with personalized STEM and placement reels.',
-    attendees: 'Kanagavalli R (Pitcher)',
-    tags: ['EduReelS+', 'EdTech', 'AI Feed Optimization', 'Microlearning'],
-  },
-  {
-    id: 'alb-ace-community-wrapup',
-    title: 'Participant Engagement & Virtual Group Session',
-    event: 'A.C.E - AI Collage Day',
-    category: 'A.C.E - AI Collage Day',
-    year: '2026',
-    date: 'April 6, 2026 (3:55 PM)',
-    location: 'Google Meet (Virtual)',
-    image: '/images/ace-day/ace-community-wrapup.png',
-    caption:
-      'Student participants, presenters, and GDG leads gathered on Google Meet during the closing remarks and interaction session.',
-    attendees: 'All Participants & Leads',
-    tags: ['Community Meet', 'Student Presenters', 'GDG Family', 'Interactive Session'],
-  },
-  {
-    id: 'alb-ace-summary',
-    title: 'Official Event Summary & Pitching Lineup Record',
-    event: 'A.C.E - AI Collage Day',
-    category: 'A.C.E - AI Collage Day',
-    year: '2026',
-    date: 'April 6, 2026 (4:00 PM)',
-    location: 'Google Meet (Virtual)',
-    image: '/images/ace-day/ace-event-summary.png',
-    caption:
-      'Official documentation of the A.C.E (AI Collage Exchange) Day agenda, speaker timeline, and 10 student project pitch lineup successfully concluding at 4:00 PM.',
-    attendees: 'GDG Documentation Team',
-    tags: ['Event Summary', 'Documentation', 'Timeline Record', 'Milestone Completion'],
-  },
-];
+export type { EventCategory, AlbumPhoto, EventAlbum };
 
 export default function AlbumPage() {
   // When an album is clicked, this modal opens showing all photos of that event
@@ -1281,7 +262,7 @@ export default function AlbumPage() {
       <AnimatePresence>
         {activeModalAlbum && activeAlbumData && activeAlbumPhotos.length > 0 && (
           <div
-            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 md:p-6 bg-black/90 backdrop-blur-2xl"
+            className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-5 md:p-6 bg-black/90 backdrop-blur-2xl"
             onClick={() => setActiveModalAlbum(null)}
           >
             {/* Close Button */}
@@ -1301,7 +282,7 @@ export default function AlbumPage() {
               exit={{ opacity: 0, scale: 0.94, y: 15 }}
               transition={{ duration: 0.2 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative max-w-5xl w-full rounded-3xl border border-white/20 bg-[#121216] overflow-hidden shadow-2xl flex flex-col max-h-[92vh]"
+              className="relative max-w-6xl xl:max-w-7xl w-full rounded-3xl border border-white/20 bg-[#121216] overflow-hidden shadow-2xl flex flex-col max-h-[92vh]"
             >
               {/* Top Modal Navigation & Album Header */}
               <div className="p-4 sm:p-5 border-b border-white/10 bg-black/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shrink-0">
@@ -1362,107 +343,118 @@ export default function AlbumPage() {
               {/* Modal Content Body */}
               <div className="overflow-y-auto flex-1 p-4 sm:p-6">
                 {modalViewMode === 'slideshow' ? (
-                  /* Slideshow View: Large preview + details + thumbnail gallery strip */
-                  <div className="space-y-4">
-                    <div className="relative rounded-2xl overflow-hidden bg-black flex items-center justify-center min-h-[280px] max-h-[50vh] border border-white/10 group">
-                      <img
-                        src={activeAlbumPhotos[modalPhotoIndex].image}
-                        alt={activeAlbumPhotos[modalPhotoIndex].title}
-                        className="max-h-[50vh] w-full object-contain"
-                        decoding="async"
-                      />
+                  /* Slideshow View: Large preview on left + thumbnails on the right */
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+                    {/* Left: Main Photo Preview + Active Info Card */}
+                    <div className="lg:col-span-7 xl:col-span-8 flex flex-col gap-4">
+                      {/* Main Photo Preview */}
+                      <div className="relative rounded-2xl overflow-hidden bg-black flex items-center justify-center min-h-[280px] sm:min-h-[380px] max-h-[54vh] border border-white/10 group shadow-xl">
+                        <img
+                          src={activeAlbumPhotos[modalPhotoIndex].image}
+                          alt={activeAlbumPhotos[modalPhotoIndex].title}
+                          className="max-h-[54vh] w-full object-contain"
+                          decoding="async"
+                        />
 
-                      {/* Prev Photo Arrow */}
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setModalPhotoIndex((prev) =>
-                            prev > 0 ? prev - 1 : activeAlbumPhotos.length - 1
-                          );
-                        }}
-                        aria-label="Previous photo in this album"
-                        className="absolute left-3 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-black/70 border border-white/20 text-white hover:scale-110 transition-all cursor-pointer"
-                      >
-                        <ChevronLeft className="h-5 w-5" />
-                      </button>
+                        {/* Prev Photo Arrow */}
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setModalPhotoIndex((prev) =>
+                              prev > 0 ? prev - 1 : activeAlbumPhotos.length - 1
+                            );
+                          }}
+                          aria-label="Previous photo in this album"
+                          className="absolute left-3 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-black/70 border border-white/20 text-white hover:scale-110 transition-all cursor-pointer"
+                        >
+                          <ChevronLeft className="h-5 w-5" />
+                        </button>
 
-                      {/* Next Photo Arrow */}
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setModalPhotoIndex((prev) =>
-                            prev < activeAlbumPhotos.length - 1 ? prev + 1 : 0
-                          );
-                        }}
-                        aria-label="Next photo in this album"
-                        className="absolute right-3 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-black/70 border border-white/20 text-white hover:scale-110 transition-all cursor-pointer"
-                      >
-                        <ChevronRight className="h-5 w-5" />
-                      </button>
+                        {/* Next Photo Arrow */}
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setModalPhotoIndex((prev) =>
+                              prev < activeAlbumPhotos.length - 1 ? prev + 1 : 0
+                            );
+                          }}
+                          aria-label="Next photo in this album"
+                          className="absolute right-3 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-black/70 border border-white/20 text-white hover:scale-110 transition-all cursor-pointer"
+                        >
+                          <ChevronRight className="h-5 w-5" />
+                        </button>
 
-                      {/* Expand Button */}
-                      <button
-                        type="button"
-                        onClick={() => setLightboxPhoto(activeAlbumPhotos[modalPhotoIndex])}
-                        aria-label="View photo in fullscreen"
-                        className="absolute top-3 right-3 p-2 rounded-full bg-black/70 border border-white/20 text-white/80 hover:text-white transition-all cursor-pointer"
-                      >
-                        <Maximize2 className="h-4 w-4" />
-                      </button>
+                        {/* Expand Button */}
+                        <button
+                          type="button"
+                          onClick={() => setLightboxPhoto(activeAlbumPhotos[modalPhotoIndex])}
+                          aria-label="View photo in fullscreen"
+                          className="absolute top-3 right-3 p-2 rounded-full bg-black/70 border border-white/20 text-white/80 hover:text-white transition-all cursor-pointer"
+                        >
+                          <Maximize2 className="h-4 w-4" />
+                        </button>
 
-                      <div className="absolute bottom-3 right-3 font-mono text-[11px] px-2.5 py-1 rounded-full bg-black/80 backdrop-blur-md border border-white/15 text-white">
-                        Photo {modalPhotoIndex + 1} of {activeAlbumPhotos.length}
+                        <div className="absolute bottom-3 right-3 font-mono text-[11px] px-2.5 py-1 rounded-full bg-black/80 backdrop-blur-md border border-white/15 text-white">
+                          Photo {modalPhotoIndex + 1} of {activeAlbumPhotos.length}
+                        </div>
                       </div>
-                    </div>
 
-                    {/* Active Photo Info Card */}
-                    <div className="p-4 rounded-2xl bg-black/40 border border-white/10">
-                      <h3 className="text-base sm:text-lg font-bold text-white mb-1.5">
-                        {activeAlbumPhotos[modalPhotoIndex].title}
-                      </h3>
-                      <p className="text-xs sm:text-sm text-white/75 leading-relaxed mb-3">
-                        {activeAlbumPhotos[modalPhotoIndex].caption}
-                      </p>
+                      {/* Active Photo Info Card */}
+                      <div className="p-4 rounded-2xl bg-black/40 border border-white/10">
+                        <h3 className="text-base sm:text-lg font-bold text-white mb-1.5">
+                          {activeAlbumPhotos[modalPhotoIndex].title}
+                        </h3>
+                        <p className="text-xs sm:text-sm text-white/75 leading-relaxed mb-3">
+                          {activeAlbumPhotos[modalPhotoIndex].caption}
+                        </p>
 
-                      <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-white/60 mb-3 pt-2 border-t border-white/10">
-                        <span className="flex items-center gap-1.5">
-                          <MapPin className="h-3.5 w-3.5 text-[#EA4335]" />
-                          {activeAlbumPhotos[modalPhotoIndex].location}
-                        </span>
-                        {activeAlbumPhotos[modalPhotoIndex].attendees && (
+                        <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-white/60 mb-3 pt-2 border-t border-white/10">
                           <span className="flex items-center gap-1.5">
-                            <Users className="h-3.5 w-3.5 text-[#34A853]" />
-                            {activeAlbumPhotos[modalPhotoIndex].attendees}
+                            <MapPin className="h-3.5 w-3.5 text-[#EA4335]" />
+                            {activeAlbumPhotos[modalPhotoIndex].location}
                           </span>
-                        )}
-                      </div>
+                          {activeAlbumPhotos[modalPhotoIndex].attendees && (
+                            <span className="flex items-center gap-1.5">
+                              <Users className="h-3.5 w-3.5 text-[#34A853]" />
+                              {activeAlbumPhotos[modalPhotoIndex].attendees}
+                            </span>
+                          )}
+                        </div>
 
-                      {/* Tags */}
-                      <div className="flex flex-wrap gap-1.5">
-                        {activeAlbumPhotos[modalPhotoIndex].tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="px-2 py-0.5 rounded-md bg-white/06 border border-white/08 text-[10px] font-mono text-white/60"
-                          >
-                            #{tag}
-                          </span>
-                        ))}
+                        {/* Tags */}
+                        <div className="flex flex-wrap gap-1.5">
+                          {activeAlbumPhotos[modalPhotoIndex].tags.map((tag) => (
+                            <span
+                              key={tag}
+                              className="px-2 py-0.5 rounded-md bg-white/06 border border-white/08 text-[10px] font-mono text-white/60"
+                            >
+                              #{tag}
+                            </span>
+                          ))}
+                        </div>
                       </div>
                     </div>
 
-                    {/* All Photos of This Event: Interactive Thumbnail Strip */}
-                    <div>
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-xs font-mono text-white/60 font-semibold">
-                          All Photos in this Album ({activeAlbumPhotos.length}):
-                        </span>
-                        <span className="text-[11px] font-mono text-white/40">
-                          Click any thumbnail to preview
+                    {/* Right: All Album Photos Gallery Column */}
+                    <div className="lg:col-span-5 xl:col-span-4 flex flex-col gap-2.5 rounded-2xl border border-white/10 bg-black/40 p-3.5 sm:p-4 self-stretch">
+                      <div className="flex items-center justify-between pb-2 border-b border-white/10 shrink-0">
+                        <div>
+                          <span className="text-xs font-mono text-white/90 font-bold block">
+                            All Album Photos ({activeAlbumPhotos.length})
+                          </span>
+                          <span className="text-[11px] font-mono text-white/50">
+                            Click any photo to preview
+                          </span>
+                        </div>
+                        <span className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-[#4285F4]/20 border border-[#4285F4]/40 text-[#4285F4] font-semibold">
+                          {modalPhotoIndex + 1} / {activeAlbumPhotos.length}
                         </span>
                       </div>
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+
+                      {/* Scrollable Thumbnails Grid on the Right */}
+                      <div className="overflow-y-auto max-h-[64vh] pr-1.5 grid grid-cols-2 gap-2.5">
                         {activeAlbumPhotos.map((photo, idx) => (
                           <div
                             key={photo.id}
@@ -1472,7 +464,7 @@ export default function AlbumPage() {
                             onKeyDown={(e) => e.key === 'Enter' && setModalPhotoIndex(idx)}
                             className={`relative aspect-[16/10] rounded-xl overflow-hidden cursor-pointer border transition-all ${
                               modalPhotoIndex === idx
-                                ? 'border-[#4285F4] ring-2 ring-[#4285F4]/60 scale-[1.02]'
+                                ? 'border-[#4285F4] ring-2 ring-[#4285F4]/70 scale-[1.02] shadow-[0_0_14px_rgba(66,133,244,0.4)]'
                                 : 'border-white/15 opacity-70 hover:opacity-100 hover:border-white/40'
                             }`}
                           >
@@ -1483,8 +475,11 @@ export default function AlbumPage() {
                               loading="lazy"
                               decoding="async"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                            <span className="absolute bottom-1 left-1.5 right-1.5 font-mono text-[9px] text-white truncate">
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-transparent" />
+                            <div className="absolute top-1 left-1 font-mono text-[9px] px-1.5 py-0.5 rounded bg-black/75 border border-white/10 text-white">
+                              #{idx + 1}
+                            </div>
+                            <span className="absolute bottom-1 left-1.5 right-1.5 font-mono text-[9px] text-white truncate block">
                               {photo.title}
                             </span>
                           </div>
@@ -1576,7 +571,7 @@ export default function AlbumPage() {
       <AnimatePresence>
         {lightboxPhoto && (
           <div
-            className="fixed inset-0 z-60 flex items-center justify-center p-3 sm:p-6 bg-black/95 backdrop-blur-2xl"
+            className="fixed inset-0 z-[110] flex items-center justify-center p-3 sm:p-6 bg-black/95 backdrop-blur-2xl"
             onClick={() => setLightboxPhoto(null)}
           >
             <button

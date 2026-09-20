@@ -86,11 +86,12 @@ const whyJoinPoints = [
 ];
 
 const opportunities = [
-  'Core Team',
-  'Technical Wings (AI+Electronics, AI/ML, Backend, Cybersecurity, UI/UX)',
+  'Core Team Lead',
   'Event Management Team',
+  'Design & Branding Team',
+  'PR & Social Media Team',
+  'HR & Operations Team',
   'Community Initiatives & Outreach',
-  'Design & Branding',
 ];
 
 export default function JoinPage() {
@@ -104,7 +105,7 @@ export default function JoinPage() {
     email: '',
     department: 'CSE',
     year: '2nd Year',
-    opportunity: 'Technical Wings',
+    opportunity: 'Core Team',
     github: '',
     motivation: '',
   });
@@ -287,7 +288,7 @@ export default function JoinPage() {
                   will review your submission and reach out via email shortly.
                 </p>
 
-                <div className="mt-7 flex justify-center">
+                <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
                   <GlowButton onClick={() => setSubmitted(false)} shape="pill" size="md">
                     Submit Another Form →
                   </GlowButton>
@@ -295,23 +296,35 @@ export default function JoinPage() {
               </motion.div>
             ) : (
               <form
+                id="application-form"
                 onSubmit={handleSubmit}
-                className="rounded-3xl border border-white/15 bg-[#121216]/90 p-7 sm:p-9 backdrop-blur-2xl shadow-2xl space-y-5"
+                className="rounded-3xl border border-white/15 bg-[#121216]/90 p-7 sm:p-9 backdrop-blur-2xl shadow-2xl space-y-5 scroll-mt-28"
               >
                 {/* Form Header */}
                 <div className="border-b border-white/10 pb-5">
-                  <div className="flex items-center justify-between gap-2 mb-2">
+                  <div className="mb-3">
                     <span className="font-mono text-xs uppercase font-bold tracking-widest text-[#4285F4] px-3 py-1 rounded-full border border-[#4285F4]/30 bg-[#4285F4]/10">
                       Member Application
                     </span>
-                    <span className="text-xs font-mono text-white/50">AY 2025–2026</span>
                   </div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2.5">
-                    <User className="h-5 w-5 text-[#4285F4]" />
-                    Apply for Membership
-                  </h3>
-                  <p className="text-xs sm:text-sm text-white/65 mt-1">
-                    Fill in your details to join the community or technical wings.
+
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <h3 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2.5">
+                      <User className="h-5 w-5 text-[#4285F4]" />
+                      <span>Apply for Membership</span>
+                    </h3>
+                    <GlowButton
+                      href="/technical-wings"
+                      shape="pill"
+                      size="sm"
+                      className="shrink-0"
+                    >
+                      Join in Technical Wing →
+                    </GlowButton>
+                  </div>
+
+                  <p className="text-xs sm:text-sm text-white/65 mt-2">
+                    Fill in your details to join the Core team.
                   </p>
                 </div>
 
@@ -421,13 +434,11 @@ export default function JoinPage() {
                       onChange={(e) => setFormData({ ...formData, opportunity: e.target.value })}
                       className="w-full px-3.5 py-3 text-sm rounded-xl bg-black border border-white/15 text-white focus:outline-none focus:border-[#4285F4] transition-colors"
                     >
-                      <option value="Core Team">Core Team (Lead, Tech, PR, HR, Design, Events)</option>
-                      <option value="AI + Electronics Wing">Technical Wing: AI + Electronics</option>
-                      <option value="AI/ML Wing">Technical Wing: AI/ML &amp; Gemini</option>
-                      <option value="Backend Wing">Technical Wing: Backend &amp; Cloud</option>
-                      <option value="Cybersecurity Wing">Technical Wing: Cybersecurity</option>
-                      <option value="UI/UX Wing">Technical Wing: UI/UX &amp; Design</option>
+                      <option value="Core Team">Core Team (Lead &amp; Coordination)</option>
                       <option value="Event Management">Event Management Team</option>
+                      <option value="Design & Branding">Design &amp; Branding Team</option>
+                      <option value="PR & Social Media">PR &amp; Social Media Team</option>
+                      <option value="HR & Operations">HR &amp; Operations Team</option>
                       <option value="Community Member">General Community Member</option>
                     </select>
                   </div>
@@ -464,7 +475,7 @@ export default function JoinPage() {
                 </div>
 
                 {/* Submit Action */}
-                <div className="pt-3 space-y-2.5">
+                <div className="pt-3 space-y-3">
                   <GlowButton
                     type="submit"
                     shape="pill"

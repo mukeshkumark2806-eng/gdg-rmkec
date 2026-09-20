@@ -10,7 +10,7 @@ export const Footer: React.FC = () => {
   const { isLiteMode, toggleLiteMode } = useLiteMode();
 
   return (
-    <footer className="relative z-10 mt-auto px-4 py-16 sm:px-8 text-paper select-none overflow-hidden border-t border-white/08 bg-black">
+    <footer className="relative z-0 mt-auto px-4 py-16 sm:px-8 text-paper select-none overflow-hidden border-t border-white/08 bg-black">
       <div className="mx-auto flex w-full max-w-4xl flex-col items-center gap-10">
         {/* Central Brand framed with Stylized Yellow Brackets */}
         <div className="relative mx-auto flex items-center justify-center gap-4 sm:gap-8 w-full max-w-lg py-4">

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { eventsData } from '@/data/events';
 import { EventItem } from '@/types';
 import { GlowButton } from '@/components/ui/GlowButton';
@@ -12,6 +12,22 @@ export default function EventsPage() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeModalEvent, setActiveModalEvent] = useState<EventItem | null>(null);
+
+  useEffect(() => {
+    if (activeModalEvent) {
+      document.body.style.overflow = 'hidden';
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') setActiveModalEvent(null);
+      };
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        document.body.style.overflow = '';
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    } else {
+      document.body.style.overflow = '';
+    }
+  }, [activeModalEvent]);
 
   const filteredEvents = eventsData.filter((event) => {
     const matchesCategory =
@@ -215,8 +231,14 @@ export default function EventsPage() {
 
       {/* Modal Popup for Event Details */}
       {activeModalEvent && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
-          <div className="relative w-full max-w-lg rounded-3xl border border-white/20 bg-black p-6 sm:p-8 text-white shadow-2xl">
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md"
+          onClick={() => setActiveModalEvent(null)}
+        >
+          <div
+            className="relative w-full max-w-lg rounded-3xl border border-white/20 bg-black p-6 sm:p-8 text-white shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
             <button
               onClick={() => setActiveModalEvent(null)}
               className="absolute top-6 right-6 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors cursor-pointer"

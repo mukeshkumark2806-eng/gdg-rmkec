@@ -40,7 +40,7 @@ export const SeeYouThereSection: React.FC = () => {
         >
           Connect on LinkedIn →
         </GlowButton>
-        <GlowButton href="/join" shape="pill" size="lg">
+        <GlowButton href="/technical-wings" shape="pill" size="lg">
           Apply for Technical Wings →
         </GlowButton>
       </div>
