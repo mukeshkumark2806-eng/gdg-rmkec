@@ -167,6 +167,14 @@ graph TD
 
 ---
 
+### 4.8. Repository Hygiene & Unused Asset Purge
+- **Removed AI Prompt Files:** Deleted [`AGENTS.md`](file:///C:/Users/Cursory_Inverse/Desktop/gdg-rmkec/AGENTS.md) and [`CLAUDE.md`](file:///C:/Users/Cursory_Inverse/Desktop/gdg-rmkec/CLAUDE.md), which were leftover AI instruction files with zero bearing on the Next.js runtime.
+- **Purged Boilerplate Starter Assets:** Deleted unreferenced default Next.js boilerplate SVGs from `public/` (`file.svg`, `globe.svg`, `next.svg`, `vercel.svg`, `window.svg`, and `cdnlogo.com_google-issue-tracker-logo.svg`).
+- **Purged Local Build Cache:** Removed uncommitted `tsconfig.tsbuildinfo` compilation cache from disk.
+- **Result:** Clean, production-ready codebase containing only functional chapter assets and application logic.
+
+---
+
 ## 5. Verification & Build Diagnostics
 
 The application was verified with Next.js Turbopack production builds:
