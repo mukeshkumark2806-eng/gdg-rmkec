@@ -70,14 +70,7 @@ export const BracketsField: React.FC = () => {
       });
     }
 
-    let mouseX = width / 2;
-    let mouseY = height / 2;
     let isVisible = !document.hidden;
-
-    const handleMouseMove = (e: MouseEvent) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    };
 
     const handleVisibilityChange = () => {
       isVisible = !document.hidden;
@@ -86,7 +79,6 @@ export const BracketsField: React.FC = () => {
       }
     };
 
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
     // Cache font alignments once
@@ -130,7 +122,6 @@ export const BracketsField: React.FC = () => {
     return () => {
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [isLiteMode]);

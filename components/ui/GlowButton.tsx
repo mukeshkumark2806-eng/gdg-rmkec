@@ -30,7 +30,6 @@ export const GlowButton: React.FC<GlowButtonProps> = ({
   surfaceClassName,
   target,
   rel,
-  rollText = false,
   disabled = false,
   ariaLabel,
   type = 'button',

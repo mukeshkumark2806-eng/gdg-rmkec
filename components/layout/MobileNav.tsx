@@ -7,7 +7,6 @@ import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { X, ArrowUpRight, Sparkles } from 'lucide-react';
 import { mainNav } from '@/data/navigation';
 import { MagneticButton } from '@/components/ui/MagneticButton';
-import { siteConfig } from '@/data/site';
 
 interface MobileNavProps {
   isOpen: boolean;

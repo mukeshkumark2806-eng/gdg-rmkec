@@ -30,7 +30,7 @@ export const CTASection: React.FC = () => (
     <div className="absolute pointer-events-none" style={{ bottom: '25%', left: '10%', width: 80, height: 80, borderRadius: '50%', border: '1px solid rgba(234,67,53,0.15)' }} />
 
     {/* Floating colored dots */}
-    {[
+    {([
       { top: '10%', left: '5%', color: '#4285F4', w: 10 },
       { top: '25%', left: '3%', color: '#34A853', w: 8 },
       { top: '60%', left: '6%', color: '#FBBC05', w: 11 },
@@ -39,36 +39,64 @@ export const CTASection: React.FC = () => (
       { top: '35%', right: '3%', color: '#FBBC05', w: 11 },
       { top: '65%', right: '5%', color: '#4285F4', w: 8 },
       { bottom: '10%', right: '8%', color: '#34A853', w: 10 },
-    ].map((d, i) => (
+    ] as const).map((d, i) => (
       <motion.div key={i}
         animate={{ y: [0, i % 2 === 0 ? -10 : 10, 0], opacity: [0.3, 0.7, 0.3] }}
         transition={{ duration: 3.5 + i * 0.4, delay: i * 0.3, repeat: Infinity }}
         className="absolute pointer-events-none rounded-full"
-        style={{ top: (d as any).top, left: (d as any).left, right: (d as any).right, bottom: (d as any).bottom, width: d.w, height: d.w, background: d.color }}
+        style={{
+          top: 'top' in d ? d.top : undefined,
+          left: 'left' in d ? d.left : undefined,
+          right: 'right' in d ? d.right : undefined,
+          bottom: 'bottom' in d ? d.bottom : undefined,
+          width: d.w,
+          height: d.w,
+          background: d.color,
+        }}
       />
     ))}
 
     {/* Floating diamonds */}
-    {[
+    {([
       { top: '5%', left: '20%', color: '#4285F4' },
       { bottom: '8%', left: '30%', color: '#EA4335' },
       { top: '5%', right: '18%', color: '#34A853' },
       { bottom: '5%', right: '25%', color: '#FBBC05' },
-    ].map((d, i) => (
+    ] as const).map((d, i) => (
       <motion.div key={`d${i}`}
         animate={{ y: [0, i % 2 === 0 ? -12 : 12, 0], rotate: [30, 50, 30] }}
         transition={{ duration: 5 + i * 0.5, delay: i * 0.8, repeat: Infinity, ease: 'easeInOut' as const }}
         className="absolute pointer-events-none"
-        style={{ top: (d as any).top, left: (d as any).left, right: (d as any).right, bottom: (d as any).bottom, width: 14, height: 14, background: d.color, borderRadius: '3px', opacity: 0.28, transform: 'rotate(30deg)' }}
+        style={{
+          top: 'top' in d ? d.top : undefined,
+          left: 'left' in d ? d.left : undefined,
+          right: 'right' in d ? d.right : undefined,
+          bottom: 'bottom' in d ? d.bottom : undefined,
+          width: 14,
+          height: 14,
+          background: d.color,
+          borderRadius: '3px',
+          opacity: 0.28,
+          transform: 'rotate(30deg)',
+        }}
       />
     ))}
 
     {/* Cross accents */}
-    {[
+    {([
       { top: '40%', left: '2%', color: '#4285F4' },
       { top: '55%', right: '2%', color: '#34A853' },
-    ].map((d, i) => (
-      <div key={`c${i}`} className="absolute pointer-events-none" style={{ opacity: 0.15, top: d.top, left: (d as any).left, right: (d as any).right }}>
+    ] as const).map((d, i) => (
+      <div
+        key={`c${i}`}
+        className="absolute pointer-events-none"
+        style={{
+          opacity: 0.15,
+          top: d.top,
+          left: 'left' in d ? d.left : undefined,
+          right: 'right' in d ? d.right : undefined,
+        }}
+      >
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
           <path d="M10 2v16M2 10h16" stroke={d.color} strokeWidth="1.5" strokeLinecap="round" />
         </svg>

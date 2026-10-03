@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { TeamMember } from '@/types';
 import { GlowButton } from '@/components/ui/GlowButton';
-import { ChevronLeft, ChevronRight, Github, Linkedin, Pause, Play, Sparkles } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Github, Pause, Play, Sparkles } from 'lucide-react';
 
 interface LeadershipSpotlightProps {
   leaders: TeamMember[];

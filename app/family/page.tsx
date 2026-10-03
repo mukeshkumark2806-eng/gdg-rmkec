@@ -5,7 +5,7 @@ import { teamData, TEAM_SECTIONS_ORDER } from '@/data/team';
 import { SingleFrameFamilyCarousel } from '@/components/team/SingleFrameFamilyCarousel';
 import { MemoriesCarousel } from '@/components/team/MemoriesCarousel';
 import { GlowButton } from '@/components/ui/GlowButton';
-import { Heart, Sparkles, Layers } from 'lucide-react';
+import { Heart } from 'lucide-react';
 
 export default function FamilyPage() {
   return (

@@ -9,32 +9,6 @@ export const metadata: Metadata = {
     'Learn about GDG on Campus RMKEC, our founding story from September 2025, mission, vision, and core pillars.',
 };
 
-const pillars = [
-  {
-    icon: <BookOpen className="h-6 w-6 text-[#4285F4]" />,
-    title: 'Learn',
-    description: 'Conduct workshops, study jams, and hands-on technical sessions across emerging tech domains.',
-    color: '#4285F4',
-  },
-  {
-    icon: <Hammer className="h-6 w-6 text-[#EA4335]" />,
-    title: 'Build',
-    description: 'Develop impactful software and IoT solutions for students, faculty, and college administration.',
-    color: '#EA4335',
-  },
-  {
-    icon: <Users2 className="h-6 w-6 text-[#FBBC05]" />,
-    title: 'Collaborate',
-    description: 'Bring together students from different engineering disciplines to solve real-world problems.',
-    color: '#FBBC05',
-  },
-  {
-    icon: <Trophy className="h-6 w-6 text-[#34A853]" />,
-    title: 'Lead',
-    description: 'Create opportunities for leadership, stage presentation, and personal career growth.',
-    color: '#34A853',
-  },
-];
 
 const missionPoints = [
   'Promote technical learning and innovation',

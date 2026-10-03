@@ -135,8 +135,8 @@ export default function JoinPage() {
       });
 
       setSubmitted(true);
-    } catch (err: any) {
-      setErrorMsg(err.message || 'An unexpected error occurred. Please try again.');
+    } catch (err: unknown) {
+      setErrorMsg(err instanceof Error ? err.message : 'An unexpected error occurred. Please try again.');
     } finally {
       setSubmitting(false);
     }

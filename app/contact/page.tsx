@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { siteConfig } from '@/data/site';
 import { GlowButton } from '@/components/ui/GlowButton';
-import { Mail, MapPin, Send, CheckCircle, Sparkles, MessageSquare } from 'lucide-react';
+import { Mail, MapPin, CheckCircle, MessageSquare } from 'lucide-react';
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -34,8 +34,8 @@ export default function ContactPage() {
       }
 
       setSubmitted(true);
-    } catch (err: any) {
-      setErrorMsg(err.message || 'An unexpected error occurred. Please try again.');
+    } catch (err: unknown) {
+      setErrorMsg(err instanceof Error ? err.message : 'An unexpected error occurred. Please try again.');
     } finally {
       setSubmitting(false);
     }

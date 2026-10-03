@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { eventsData } from '@/data/events';
 import { EventItem } from '@/types';
 import { GlowButton } from '@/components/ui/GlowButton';
-import { Calendar, MapPin, Search, Sparkles, X, Trophy, Info, Tag, CalendarClock } from 'lucide-react';
+import { Calendar, MapPin, Search, Sparkles, X, Info, CalendarClock } from 'lucide-react';
 
 const categories = ['All', 'Upcoming', 'Workshop', 'Hackathon', 'Bootcamp', 'Past'];
 

@@ -10,7 +10,6 @@ import {
   Cpu,
   Palette,
   Cloud,
-  Layers,
 } from 'lucide-react';
 import { GlowButton } from '@/components/ui/GlowButton';
 
