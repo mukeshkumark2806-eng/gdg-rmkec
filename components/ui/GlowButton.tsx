@@ -30,7 +30,7 @@ export const GlowButton: React.FC<GlowButtonProps> = ({
   surfaceClassName,
   target,
   rel,
-  rollText = true,
+  rollText = false,
   disabled = false,
   ariaLabel,
   type = 'button',
@@ -67,16 +67,7 @@ export const GlowButton: React.FC<GlowButtonProps> = ({
           disabled && 'opacity-40 pointer-events-none'
         )}
       >
-        {typeof children === 'string' && rollText ? (
-          <span className="text-roll-wrapper">
-            <span className="text-roll-top inline-block">{children}</span>
-            <span className="text-roll-bottom inline-block" aria-hidden="true">
-              {children}
-            </span>
-          </span>
-        ) : (
-          <span className="glow-btn__label inline-flex items-center gap-2">{children}</span>
-        )}
+        <span className="glow-btn__label inline-flex items-center gap-2">{children}</span>
       </span>
     </>
   );

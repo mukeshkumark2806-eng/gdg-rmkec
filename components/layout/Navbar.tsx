@@ -183,12 +183,7 @@ export const Navbar: React.FC = () => {
                     onClick={() => setMenuOpen(false)}
                     className="group inline-flex items-center gap-3 font-semibold text-white/80 hover:text-white transition-colors"
                   >
-                    <span className="text-roll-wrapper">
-                      <span className="text-roll-top inline-block">{item.label}</span>
-                      <span className="text-roll-bottom inline-block" aria-hidden="true">
-                        {item.label}
-                      </span>
-                    </span>
+                    <span>{item.label}</span>
                     <span className="text-white/40 group-hover:text-white group-hover:translate-x-1.5 transition-all">
                       →
                     </span>

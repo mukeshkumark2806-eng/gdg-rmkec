@@ -245,38 +245,10 @@ html.light .glow-btn:hover .glow-btn__surface {
   color: #ffffff;
 }
 
-/* Rolling Text Effect for DevFest buttons & links */
+/* Rolling text styles disabled - static text preserved */
 .text-roll-wrapper {
   position: relative;
   display: inline-block;
-  overflow: hidden;
-  vertical-align: bottom;
-}
-
-.text-roll-top {
-  display: inline-block;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.text-roll-bottom {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: inline-block;
-  transform: translateY(100%);
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.glow-btn:hover .text-roll-top,
-a:hover .text-roll-top,
-button:hover .text-roll-top {
-  transform: translateY(-100%);
-}
-
-.glow-btn:hover .text-roll-bottom,
-a:hover .text-roll-bottom,
-button:hover .text-roll-bottom {
-  transform: translateY(0);
 }
 
 /* ─── Signal Dots ─────────────────────────────────────────────── */
