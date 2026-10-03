@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import Script from 'next/script';
 import { Space_Grotesk, Inter } from 'next/font/google';
 import './globals.css';
 import { BootPreloader } from '@/components/ui/BootPreloader';
@@ -80,9 +81,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable} dark`} suppressHydrationWarning>
-      <head>
-        <script
+      <body className="bg-black text-[#f0f0f2] flex min-h-screen flex-col selection:bg-[#4285F4]/30 selection:text-white">
+        <Script
           id="lite-mode-init"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
@@ -105,8 +107,6 @@ export default function RootLayout({
             `,
           }}
         />
-      </head>
-      <body className="bg-black text-[#f0f0f2] flex min-h-screen flex-col selection:bg-[#4285F4]/30 selection:text-white">
         <LiteModeProvider>
           {/* Google 4-Dot Bouncing Preloader */}
           <BootPreloader />
