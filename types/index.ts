@@ -1,3 +1,5 @@
+import type React from 'react';
+
 export interface NavItem {
   label: string;
   href: string;
@@ -5,15 +7,6 @@ export interface NavItem {
   external?: boolean;
 }
 
-export interface StatItem {
-  id: string;
-  label: string;
-  value: number;
-  suffix?: string;
-  prefix?: string;
-  description: string;
-  iconName: string;
-}
 
 export interface EventItem {
   id: string;
@@ -100,25 +93,6 @@ export interface TeamMember {
   featured?: boolean;
 }
 
-export interface FAQItem {
-  id: string;
-  question: string;
-  answer: string;
-  category: 'General' | 'Membership' | 'Events' | 'Tracks';
-}
-
-export interface TrackDomain {
-  id: string;
-  title: string;
-  icon: string;
-  color: string;
-  glowColor: string;
-  description: string;
-  skills: string[];
-  leadName: string;
-  leadRole: string;
-  projectsCount: number;
-}
 
 export type EventCategory =
   | 'Google Cloud Campaign'
@@ -154,5 +128,25 @@ export interface EventAlbum {
   coverImage: string;
   attendees: string;
   description: string;
+}
+
+export interface WingOption {
+  id: string;
+  name: string;
+  shortName: string;
+  tagline: string;
+  description: string;
+  icon: React.ReactNode;
+  color: string;
+  badgeBg: string;
+  badgeBorder: string;
+  badgeText: string;
+  skills: string[];
+  projectsSample: string;
+}
+
+export interface IntakeFAQ {
+  q: string;
+  a: string;
 }
 

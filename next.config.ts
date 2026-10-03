@@ -48,6 +48,25 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: '/community',
+        destination: '/album',
+        permanent: true,
+      },
+      {
+        source: '/memories',
+        destination: '/album',
+        permanent: true,
+      },
+      {
+        source: '/tickets',
+        destination: '/events',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
