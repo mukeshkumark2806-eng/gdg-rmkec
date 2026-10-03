@@ -1,119 +1,79 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React from 'react';
 import { teamData, TEAM_SECTIONS_ORDER } from '@/data/team';
-import { Badge } from '@/components/ui/Badge';
-import { TeamSection } from '@/components/team/TeamSection';
+import { SingleFrameFamilyCarousel } from '@/components/team/SingleFrameFamilyCarousel';
+import { MemoriesCarousel } from '@/components/team/MemoriesCarousel';
+import { GlowButton } from '@/components/ui/GlowButton';
+import { Heart, Sparkles, Layers } from 'lucide-react';
 
 export default function FamilyPage() {
-  const [activeCategory, setActiveCategory] = useState<string>('All');
-
-  useEffect(() => {
-    // Load dotlottie-wc web component script if not already present
-    if (!document.querySelector('script[src*="dotlottie-wc"]')) {
-      const script = document.createElement('script');
-      script.src = 'https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.4/dist/dotlottie-wc.js';
-      script.type = 'module';
-      document.head.appendChild(script);
-    }
-  }, []);
-
-  // Guarantee strict order:
-  // 1. Dr. Darwin — Faculty Coordinator
-  // 2. Core Leads
-  // 3. Technical Team
-  // 4. HR Team
-  // 5. Design Team
-  // 6. PR Team
-  // 7. Event Management
-  const orderedMembers = useMemo(() => {
-    return TEAM_SECTIONS_ORDER.flatMap((category) =>
-      teamData.filter((member) => member.teamCategory === category)
-    );
-  }, []);
-
-  const displayMembers = useMemo(() => {
-    if (activeCategory === 'All') return orderedMembers;
-    return orderedMembers.filter((m) => m.teamCategory === activeCategory);
-  }, [activeCategory, orderedMembers]);
-
   return (
-    <div className="pt-32 pb-24 relative overflow-hidden bg-[#F5F7FA]">
-      {/* Background Blobs like Home Page */}
-      <div className="blob" style={{ width: 700, height: 600, background: 'radial-gradient(ellipse, #4285F4 0%, #34A853 55%, transparent 100%)', top: -200, right: -150, opacity: 0.13 }} />
-      <div className="blob" style={{ width: 500, height: 400, background: 'radial-gradient(ellipse, #FBBC05 0%, #EA4335 55%, transparent 100%)', bottom: 40, left: -120, opacity: 0.09, animationDelay: '4s' }} />
-      <div className="blob" style={{ width: 600, height: 400, background: 'radial-gradient(ellipse, #4285F4 0%, transparent 70%)', top: '30%', left: '25%', opacity: 0.05, animationDelay: '8s' }} />
+    <div className="pt-28 pb-24 relative overflow-hidden text-paper">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 relative z-10">
+        {/* ============================================================ */}
+        {/* 1. HERO SECTION                                              */}
+        {/* ============================================================ */}
+        <div className="text-center max-w-4xl mx-auto mb-16 pt-8">
+          <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[#FBBC05] px-4 py-1.5 rounded-full border border-white/10 bg-[#121216]/60 backdrop-blur-md mb-4">
+            <Heart className="h-3.5 w-3.5 text-[#EA4335]" />
+            <span>GDG on Campus RMKEC Family</span>
+          </div>
 
-      {/* Dot Grid Texture like Home Page */}
-      <div className="absolute inset-0 bg-dot-grid pointer-events-none" />
-
-      {/* Top Left DotLottie Animation below Navbar */}
-      <div className="absolute top-20 left-2 sm:left-6 md:left-12 z-0 pointer-events-none opacity-85 lg:opacity-100">
-        <dotlottie-wc
-          src="https://lottie.host/e06e6375-0cd0-456c-83da-f71380ba0f37/oiab0MZhHC.lottie"
-          style={{ width: '360px', height: '360px' }}
-          autoplay
-          loop
-        />
-      </div>
-
-      {/* Top Right DotLottie Animation below Navbar */}
-      <div className="absolute top-20 right-2 sm:right-6 md:right-12 z-0 pointer-events-none opacity-85 lg:opacity-100">
-        <dotlottie-wc
-          src="https://lottie.host/08caeb60-a827-4280-aee6-603f19d00b3c/qNbz8leWyQ.lottie"
-          style={{ width: '360px', height: '360px' }}
-          autoplay
-          loop
-        />
-      </div>
-
-      <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-10">
-          <Badge variant="blue" className="mb-4">
-            People Behind GDG RMKEC
-          </Badge>
-          <h1 className="text-4xl sm:text-6xl font-black text-[#1A1A2E] tracking-tight leading-tight">
-            Our <span className="text-gradient-google">Family Wall</span>
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold text-white tracking-tight leading-tight">
+            Meet Our Family
           </h1>
-          <p className="mt-4 text-base sm:text-lg text-slate-600 font-medium">
-            Meet the faculty advisors, student chapter leads, domain teams, and volunteers building the GDG RMKEC chapter.
+
+          <p className="mt-4 text-lg sm:text-xl md:text-2xl text-white/90 font-medium max-w-2xl mx-auto">
+            The people behind every event, project, workshop, and milestone.
+          </p>
+
+          <p className="mt-4 text-xs sm:text-sm md:text-base text-white/70 max-w-3xl mx-auto leading-relaxed">
+            GDG on Campus RMKEC is powered by passionate students who dedicate their time, creativity,
+            and expertise to building a thriving technology community. Every achievement, event, and
+            project is the result of teamwork, collaboration, and shared learning.
           </p>
         </div>
 
-        {/* Category Filter Pills */}
-        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-12">
-          <button
-            onClick={() => setActiveCategory('All')}
-            className={`px-4 py-2 text-xs sm:text-sm font-semibold rounded-full border transition-all duration-200 ${
-              activeCategory === 'All'
-                ? 'bg-[#1A1A2E] text-white border-[#1A1A2E] shadow-md'
-                : 'bg-white/80 text-slate-700 hover:bg-white border-slate-300/80 hover:border-blue-400 shadow-sm'
-            }`}
-          >
-            All Members ({orderedMembers.length})
-          </button>
-          {TEAM_SECTIONS_ORDER.map((category) => {
-            const count = orderedMembers.filter((m) => m.teamCategory === category).length;
-            const isActive = activeCategory === category;
-            return (
-              <button
-                key={category}
-                onClick={() => setActiveCategory(category)}
-                className={`px-4 py-2 text-xs sm:text-sm font-semibold rounded-full border transition-all duration-200 ${
-                  isActive
-                    ? 'bg-[#1A1A2E] text-white border-[#1A1A2E] shadow-md'
-                    : 'bg-white/80 text-slate-700 hover:bg-white border-slate-300/80 hover:border-blue-400 shadow-sm'
-                }`}
-              >
-                {category} ({count})
-              </button>
-            );
-          })}
+        {/* ============================================================ */}
+        {/* 2. UNIFIED SINGLE-FRAME CAROUSEL BAR (Left-to-Right Moving)  */}
+        {/* ============================================================ */}
+        <div className="mb-24">
+          <SingleFrameFamilyCarousel
+            members={teamData}
+            categories={TEAM_SECTIONS_ORDER}
+          />
         </div>
 
-        {/* Single Continuous 3-Column Responsive Grid */}
-        <TeamSection members={displayMembers} />
+        {/* ============================================================ */}
+        {/* 3. COMMUNITY MEMORIES CAROUSEL                               */}
+        {/* ============================================================ */}
+        <div className="mb-20">
+          <MemoriesCarousel />
+        </div>
+
+        {/* ============================================================ */}
+        {/* 4. CLOSING MESSAGE SECTION                                   */}
+        {/* ============================================================ */}
+        <div className="text-center max-w-3xl mx-auto p-8 sm:p-12 rounded-3xl border border-white/15 bg-[#121216]/90 backdrop-blur-2xl shadow-2xl">
+          <div className="space-y-3 font-medium text-base sm:text-xl text-white/90 leading-relaxed italic">
+            <p>Behind every successful event is a team that planned it.</p>
+            <p>Behind every impactful project is a group that built it.</p>
+            <p>Behind every milestone is a community that believed in it.</p>
+          </div>
+
+          <div className="mt-8 pt-6 border-t border-white/10">
+            <h3 className="text-2xl sm:text-3xl font-bold text-white">This is our family.</h3>
+            <p className="text-sm font-mono text-[#4285F4] mt-1 font-semibold">
+              This is GDG on Campus RMKEC.
+            </p>
+            <div className="mt-6 flex justify-center">
+              <GlowButton href="/join" shape="pill" size="md">
+                Join the Family →
+              </GlowButton>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

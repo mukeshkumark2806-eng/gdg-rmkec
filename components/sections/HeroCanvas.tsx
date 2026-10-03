@@ -1,6 +1,6 @@
 'use client';
-
 import React, { useEffect, useRef } from 'react';
+import { useLiteMode } from '@/context/LiteModeContext';
 
 /* ─── GDG Brand Palette ──────────────────────────────── */
 const PALETTE = ['#4285F4', '#EA4335', '#FBBC05', '#34A853'];
@@ -44,8 +44,10 @@ interface Dust {
 
 export const HeroCanvas: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { isLiteMode } = useLiteMode();
 
   useEffect(() => {
+    if (isLiteMode) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d', { alpha: true })!;
@@ -457,7 +459,9 @@ export const HeroCanvas: React.FC = () => {
       window.removeEventListener('mousemove', onMove);
       document.removeEventListener('mouseleave', onLeave);
     };
-  }, []);
+  }, [isLiteMode]);
+
+  if (isLiteMode) return null;
 
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">

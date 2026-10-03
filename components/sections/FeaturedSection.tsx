@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
-  Calendar, MapPin, ExternalLink, Github,
+  Calendar, MapPin, ExternalLink,
   Star, GitFork, ArrowRight, ChevronRight
 } from 'lucide-react';
 import { eventsData } from '@/data/events';
@@ -175,16 +175,12 @@ export const FeaturedSection: React.FC = () => {
 
                 <div className="pt-4 border-t border-white/08 flex items-center justify-between">
                   <span className="text-[12px] text-[#8B949E]">By {project.author.name}</span>
-                  {project.githubUrl && (
-                    <a
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 text-[12px] text-[#8B949E] hover:text-[#E8EAED] transition-colors"
-                    >
-                      <Github className="h-3.5 w-3.5" /> Code
-                    </a>
-                  )}
+                  <Link
+                    href="/projects"
+                    className="flex items-center gap-1 text-[12px] text-[#4285F4] hover:text-white transition-colors font-medium"
+                  >
+                    View Project →
+                  </Link>
                 </div>
               </motion.div>
             ))}

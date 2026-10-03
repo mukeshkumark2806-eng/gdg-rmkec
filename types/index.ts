@@ -40,13 +40,22 @@ export interface EventItem {
   bannerImage?: string;
 }
 
+export interface ProjectContributor {
+  name: string;
+  role: string;
+  team: string;
+  avatarUrl?: string;
+  bio?: string;
+}
+
 export interface ProjectItem {
   id: string;
   title: string;
   slug: string;
   tagline: string;
   description: string;
-  domain: 'AI/ML' | 'Web' | 'Mobile' | 'Cloud' | 'Open Source';
+  domain: 'AI/ML' | 'Web' | 'Mobile' | 'Cloud' | 'Open Source' | 'Campus Solutions' | 'UI/UX';
+  status?: string;
   stars?: number;
   forks?: number;
   githubUrl?: string;
@@ -58,6 +67,10 @@ export interface ProjectItem {
   };
   featured?: boolean;
   image?: string;
+  contributors?: ProjectContributor[];
+  features?: string[];
+  objectives?: Array<{ title: string; desc: string }>;
+  impact?: string;
 }
 
 export interface TeamMember {
@@ -98,7 +111,7 @@ export interface TrackDomain {
   id: string;
   title: string;
   icon: string;
-  color: string; // Tailwind color or hex
+  color: string;
   glowColor: string;
   description: string;
   skills: string[];
@@ -106,3 +119,40 @@ export interface TrackDomain {
   leadRole: string;
   projectsCount: number;
 }
+
+export type EventCategory =
+  | 'Google Cloud Campaign'
+  | "HackNEXA'26 Hackathon"
+  | 'Agentic AI Study Jam'
+  | 'A.C.E - AI Collage Day';
+
+export interface AlbumPhoto {
+  id: string;
+  title: string;
+  event: EventCategory;
+  category: EventCategory;
+  year: '2026' | '2025';
+  date: string;
+  location: string;
+  image: string;
+  caption: string;
+  attendees?: string;
+  tags: string[];
+}
+
+export interface EventAlbum {
+  id: string;
+  name: EventCategory;
+  tagline: string;
+  year: '2026' | '2025';
+  date: string;
+  location: string;
+  color: string;
+  badgeBorder: string;
+  badgeBg: string;
+  badgeText: string;
+  coverImage: string;
+  attendees: string;
+  description: string;
+}
+
